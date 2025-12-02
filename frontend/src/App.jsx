@@ -44,7 +44,7 @@ const router = createBrowserRouter(
 
 const App = () => {
   const dispatch = useDispatch();
-  const {status} = useSelector((state) => state.user);
+  const {status, isFirstAuthCheck} = useSelector((state) => state.user);
   
     
   useEffect(() => {
@@ -56,6 +56,9 @@ const App = () => {
 
   },[]);
 
+  if(isFirstAuthCheck && status === 'loading'){
+    return <LoadingPage />
+  }
 
   return (
     <Suspense fallback={<LoadingPage/>}>

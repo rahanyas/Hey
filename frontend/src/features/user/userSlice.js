@@ -8,6 +8,7 @@ const initialState = {
     mobile : '',
     pass : '',
     isLogedIn : false,
+    isFirstAuthCheck : true,
     status : 'idle',
     msg : ''
 }
@@ -80,17 +81,17 @@ const userSlice = createSlice({
             })
             .addCase(register.fulfilled, (state, action) => {
                 console.log('register fullfiled res : ', action);               
-                state.msg = action.payload?.msg,
-                state.email = action.payload?.data?.email,
-                state.name = action.payload?.data?.name,
+                state.msg = action.payload?.msg;
+                state.email = action.payload?.data?.email;
+                state.name = action.payload?.data?.name;
                 state.isLogedIn = action.payload?.success;
-                state.status = 'success'
+                state.status = 'success';
             })
             .addCase(register.rejected, (state, action) =>  {
                 console.log('register rejected res : ',action);
-                state.msg = action.payload?.msg 
-                state.isLogedIn = action.payload?.success               
-                state.status = 'failed'
+                state.msg = action.payload?.msg ;
+                state.isLogedIn = action.payload?.success;               
+                state.status = 'failed';
             }),
         builder
               .addCase(login.pending, state => {
@@ -102,8 +103,8 @@ const userSlice = createSlice({
                 console.log('login fullfiled res : ',action);
                 state.msg = action.payload?.msg;
                 state.isLogedIn = action.payload?.success;
-                state.status  = 'success',
-                state.name = action.payload?.data?.name
+                state.status  = 'success';
+                state.name = action.payload?.data?.name;
                 state.email = action.payload?.data?.email;
                 state.mobile = action.payload?.data?.mobile
               })
@@ -121,14 +122,16 @@ const userSlice = createSlice({
                 console.log('res checkauth fullfiled : ',action);
                 state.msg = action.payload?.msg;
                 state.isLogedIn = action.payload?.success;
-                state.status  = 'success',
-                state.name = action.payload?.data?.name
+                state.status  = 'success';
+                state.isFirstAuthCheck = false;
+                state.name = action.payload?.data?.name;
                 state.email = action.payload?.data?.email;
                 state.mobile = action.payload?.data?.mobile
               })
               .addCase(checkAuth.rejected, (state, action) => {
                 state.msg = '';
                 state.isLogedIn = false;
+                state.isFirstAuthCheck = false;
                 state.status = 'failed';
               }),
         builder
