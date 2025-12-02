@@ -29,7 +29,7 @@ router.get('/google/callback', passport.authenticate('google', {
 
     const redirectUrl =  process.env.PROD_URI 
     console.log('redirect url : ', redirectUrl );
-    return res.redirect(redirectUrl)
+    return res.redirect(`${redirectUrl}/auth/google/success`)
     
 });
 
