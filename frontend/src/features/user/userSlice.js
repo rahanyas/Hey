@@ -59,7 +59,7 @@ export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue
 })
 
 export const oauthLogin = () => {
-        window.location.href = 'https://hey-stgl.onrender.com/auth/google'   
+        window.location.href = 'https://hey-stgl.onrender.com/auth/google';  
 };
 
 const userSlice = createSlice({

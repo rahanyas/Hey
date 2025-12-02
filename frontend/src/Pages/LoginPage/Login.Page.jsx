@@ -46,7 +46,7 @@ const LoginPage = () => {
                     <button className='login-btn' onClick={userLogin}>login</button>
                 </div>
                 <div className="oauth-box">
-                    <button className='oauth-Btn' onClick={() => dispatch(oauthLogin())}>login with google</button>
+                    <button className='oauth-Btn' onClick={oauthLogin}>login with google</button>
                     <p>dont have an account?<Link to='/signup'>sign-in</Link></p>
                 </div>
         </div>

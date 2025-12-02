@@ -42,14 +42,15 @@ const router = createBrowserRouter(
 
 const App = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-
+  const {status, isLogedIn} = useSelector((state) => state.user);
+  
+  
   
     useEffect(() => {
       dispatch(checkAuth())
-    },[dispatch]);
-    
-  if(user.status === 'loading') return <LoadingPage />
+    },[dispatch, isLogedIn]);
+
+  if(status === 'loading') return <LoadingPage />
 
 
   return (

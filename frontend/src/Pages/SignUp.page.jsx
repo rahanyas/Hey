@@ -70,7 +70,7 @@ const Signup = () => {
 
       <span  className='span1'>Already have an account? <Link to='/login' className='login-link'>Login</Link></span>
       <span className='span2'>or</span>
-      <button className='oauth-btn' onClick={() => dispatch(oauthLogin())}>Login with Google</button>
+      <button className='oauth-btn' onClick={oauthLogin}>Login with Google</button>
     </div>
   )
 }
