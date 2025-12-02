@@ -20,6 +20,7 @@ const ErrorPage = lazy(() => import('./Pages/ErrorPage'))
 const HomePage = lazy(() => import('./Pages/HomePage/Home.page'));
 const LoginPage = lazy(() => import('./Pages/LoginPage/Login.Page'));
 const SettingsPage = lazy(() => import('./Pages/SettingsPage/Settings.page.jsx'));
+const OauthSuccessPage = lazy(() => import('./Pages/oauthSuccess/OAuthSuccess.page.jsx'))
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
           <Route  element={<Layout/>}>
                 <Route index element={<LandingPage/>}/>
                 <Route path='/signup' element={<SignUpPage/>}/>
+                <Route path='auth/google/success' element={<OauthSuccessPage/>}/>
 
                 {/* if not user is loged in go to login page  */}
                 <Route  element={<ProtectedRoutes/>}>
@@ -42,15 +44,20 @@ const router = createBrowserRouter(
 
 const App = () => {
   const dispatch = useDispatch();
-  const {status, isLogedIn} = useSelector((state) => state.user);
+  const {status} = useSelector((state) => state.user);
   
-  
-  
-    useEffect(() => {
-      dispatch(checkAuth())
-    },[dispatch, isLogedIn]);
+    
+  useEffect(() => {
+
+    const path  = window.location.pathname;
+    if(path.includes("/auth/google/success")) return;
+    
+    dispatch(checkAuth())
+
+  },[]);
 
   if(status === 'loading') return <LoadingPage />
+
 
 
   return (
