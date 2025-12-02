@@ -56,9 +56,6 @@ const App = () => {
 
   },[]);
 
-  if(status === 'loading') return <LoadingPage />
-
-
 
   return (
     <Suspense fallback={<LoadingPage/>}>
