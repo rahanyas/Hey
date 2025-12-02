@@ -10,9 +10,9 @@ const OAuthSuccess = () => {
 
     useEffect(() => {
         const run = async () => {
-            await new Promise(res => setiTimeout(res, 300));
+            await new Promise(res => setTimeout(res, 300));
 
-            await dispatch(checkAuth())
+            dispatch(checkAuth())
 
             navigate("/home", {replace: true})
         };
