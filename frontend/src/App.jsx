@@ -28,7 +28,7 @@ const router = createBrowserRouter(
           <Route  element={<Layout/>}>
                 <Route index element={<LandingPage/>}/>
                 <Route path='/signup' element={<SignUpPage/>}/>
-                <Route path='auth/google/success' element={<OauthSuccessPage/>}/>
+                <Route path='/auth/google/success' element={<OauthSuccessPage/>}/>
 
                 {/* if not user is loged in go to login page  */}
                 <Route  element={<ProtectedRoutes/>}>

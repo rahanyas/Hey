@@ -12,7 +12,7 @@ const OAuthSuccess = () => {
         const run = async () => {
             await new Promise(res => setTimeout(res, 300));
 
-            dispatch(checkAuth())
+            await dispatch(checkAuth())
 
             navigate("/home", {replace: true})
         };
