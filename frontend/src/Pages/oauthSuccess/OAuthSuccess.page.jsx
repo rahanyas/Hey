@@ -15,9 +15,9 @@ const OAuthSuccess = () => {
 
     useEffect(() => {
             if(isLogedIn === true){
-              return navigate("/home")      
+               navigate("/home")      
             }else{
-              return navigate('/login')
+               navigate('/login')
             }
     },[isLogedIn])
 
