@@ -7,19 +7,22 @@ import { checkAuth } from "../../features/user/userSlice";
 const OAuthSuccess = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {isLogedIn}  = useSelector((state) => state.user);
+    const {isLogedIn, status}  = useSelector((state) => state.user);
 
     useEffect(() => {
            dispatch(checkAuth());
     },[]);
 
     useEffect(() => {
-            if(isLogedIn === true){
+            if(status === 'success' && isLogedIn === true){
                navigate("/home")      
-            }else{
-               navigate('/login')
-            }
-    },[isLogedIn])
+            };
+
+            if(status === 'failed'){
+              navigate('/login')
+            };
+            
+    },[isLogedIn, status])
 
   return (
     <div>Loging...</div>
