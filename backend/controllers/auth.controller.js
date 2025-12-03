@@ -87,8 +87,8 @@ export const checkAuth = async (req, res) => {
 	try {
 		const token =  req?.cookies?.token;
 		console.log('token : ',token);
-		if(!token || token.length < 0){
-			return res.status(401).json({success : false, msg : 'User is not Authenticated'})
+		if(!token){
+			return res.status(401).json({success : false, msg : 'Not Authenticated'})
 		};
 
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -108,7 +108,11 @@ export const checkAuth = async (req, res) => {
 
 	} catch (err) {
 		console.log('Error in checkAuth : ', err);
-		return res.status(500).json({sucess : false, msg : 'Internal sever Error'})
+
+		if(err.name === 'TokenExpiredError'){
+			return res.status(401).json({success : false, msg : 'Token Expired'})
+		}
+		return res.status(500).json({success : false, msg : 'Internal sever Error'})
 	}
 }
 
