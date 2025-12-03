@@ -5,11 +5,8 @@ import LoadingPage from '../Pages/LoadingPage/LoadingPage'
 export const ProtectedRoutes = () => {
   const { isLogedIn, status, isFirstAuthCheck } = useSelector((state) => state.user);
 
-//  if(status === 'loading'){
-//   return <LoadingPage />
-//  }
 
-  if (isFirstAuthCheck && status === "loading") {
+  if (status === "loading") {
     return <LoadingPage />;
   }
   

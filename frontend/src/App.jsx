@@ -51,7 +51,7 @@ const App = () => {
 
     const path  = window.location.pathname;
     if(path.includes("/auth/google/success")) return;
-    
+    console.log('not checked for oauth');
     dispatch(checkAuth())
 
   },[]);
