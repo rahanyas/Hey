@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import { checkAuth } from "../../features/user/userSlice";
 
@@ -7,17 +7,16 @@ import { checkAuth } from "../../features/user/userSlice";
 const OAuthSuccess = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {status, isLogedIn}  = useSelector((state) => state.user)
 
     useEffect(() => {
-        const run = async () => {
-            await new Promise(res => setTimeout(res, 300));
+            dispatch(checkAuth());
 
-            await dispatch(checkAuth())
-
-            navigate("/home", {replace: true})
-        };
-
-        run()
+            if(isLogedIn){
+              return navigate("/home")      
+            }else{
+              return navigate('/login')
+            }
     },[])
 
   return (
