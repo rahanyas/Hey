@@ -27,9 +27,9 @@ router.get('/google/callback', passport.authenticate('google', {
 
     createToken(req?.user?._id, res);
 
-    const redirectUrl =  process.env.PROD_URI 
+    const redirectUrl =  process.env.DEV === 'development' ? process.env.DEV_URI : process.env.PROD_URI ;
     console.log('redirect url : ', redirectUrl );
-    return res.redirect(`${redirectUrl}/auth/google/success`)
+    return res.redirect(redirectUrl)
     
 });
 

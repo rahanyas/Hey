@@ -60,7 +60,8 @@ export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue
 })
 
 export const oauthLogin = () => {
-        window.location.href = 'https://hey-stgl.onrender.com/auth/google';  
+        let Oauth_uri = import.meta.env.VITE_ENV === 'dev' ? import.meta.env.VITE_OAUTH_DEV_URI : VITE_OAUTH_PROD_URI ;
+        window.location.href = Oauth_uri ;
 };
 
 const userSlice = createSlice({

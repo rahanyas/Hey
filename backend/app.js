@@ -31,7 +31,7 @@ const app = express();
 app.use(cors({
     origin : [
       process.env.DEV_URI, 
-      process.env.PROD_URI
+      process.env.PROD_URI,
     ],
     credentials : true
   })
@@ -55,10 +55,13 @@ app.use(passport.initialize());
 
 app.use(morgan('dev'));
 
+let uri = process.env.DEV === 'development' ? 'http://localhost:9000' : 'https://hey-stgl.onrender.com'
+console.log(uri);
+
 passport.use(new GoogleStrategy({
   clientID,
   clientSecret,
-  callbackURL : 'https://hey-stgl.onrender.com/auth/google/callback'
+  callbackURL : `${uri}/auth/google/callback`
 }, oAuth));
 
 app.use('/api/auth', authRouter);

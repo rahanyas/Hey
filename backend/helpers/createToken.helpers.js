@@ -18,13 +18,13 @@ export const createToken = (userId, res) => {
     if(!token){
       return res.status(400).json({success : false, msg : 'Token creation Failed'})
     }
-
+    
     console.log('token created ', token);
 
     res.cookie("token", token, {
       secure : process.env.DEV !== 'development',
       sameSite : process.env.DEV !== 'development' ? 'None' : 'Lax',
-      httpOnly  : true, // it will block accessing cookie from client without this anybody can access document.cookie()
+      httpOnly  : true,
       maxAge : 2 * 24 * 60  * 60 * 1000,
     });
     
