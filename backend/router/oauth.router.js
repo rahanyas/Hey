@@ -1,7 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import { createToken } from "../helpers/createToken.helpers.js";
-
+import { checkAuth } from "../controllers/auth.controller.js";
 const router = Router();
 
 
@@ -28,5 +28,7 @@ router.get('/google/callback', passport.authenticate('google', {
     return res.redirect(`${redirectUrl}/oauth/google/success`)
     
 });
+
+router.get('/checkstatus', checkAuth);
 
 export default router
