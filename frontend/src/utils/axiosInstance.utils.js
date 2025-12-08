@@ -8,6 +8,7 @@ console.log(uri);
 const server = axios.create({
     baseURL : `${uri}/api`,
     withCredentials : true,
+    
 });
 
 export default server

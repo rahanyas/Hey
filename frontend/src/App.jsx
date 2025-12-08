@@ -4,7 +4,7 @@ import {
   Route,
   RouterProvider
 } from 'react-router-dom';
-import { lazy, Suspense, useEffect, useLayoutEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 
 import Layout from './structure/Layout'
 import LandingPage from './Pages/Landing.page';
@@ -14,19 +14,24 @@ import LoadingPage from './Pages/LoadingPage/LoadingPage.jsx';
 import { ProtectedRoutes } from './security/ProtectedRoutes';
 import { checkAuth } from './features/user/userSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
+import Oauth from './Pages/OauthPage.jsx';
+import HomePage from './Pages/HomePage/Home.page.jsx'
 
 const SignUpPage = lazy(() => import('./Pages/SignUp.page'))
 const ErrorPage = lazy(() => import('./Pages/ErrorPage'))
-const HomePage = lazy(() => import('./Pages/HomePage/Home.page'));
+// const HomePage = lazy(() => import('./Pages/HomePage/Home.page'));
 const LoginPage = lazy(() => import('./Pages/LoginPage/Login.Page'));
 const SettingsPage = lazy(() => import('./Pages/SettingsPage/Settings.page.jsx'));
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route errorElement={<ErrorPage/>}>
-          <Route  element={<Layout/>}>
+          <Route path='/' element={<Layout/>}>
                 <Route index element={<LandingPage/>}/>
                 <Route path='/signup' element={<SignUpPage/>}/>
+                <Route path='/login' element={<LoginPage/>}/>
+
+                <Route path='/oauth/google/success' element={<Oauth/>}/>
 
                 {/* if not user is loged in go to login page  */}
                 <Route  element={<ProtectedRoutes/>}>
@@ -34,7 +39,6 @@ const router = createBrowserRouter(
                     <Route path='/settings' element={<SettingsPage/>}/>
                 </Route>
 
-                <Route path='/login' element={<LoginPage/>}/>
           </Route>
         </Route>
     )
@@ -42,19 +46,18 @@ const router = createBrowserRouter(
 
 const App = () => {
   const dispatch = useDispatch();
-  const {status, isFirstAuthCheck, isLogedIn} = useSelector((state) => state.user);
+  const {status, isFirstAuthCheck} = useSelector((state) => state.user);
   
     
-  useLayoutEffect(() => {
-    // const path  = window.location.pathname;
-    // if(path.includes("/auth/google/success")) return;
+  useEffect(() => {
+    const path = window.location.pathname;
+    if(path.includes('/oauth/google/success')) return ;
+    
+    console.log('check from app')
     dispatch(checkAuth())
+  },[dispatch]);
 
-  },[]);
 
-  if(isFirstAuthCheck && status === 'loading'){
-    return <LoadingPage />
-  }
 
   return (
     <Suspense fallback={<LoadingPage/>}>

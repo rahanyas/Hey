@@ -16,7 +16,7 @@ const initialState = {
 
 export const register = createAsyncThunk('user/register', async(data, {rejectWithValue}) => {
     try {     
-        const res = await server.post('/auth/register', data);
+        const res = await server.post('/register', data);
         console.log('res from register : ', res);
         
         return res.data;
@@ -29,7 +29,7 @@ export const register = createAsyncThunk('user/register', async(data, {rejectWit
 export const login = createAsyncThunk('user/login', async (data, {rejectWithValue}) => {
     try {
         // console.log('data from login : ', data)
-        const res = await server.post('/auth/login', data);
+        const res = await server.post('/login', data);
         console.log('res from login req : , ',res.data)
         return res.data
     } catch (err) {
@@ -40,7 +40,7 @@ export const login = createAsyncThunk('user/login', async (data, {rejectWithValu
 
 export const checkAuth = createAsyncThunk('user/checkAuth', async (_,{rejectWithValue}) => {
     try {
-        const res = await server.get('/auth/checkAuth', {withCredentials : true});
+        const res = await server.get('/checkAuth');
         return res.data
     } catch (err) {
         console.log('Error in checkAuth  : ', err.response.data);
@@ -50,7 +50,7 @@ export const checkAuth = createAsyncThunk('user/checkAuth', async (_,{rejectWith
 
 export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue}) => {
     try {
-        const res = await server.post('/auth/logout');
+        const res = await server.post('/logout');
         console.log('res from logout : ', res.data);
         return res.data
     } catch (err) {
@@ -61,6 +61,7 @@ export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue
 
 export const oauthLogin = () => {
         let Oauth_uri = import.meta.env.VITE_ENV === 'dev' ? import.meta.env.VITE_OAUTH_DEV_URI : import.meta.env.VITE_OAUTH_PROD_URI ;
+
         window.location.href = Oauth_uri ;
 };
 
@@ -77,7 +78,6 @@ const userSlice = createSlice({
         builder
             .addCase(register.pending, (state) => {
                 state.msg = '';
-                state.isLogedIn = false
                 state.status = 'loading'
             })
             .addCase(register.fulfilled, (state, action) => {
@@ -97,7 +97,6 @@ const userSlice = createSlice({
         builder
               .addCase(login.pending, state => {
                 state.msg = '';
-                state.isLogedIn = false;
                 state.status  = 'loading'
               })
               .addCase(login.fulfilled, (state, action) => {
@@ -137,8 +136,7 @@ const userSlice = createSlice({
               }),
         builder
               .addCase(logout.pending, (state) => {
-                 state.status = 'loading',
-                 state.isLogedIn = false
+                 state.status = 'loading'
               })
               .addCase(logout.fulfilled, (state, action) => {
                 state.email = '';

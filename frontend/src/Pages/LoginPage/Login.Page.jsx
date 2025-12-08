@@ -27,8 +27,14 @@ const LoginPage = () => {
         const {email, pass} = data
         if(!email || !pass){
             return setErrorMsg('please Enter All Fields')
-        }
-        dispatch(login({email, pass}))
+        };
+        
+
+        if(!email.includes('@') || !email.includes('gmail.com')){
+            return setErrorMsg('Please Enter Valid Email')
+        };
+
+        dispatch(login({email, pass}));
     }
 
     return (

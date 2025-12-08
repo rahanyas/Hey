@@ -73,8 +73,11 @@ export const Login = async (req, res) => {
 		const checkPass =  await bcrypt.compare(pass, user.pass);
 
 		if(!checkPass) return res.status(400).json({success : false, msg : 'Invalid Credentials'});
+
 		user.pass = undefined
+
 		createToken(user._id, res)
+
 		return res.status(200).json({success : true, msg : 'Successfully Loged In', data:user});
 	
 	}catch(err) {
@@ -85,8 +88,9 @@ export const Login = async (req, res) => {
 
 export const checkAuth = async (req, res) => {
 	try {
-		const token =  req?.cookies?.token;
-		console.log('token : ',token);
+		const token =  req.cookies?.token;
+		console.log('recived token : ', token);
+
 		if(!token){
 			return res.status(401).json({success : false, msg : 'Not Authenticated'})
 		};
@@ -107,7 +111,7 @@ export const checkAuth = async (req, res) => {
 		return res.status(200).json({success : true, msg : 'user is authorized', data: user || null})
 
 	} catch (err) {
-		console.log('Error in checkAuth : ', err);
+		console.error('Error in checkAuth : ', err);
 
 		if(err.name === 'TokenExpiredError'){
 			return res.status(401).json({success : false, msg : 'Token Expired'})
@@ -121,16 +125,16 @@ export const logout = async (req, res) => {
 	try {
 		let token = req?.cookies?.token;
 		if(!token) {
-			return res.status(400).json({success : false, msg : 'user is not authorized'})
+			return res.status(401).json({success : false, msg : 'user is not authorized'})
 		}
 		res.clearCookie('token',{
-        secure : process.env.DEV !== 'development',
-        sameSite : process.env.DEV !== 'development' ? 'None' : 'Lax',
+        secure : process.env.NODE_ENV !== 'development',
+        sameSite : process.env.NODE_ENV !== 'development' ? 'None' : 'Lax',
         httpOnly  : true,
 		});
 		return res.status(200).json({success : true, msg : 'Logged out successfully'})
 	} catch (err) {
-		console.log('Error in logout function', err);
-		return res.status(200).json({success : false, msg : 'Internal Server Error'})
+		console.error('Error in logout function', err);
+		return res.status(500).json({success : false, msg : 'Internal Server Error'})
 	}
 }

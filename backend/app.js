@@ -28,14 +28,25 @@ dbConnect(process.env.MONGO_URI);
 
 const app = express();
 
+// app.use(cors({
+//     origin : [
+//       process.env.DEV_URI, 
+//       process.env.PROD_URI,
+//     ],
+//     credentials : true
+//   })
+// );
+
+app.use(cookieParser())
+app.use(passport.initialize());
+
 app.use(cors({
-    origin : [
-      process.env.DEV_URI, 
+   origin : [
+      process.env.DEV_URI,       // http://192.168.31.174:5173
       process.env.PROD_URI,
     ],
-    credentials : true
-  })
-);
+  credentials: true,
+}));
 
 
 // iam using cookie with cross-site req vercel to render
@@ -43,19 +54,19 @@ app.use(cors({
 
 // this tells the browser:
 //  allow cookies to be sent between these domains
+let uri = process.env.NODE_ENV === 'development' ? 'http://192.168.31.174:9000' : 'https://hey-stgl.onrender.com'
+
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", "true");
   next()
 })
 
-app.use((cookieParser()))
 app.use(express.json());
 
-app.use(passport.initialize());
 
 app.use(morgan('dev'));
 
-let uri = process.env.DEV === 'development' ? 'http://localhost:9000' : 'https://hey-stgl.onrender.com'
 console.log(uri);
 
 passport.use(new GoogleStrategy({
@@ -64,7 +75,7 @@ passport.use(new GoogleStrategy({
   callbackURL : `${uri}/auth/google/callback`
 }, oAuth));
 
-app.use('/api/auth', authRouter);
+app.use('/api', authRouter);
 app.use('/auth', oauthRouter)
 
 
