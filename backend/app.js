@@ -54,7 +54,7 @@ app.use(cors({
 
 // this tells the browser:
 //  allow cookies to be sent between these domains
-let uri = process.env.NODE_ENV === 'development' ? 'http://192.168.31.174:9000' : 'https://hey-stgl.onrender.com'
+let uri = process.env.NODE_ENV === 'development' ? 'http://localhost:9000' : 'https://hey-stgl.onrender.com'
 
 
 app.use((req, res, next) => {

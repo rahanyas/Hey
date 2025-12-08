@@ -14,7 +14,8 @@ router.get('/google', passport.authenticate(
 
 router.get('/google/callback', passport.authenticate('google', {
     session : false,
-}), (req, res) => {
+}), (req, res, info) => {
+    console.log(info)
     if(!req.user){
         return res.status(400).json({success : false, msg : 'Authentication Failed'})
     };
@@ -29,6 +30,5 @@ router.get('/google/callback', passport.authenticate('google', {
     
 });
 
-router.get('/checkstatus', checkAuth);
 
 export default router

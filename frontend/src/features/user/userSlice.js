@@ -65,17 +65,6 @@ export const oauthLogin = () => {
         window.location.href = Oauth_uri ;
 };
 
-export const checkOauthAfterOauth = createAsyncThunk('user/oauth', async (_, {rejectWithValue}) => {
-    try {
-        const res = await server.get('/auth/checkstatus');
-        console.log('res from  oauth checkouth')
-        return res.data
-    } catch (err) {
-        console.log(err);
-        return rejectWithValue(err.response.msg || {msg : 'Oauth checkOauth Failed', success : fale})
-    }
-})
-
 const userSlice = createSlice({
     name : 'user',
     initialState,
@@ -161,19 +150,6 @@ const userSlice = createSlice({
                 state.status = 'failed';
                 state.msg = action.payload?.msg;
               });
-        builder
-              .addCase(checkOauthAfterOauth.pending, (state, action) => {
-                  state.status = 'loading';
-                  state.isLogedIn = false;
-              })
-              .addCase(checkOauthAfterOauth.fulfilled, (state, action) => {
-                state.isLogedIn = true;
-                state.status = 'success'
-              })
-              .addCase(checkOauthAfterOauth, (state, action) => {
-                state.status = 'failed';
-                state.isLogedIn = false
-              })
     }
 });
 
