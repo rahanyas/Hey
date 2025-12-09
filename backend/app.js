@@ -44,6 +44,7 @@ app.use(cors({
    origin : [
       process.env.DEV_URI,       // http://192.168.31.174:5173
       process.env.PROD_URI,
+      'http://localhost:5173'
     ],
   credentials: true,
 }));

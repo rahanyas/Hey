@@ -61,7 +61,7 @@ export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue
 
 export const oauthLogin = () => {
         let Oauth_uri = import.meta.env.VITE_ENV === 'dev' ? import.meta.env.VITE_OAUTH_DEV_URI : import.meta.env.VITE_OAUTH_PROD_URI ;
-
+        
         window.location.href = Oauth_uri ;
 };
 
