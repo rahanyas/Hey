@@ -40,7 +40,7 @@ export const login = createAsyncThunk('user/login', async (data, {rejectWithValu
 
 export const checkAuth = createAsyncThunk('user/checkAuth', async (_,{rejectWithValue}) => {
     try {
-        const res = await server.get('/checkAuth');
+        const res = await server.get('/checkAuth', {withCredentials : true, });
         return res.data
     } catch (err) {
         console.log('Error in checkAuth  : ', err.response.data);
@@ -61,7 +61,7 @@ export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue
 
 export const oauthLogin = () => {
         let Oauth_uri = import.meta.env.VITE_ENV === 'dev' ? import.meta.env.VITE_OAUTH_DEV_URI : import.meta.env.VITE_OAUTH_PROD_URI ;
-        
+
         window.location.href = Oauth_uri ;
 };
 

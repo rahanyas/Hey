@@ -8,7 +8,6 @@ const Oauth = () => {
     const { isLogedIn, status } = useSelector((state) => state.user);
 
     useEffect(() => {
-
         let timer = setTimeout(() => {          
             dispatch(checkAuth());
         }, 2000);
