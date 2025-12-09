@@ -10,7 +10,7 @@ const Oauth = () => {
     useEffect(() => {
         let timer = setTimeout(() => {          
             dispatch(checkAuth());
-        }, 2000);
+        }, 4000);
 
         return () => clearTimeout(timer);
     }, [dispatch]);
