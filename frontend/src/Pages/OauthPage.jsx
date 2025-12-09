@@ -11,7 +11,7 @@ const Oauth = () => {
 
         let timer = setTimeout(() => {          
             dispatch(checkAuth());
-        }, 500);
+        }, 2000);
 
         return () => clearTimeout(timer);
     }, [dispatch]);
