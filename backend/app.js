@@ -28,14 +28,6 @@ dbConnect(process.env.MONGO_URI);
 
 const app = express();
 
-// app.use(cors({
-//     origin : [
-//       process.env.DEV_URI, 
-//       process.env.PROD_URI,
-//     ],
-//     credentials : true
-//   })
-// );
 
 app.use(cookieParser())
 app.use(passport.initialize());
@@ -44,7 +36,6 @@ app.use(cors({
    origin : [
       process.env.DEV_URI,       // http://192.168.31.174:5173
       process.env.PROD_URI,
-      'http://localhost:5173'
     ],
   credentials: true,
 }));
@@ -60,8 +51,12 @@ let uri = process.env.NODE_ENV === 'development' ? 'http://localhost:9000' : 'ht
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", "true");
-  next()
-})
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  if (req.method === "OPTIONS") return res.sendStatus(200);
+  next();
+});
+
 
 app.use(express.json());
 
