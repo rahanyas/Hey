@@ -8,12 +8,19 @@ const Oauth = () => {
     const { isLogedIn, status } = useSelector((state) => state.user);
 
     useEffect(() => {
-        dispatch(checkAuth());
+
+        let timer = setTimeout(() => {          
+            dispatch(checkAuth());
+        }, 500);
+
+        return () => clearTimeout(timer);
     }, [dispatch]);
 
     if (status === "loading") return <h1>Checking login...</h1>;
 
     if (isLogedIn) return <Navigate to="/home" />;
+
+    return <h1>loging you in ...  </h1>
 };
 
 
