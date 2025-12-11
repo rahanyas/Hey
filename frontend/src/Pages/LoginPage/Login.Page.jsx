@@ -39,7 +39,7 @@ const LoginPage = () => {
 
     return (
         <div className='login-container'>
-           {(errorMsg.length > 0 || user.msg.length > 0) && (
+           {(errorMsg?.length > 0 || user?.msg?.length > 0) && (
         <div className='err-container'>
           <h1 className={user.status === 'success' ? 'success-msg' : 'err-msg'}>
             {errorMsg || user.msg}

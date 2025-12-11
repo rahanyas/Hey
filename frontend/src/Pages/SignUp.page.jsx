@@ -28,20 +28,25 @@ const Signup = () => {
       setErrorMsg('Enter all valid fields')
       return
     }
-    
-    if (confirmPass !== pass) {
-      setErrorMsg('Passwords do not match')
-      setConfirmPass('')
-      return
-    }
 
+    if(!email.includes('@') && !email.includes('.com')){
+      return setErrorMsg('Please Enter A Valid Email')
+    }
+    
+    
     if (mobile.length !== 10) {
       setErrorMsg('Please enter a valid mobile number')
       return
-    }
-
+    };
+    
     if (pass.length < 3) {
       setErrorMsg('Password must be at least 3 characters')
+      return
+    };
+
+    if (confirmPass !== pass) {
+      setErrorMsg('Passwords do not match')
+      setConfirmPass('')
       return
     }
 

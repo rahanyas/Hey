@@ -1,23 +1,28 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import {  checkAuth } from "../features/user/userSlice";
 import { useEffect } from "react";
+
+
+//4seconds
 
 const Oauth = () => {
     const dispatch = useDispatch();
     const { isLogedIn, status } = useSelector((state) => state.user);
-
+    const navigate = useNavigate()
     useEffect(() => {
-        let timer = setTimeout(() => {          
-            dispatch(checkAuth());
-        }, 4000);
+        (async () => {
+            const res = await dispatch(checkAuth()).unwrap();
+            console.log('res from ',res)
+            if(res.success === true){
+                return navigate('/home')
+            }
+        })()
+    }, []);
 
-        return () => clearTimeout(timer);
-    }, [dispatch]);
+    // if (status === "loading") return <h1>Checking login...</h1>;
 
-    if (status === "loading") return <h1>Checking login...</h1>;
-
-    if (isLogedIn) return <Navigate to="/home" />;
+    // if (isLogedIn) return <Navigate to="/home" />;
 
     return <h1>loging you in ...  </h1>
 };

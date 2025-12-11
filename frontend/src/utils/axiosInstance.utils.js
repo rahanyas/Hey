@@ -11,14 +11,14 @@ const server = axios.create({
 
 });
 
-server.interceptors.response.use(undefined, async (error) => {
-  if(error.response?.status === 401){
-    await refreshToken();
-    return instance(error.config); // Retry original request
-  };
+// server.interceptors.response.use(undefined, async (error) => {
+//   if(error.response?.status === 401){
+//     await refreshToken();
+//     return instance(error.config); // Retry original request
+//   };
 
-  throw error;
-})
+//   throw error;
+// })
 
 
 export default server

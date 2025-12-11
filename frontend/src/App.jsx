@@ -50,11 +50,11 @@ const App = () => {
   
     
   useEffect(() => {
-    const path = window.location.pathname;
-    if(path.includes('/oauth/google/success')) return ;
-    
-    console.log('check from app')
-    dispatch(checkAuth())
+        const path = window.location.pathname;
+        if(path.includes('/oauth/google/success')) return ;
+        
+        dispatch(checkAuth())
+
   },[dispatch]);
 
 

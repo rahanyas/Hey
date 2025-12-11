@@ -21,8 +21,8 @@ export const register = createAsyncThunk('user/register', async(data, {rejectWit
         
         return res.data;
     } catch (err) {
-        console.log('error in register func : ', err.response.data)
-        return rejectWithValue(err.response.data || {msg : 'Sign-in Failed', success : false})
+        console.log('error in register func : ', err.response?.data)
+        return rejectWithValue(err.response?.data || {msg : 'Sign-in Failed', success : false})
     }
 });
 
@@ -33,8 +33,8 @@ export const login = createAsyncThunk('user/login', async (data, {rejectWithValu
         console.log('res from login req : , ',res.data)
         return res.data
     } catch (err) {
-        console.log('error in login func', err.response.data);
-        return rejectWithValue(err.response.data || {msg : 'Login Failed', success : false})
+        console.log('error in login func', err.response?.data);
+        return rejectWithValue(err.response?.data || {msg : 'Login Failed', success : false})
     }
 });
 
@@ -43,8 +43,8 @@ export const checkAuth = createAsyncThunk('user/checkAuth', async (_,{rejectWith
         const res = await server.get('/checkAuth', {withCredentials : true, });
         return res.data
     } catch (err) {
-        console.log('Error in checkAuth  : ', err.response.data);
-        return rejectWithValue(err.response.data || {msg : 'checkAuth Failed', success : false})
+        console.log('Error in checkAuth  : ', err.response?.data);
+        return rejectWithValue(err.response?.data || {msg : 'checkAuth Failed', success : false})
     }
 });
 
@@ -55,7 +55,7 @@ export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue
         return res.data
     } catch (err) {
         console.log('Error in logout Thunk', err);
-        return rejectWithValue(err.response.msg || {msg : 'Logout Failed', success : false})
+        return rejectWithValue(err.response?.msg || {msg : 'Logout Failed', success : false})
     }
 })
 
@@ -93,13 +93,13 @@ const userSlice = createSlice({
                 state.msg = action.payload?.msg ;
                 state.isLogedIn = action.payload?.success;               
                 state.status = 'failed';
-            }),
-        builder
-              .addCase(login.pending, state => {
+            })
+
+            .addCase(login.pending, state => {
                 state.msg = '';
                 state.status  = 'loading'
-              })
-              .addCase(login.fulfilled, (state, action) => {
+            })
+            .addCase(login.fulfilled, (state, action) => {
                 console.log('login fullfiled res : ',action);
                 state.msg = action.payload?.msg;
                 state.isLogedIn = action.payload?.success;
@@ -107,18 +107,18 @@ const userSlice = createSlice({
                 state.name = action.payload?.data?.name;
                 state.email = action.payload?.data?.email;
                 state.mobile = action.payload?.data?.mobile
-              })
-              .addCase(login.rejected, (state, action) => {
+            })
+            .addCase(login.rejected, (state, action) => {
                 state.msg = action.payload?.msg;
                 state.isLogedIn = action.payload?.success;
                 state.status = 'failed'
-              }),
-        builder
-              .addCase(checkAuth.pending, state => {
+            })
+
+            .addCase(checkAuth.pending, state => {
                 state.msg = '';
                 state.status = 'loading';
-              })
-              .addCase(checkAuth.fulfilled, (state, action) => {
+            })
+            .addCase(checkAuth.fulfilled, (state, action) => {
                 console.log('res checkauth fullfiled : ',action);
                 state.msg = action.payload?.msg;
                 state.isLogedIn = action.payload?.success;
@@ -127,29 +127,29 @@ const userSlice = createSlice({
                 state.name = action.payload?.data?.name;
                 state.email = action.payload?.data?.email;
                 state.mobile = action.payload?.data?.mobile
-              })
-              .addCase(checkAuth.rejected, (state, action) => {
+            })
+            .addCase(checkAuth.rejected, (state, action) => {
                 state.msg = '';
                 state.isLogedIn = false;
                 state.isFirstAuthCheck = false;
                 state.status = 'failed';
-              }),
-        builder
-              .addCase(logout.pending, (state) => {
+            })
+
+            .addCase(logout.pending, (state) => {
                  state.status = 'loading'
-              })
-              .addCase(logout.fulfilled, (state, action) => {
+            })
+            .addCase(logout.fulfilled, (state, action) => {
                 state.email = '';
                 state.pass  = '';
                 state.mobile = '';
                 state.isLogedIn = false;
                 state.status = 'success';
                 state.msg = action.payload?.msg;
-              })
+            })
               .addCase(logout.rejected, (state, action) => {
                 state.status = 'failed';
                 state.msg = action.payload?.msg;
-              });
+            });
     }
 });
 
