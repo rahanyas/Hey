@@ -14,3 +14,5 @@
 
 solved cookie error . how ? = we need to set the same things to logut cleari
 ng cookie as we setted to cookie creation
+
+# checking valid email is working properly = not solved

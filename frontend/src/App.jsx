@@ -5,6 +5,8 @@ import {
   RouterProvider
 } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Layout from './structure/Layout'
 import LandingPage from './Pages/Landing.page';
@@ -19,7 +21,6 @@ import HomePage from './Pages/HomePage/Home.page.jsx'
 
 const SignUpPage = lazy(() => import('./Pages/SignUp.page'))
 const ErrorPage = lazy(() => import('./Pages/ErrorPage'))
-// const HomePage = lazy(() => import('./Pages/HomePage/Home.page'));
 const LoginPage = lazy(() => import('./Pages/LoginPage/Login.Page'));
 const SettingsPage = lazy(() => import('./Pages/SettingsPage/Settings.page.jsx'));
 
@@ -46,7 +47,6 @@ const router = createBrowserRouter(
 
 const App = () => {
   const dispatch = useDispatch();
-  const {status, isFirstAuthCheck} = useSelector((state) => state.user);
   
     
   useEffect(() => {
@@ -60,9 +60,13 @@ const App = () => {
 
 
   return (
+    <>
     <Suspense fallback={<LoadingPage/>}>
       <RouterProvider router={router}/>
     </Suspense>
+    
+      <ToastContainer />
+    </>
   )
 };
 

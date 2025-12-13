@@ -1,7 +1,12 @@
 import {Link, useNavigate} from 'react-router-dom'
-import { login, oauthLogin } from '../../features/user/userSlice';
+import { login, 
+         oauthLogin,
+         addErrorMsg 
+}from '../../features/user/userSlice';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
+
 
 import './login.style.scss'
 
@@ -26,12 +31,12 @@ const LoginPage = () => {
     const userLogin = () => {
         const {email, pass} = data
         if(!email || !pass){
-            return setErrorMsg('please Enter All Fields')
+           return dispatch(addErrorMsg('please Enter All Fields'));
         };
         
 
         if(!email.includes('@') || !email.includes('gmail.com')){
-            return setErrorMsg('Please Enter Valid Email')
+            return dispatch(addErrorMsg('Please Enter Valid Email'));
         };
 
         dispatch(login({email, pass}));
@@ -39,13 +44,6 @@ const LoginPage = () => {
 
     return (
         <div className='login-container'>
-           {(errorMsg?.length > 0 || user?.msg?.length > 0) && (
-        <div className='err-container'>
-          <h1 className={user.status === 'success' ? 'success-msg' : 'err-msg'}>
-            {errorMsg || user.msg}
-          </h1>
-        </div>
-      )}
                 <div className="login-box">
                     <input type="email" className='login-inp' name='email' value={data.email} placeholder='email' onChange={(e) => {setData((prev) => ({...prev, email:e.target.value})), setErrorMsg('')}} />
                     <input type="password" className='login-inp' name="pass" value={data.pass} placeholder='password' onChange={(e) => {setData((prev) => ({...prev, pass:e.target.value})), setErrorMsg('')}}/>

@@ -9,20 +9,23 @@ import { useEffect } from "react";
 const Oauth = () => {
     const dispatch = useDispatch();
     const { isLogedIn, status } = useSelector((state) => state.user);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
     useEffect(() => {
         (async () => {
-            const res = await dispatch(checkAuth()).unwrap();
-            console.log('res from ',res)
-            if(res.success === true){
-                return navigate('/home')
+            try {      
+                const res = await dispatch(checkAuth()).unwrap();
+                if(res.success === true){
+                    return navigate('/home')
+                }
+            } catch (err) {
+                console.log(err)
             }
         })()
     }, []);
 
-    // if (status === "loading") return <h1>Checking login...</h1>;
 
-    // if (isLogedIn) return <Navigate to="/home" />;
+    if (status === "loading") return <h1>Checking login...</h1>;
 
     return <h1>loging you in ...  </h1>
 };

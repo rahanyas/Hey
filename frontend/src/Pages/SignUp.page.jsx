@@ -1,11 +1,15 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { register, updateFeild, oauthLogin } from '../features/user/userSlice.js' 
+import { register, 
+         updateFeild, 
+         oauthLogin,
+         addErrorMsg
+} from '../features/user/userSlice.js' 
+
 import { useState, useEffect } from 'react'
 import '../styles/page/signup.style.scss'
 
 const Signup = () => {
-  const [errorMsg, setErrorMsg] = useState('')
   const [confirmPass, setConfirmPass] = useState('')
 
   const navigate = useNavigate()
@@ -17,38 +21,33 @@ const Signup = () => {
   }, [user.isLogedIn, navigate])
 
   const handleChange = (e) => {
-    setErrorMsg('')
     const { name, value } = e.target
     dispatch(updateFeild({ field: name, value }))
   }
 
   const handleSubmit = () => {
-    const { name, mobile, pass, email } = user
     if (!name || !email || !pass || !mobile || !confirmPass) {
-      setErrorMsg('Enter all valid fields')
-      return
-    }
+    return dispatch(addErrorMsg('Enter all valid fields'));
+  }
 
-    if(!email.includes('@') && !email.includes('.com')){
-      return setErrorMsg('Please Enter A Valid Email')
-    }
-    
-    
-    if (mobile.length !== 10) {
-      setErrorMsg('Please enter a valid mobile number')
-      return
-    };
-    
-    if (pass.length < 3) {
-      setErrorMsg('Password must be at least 3 characters')
-      return
-    };
+  if (!email.includes('@') || !email.includes('gmail.com')) {
+    return dispatch(addErrorMsg('Please enter a valid email'));
+  }
 
-    if (confirmPass !== pass) {
-      setErrorMsg('Passwords do not match')
-      setConfirmPass('')
-      return
-    }
+  if (mobile.length !== 10) {
+    return dispatch(addErrorMsg('Please enter a valid mobile number'));
+  }
+
+  if (pass.length < 3) {
+    return dispatch(addErrorMsg('Password must be at least 3 characters'));
+  }
+
+  if (confirmPass !== pass) {
+    dispatch(addErrorMsg('Passwords do not match'));
+    setConfirmPass('');
+    return;
+  }
+
 
     dispatch(register({ name, email, mobile, pass }))
   }
@@ -57,16 +56,9 @@ const Signup = () => {
     <div className="container">
 
       <div className="box1">
-      {(errorMsg.length > 0 || user.msg.length > 0) && (
-        <div className='err-container'>
-          <h1 className={user.status === 'success' ? 'success-msg' : 'err-msg'}>
-            {errorMsg || user.msg}
-          </h1>
-        </div>
-      )}
         <input type="text" name="name" value={user.name} placeholder="Username" onChange={handleChange} required />
         <input type="email" name="email" value={user.email} placeholder="Email" onChange={handleChange} required />
-        <input type="number" name="mobile" value={user.mobile} placeholder="Mobile" onChange={handleChange} required />
+        <input type="number" name="mobile" value={user.mobile} placeholder="Mobile" onChange={handleChange} required maxLength={10} />
         <input type="password" name="pass" value={user.pass} placeholder="Password" onChange={handleChange} required />
         <input type="password" name="confirmPas" value={confirmPass} placeholder="Confirm Password" onChange={(e) => setConfirmPass(e.target.value)} required />
 

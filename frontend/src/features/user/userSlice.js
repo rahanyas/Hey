@@ -8,9 +8,9 @@ const initialState = {
     mobile : '',
     pass : '',
     isLogedIn : false,
-    isFirstAuthCheck : true,
     status : 'idle',
-    msg : ''
+    msg : '',
+    isError : false
 }
 
 
@@ -72,13 +72,18 @@ const userSlice = createSlice({
         updateFeild : (state, action) => {
             const {field, value} = action.payload;
             state[field] = value
+        },
+        addErrorMsg: (state, action) => {
+            state.isError = true,
+            state.msg = action.payload
         }
     },
     extraReducers : (builder) => {
         builder
             .addCase(register.pending, (state) => {
                 state.msg = '';
-                state.status = 'loading'
+                state.status = 'loading',
+                state.isError = false
             })
             .addCase(register.fulfilled, (state, action) => {
                 console.log('register fullfiled res : ', action);               
@@ -87,17 +92,20 @@ const userSlice = createSlice({
                 state.name = action.payload?.data?.name;
                 state.isLogedIn = action.payload?.success;
                 state.status = 'success';
+                state.isError = false;
             })
             .addCase(register.rejected, (state, action) =>  {
                 console.log('register rejected res : ',action);
                 state.msg = action.payload?.msg ;
                 state.isLogedIn = action.payload?.success;               
                 state.status = 'failed';
+                state.isError = true;
             })
 
             .addCase(login.pending, state => {
                 state.msg = '';
                 state.status  = 'loading'
+                state.isError = false
             })
             .addCase(login.fulfilled, (state, action) => {
                 console.log('login fullfiled res : ',action);
@@ -106,37 +114,40 @@ const userSlice = createSlice({
                 state.status  = 'success';
                 state.name = action.payload?.data?.name;
                 state.email = action.payload?.data?.email;
-                state.mobile = action.payload?.data?.mobile
+                state.mobile = action.payload?.data?.mobile;
+                state.isError = false;
             })
             .addCase(login.rejected, (state, action) => {
                 state.msg = action.payload?.msg;
                 state.isLogedIn = action.payload?.success;
-                state.status = 'failed'
+                state.status = 'failed';
+                state.isError = true
             })
 
             .addCase(checkAuth.pending, state => {
-                state.msg = '';
                 state.status = 'loading';
+                state.isError = false
             })
             .addCase(checkAuth.fulfilled, (state, action) => {
                 console.log('res checkauth fullfiled : ',action);
                 state.msg = action.payload?.msg;
                 state.isLogedIn = action.payload?.success;
                 state.status  = 'success';
-                state.isFirstAuthCheck = false;
                 state.name = action.payload?.data?.name;
                 state.email = action.payload?.data?.email;
-                state.mobile = action.payload?.data?.mobile
+                state.mobile = action.payload?.data?.mobile;
+                state.isError = false
             })
             .addCase(checkAuth.rejected, (state, action) => {
-                state.msg = '';
+                state.msg = action.payload?.msg || '';
                 state.isLogedIn = false;
-                state.isFirstAuthCheck = false;
                 state.status = 'failed';
+                state.isError = true
             })
 
             .addCase(logout.pending, (state) => {
                  state.status = 'loading'
+                 state.isError = false
             })
             .addCase(logout.fulfilled, (state, action) => {
                 state.email = '';
@@ -145,14 +156,16 @@ const userSlice = createSlice({
                 state.isLogedIn = false;
                 state.status = 'success';
                 state.msg = action.payload?.msg;
+                state.isError = false
             })
               .addCase(logout.rejected, (state, action) => {
                 state.status = 'failed';
                 state.msg = action.payload?.msg;
+                state.isError = true
             });
     }
 });
 
-export const {updateFeild} = userSlice.actions
+export const {updateFeild, addErrorMsg} = userSlice.actions
 
 export default userSlice.reducer;
