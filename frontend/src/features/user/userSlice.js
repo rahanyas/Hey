@@ -6,7 +6,6 @@ const initialState = {
     name : '',
     email : '',
     mobile : '',
-    pass : '',
     isLogedIn : false,
     status : 'idle',
     msg : '',
@@ -71,11 +70,15 @@ const userSlice = createSlice({
     reducers : {
         updateFeild : (state, action) => {
             const {field, value} = action.payload;
-            state[field] = value
+            state[field] = value;
         },
         addErrorMsg: (state, action) => {
-            state.isError = true,
-            state.msg = action.payload
+            state.isError = true;
+            state.msg = action.payload;
+        },
+        clearMsg : state => {
+            state.isError = false;
+            state.msg = '';
         }
     },
     extraReducers : (builder) => {
@@ -151,7 +154,6 @@ const userSlice = createSlice({
             })
             .addCase(logout.fulfilled, (state, action) => {
                 state.email = '';
-                state.pass  = '';
                 state.mobile = '';
                 state.isLogedIn = false;
                 state.status = 'success';
@@ -166,6 +168,6 @@ const userSlice = createSlice({
     }
 });
 
-export const {updateFeild, addErrorMsg} = userSlice.actions
+export const {updateFeild, addErrorMsg, clearMsg} = userSlice.actions
 
 export default userSlice.reducer;

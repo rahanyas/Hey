@@ -14,7 +14,7 @@ class Auth_check{
     }
 
     static checkMobile(mobile){
-        if(mobile.length < 10 || mobile.length > 11){
+        if(mobile.length !== 10){
             throw new Error('Mobile number must be 10 digits')
         }
     }

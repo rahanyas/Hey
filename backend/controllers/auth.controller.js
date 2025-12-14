@@ -9,10 +9,10 @@ import jwt from 'jsonwebtoken';
 export const register = async (req, res) => {
 	try{
 
-	const {name, email, pass, mobile}  = req.body;
+	const {name, email, password, mobile}  = req.body;
 	console.log('mobile nb length', mobile.length);
 
-	if(!name || !email || !pass || !mobile){
+	if(!name || !email || !password || !mobile){
 	return res.status(400).json({success : false, 
 	msg : 'please enter all required feilds'
 	})
@@ -20,9 +20,9 @@ export const register = async (req, res) => {
   
 
 	// setter methods in authcheck 
-	Auth_check.checkEmail = email;
-	Auth_check.checkPass = pass;
-	Auth_check.checkMobile = mobile
+	Auth_check.checkEmail(email);
+	Auth_check.checkPass(password);
+	Auth_check.checkMobile(mobile)
 
 	const existingUser = await userModal.findOne({email});
 	
@@ -32,7 +32,7 @@ export const register = async (req, res) => {
 
 	const salt = 10;
 	const hashedPass = await bcrypt.hash(
-	pass, salt);
+	password, salt);
 
 	const  newUser = new  userModal({
 	  name, 
@@ -58,19 +58,19 @@ export const register = async (req, res) => {
 
 export const Login = async (req, res) => {
 	try{
-		const {email, pass} = req.body;
-		if(!email || !pass){
+		const {email, password} = req.body;
+		if(!email || !password){
 			return res.status(400).json({success : false, msg : 'Please enter all feilds'})
 		}
 
-		Auth_check.checkEmail = email;
-		Auth_check.checkPass = pass
+		Auth_check.checkEmail(email);
+		Auth_check.checkPass(password)
 		
 		const user = await userModal.findOne({email}).select("+pass");
 
 		if(!user) return res.status(400).json({success : false,  msg : 'User Not Exist'})
 		
-		const checkPass =  await bcrypt.compare(pass, user.pass);
+		const checkPass =  await bcrypt.compare(password, user.pass);
 
 		if(!checkPass) return res.status(400).json({success : false, msg : 'Invalid Credentials'});
 

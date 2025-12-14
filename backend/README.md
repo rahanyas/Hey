@@ -15,4 +15,5 @@
 solved cookie error . how ? = we need to set the same things to logut cleari
 ng cookie as we setted to cookie creation
 
-# checking valid email is working properly = not solved
+# checking valid email is not working properly =  solved 
+(reason === i did this authCheck.isEmail = email instead of authcheck.isemail(email))

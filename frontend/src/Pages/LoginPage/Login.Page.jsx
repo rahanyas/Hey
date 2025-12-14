@@ -14,12 +14,11 @@ const LoginPage = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();
-
-    const [errorMsg, setErrorMsg] = useState('');
+   
 
     const [data, setData] = useState(({
         email : '',
-        pass : ''
+        password : ''
     }))
 
     useEffect(() => {
@@ -29,8 +28,8 @@ const LoginPage = () => {
     }, [user.isLogedIn,navigate])
   
     const userLogin = () => {
-        const {email, pass} = data
-        if(!email || !pass){
+        const {email, password} = data
+        if(!email || !password){
            return dispatch(addErrorMsg('please Enter All Fields'));
         };
         
@@ -39,14 +38,14 @@ const LoginPage = () => {
             return dispatch(addErrorMsg('Please Enter Valid Email'));
         };
 
-        dispatch(login({email, pass}));
+        dispatch(login({email, password}));
     }
 
     return (
         <div className='login-container'>
                 <div className="login-box">
-                    <input type="email" className='login-inp' name='email' value={data.email} placeholder='email' onChange={(e) => {setData((prev) => ({...prev, email:e.target.value})), setErrorMsg('')}} />
-                    <input type="password" className='login-inp' name="pass" value={data.pass} placeholder='password' onChange={(e) => {setData((prev) => ({...prev, pass:e.target.value})), setErrorMsg('')}}/>
+                    <input type="email" className='login-inp' name='email' value={data.email} placeholder='email' onChange={(e) => setData((prev) => ({...prev, email:e.target.value}))} />
+                    <input type="password" className='login-inp' name="pass" value={data.password} placeholder='password' onChange={(e) => setData((prev) => ({...prev, password:e.target.value}))}/>
                     <button className='login-btn' onClick={userLogin}>login</button>
                 </div>
                 <div className="oauth-box">
