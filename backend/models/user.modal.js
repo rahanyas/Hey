@@ -37,7 +37,13 @@ const userSchema = new mongoose.Schema({
   active : {
 	type : String,
 	default : true
-  }
+},
+ friends :  [
+	{
+	type : mongoose.Schema.Types.ObjectId,
+	ref : 'user'
+	}
+ ]
 }, {timestamps : true})
 
 const userModal =  mongoose.model('user', userSchema);

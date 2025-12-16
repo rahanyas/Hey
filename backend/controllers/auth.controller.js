@@ -92,23 +92,25 @@ export const checkAuth = async (req, res) => {
 		console.log('recived token : ', token);
 
 		if(!token){
-			return res.status(401).json({success : false, msg : 'Not Authenticated'})
+			return res.status(401).json({success : false, msg : 'Please Login'})
 		};
 
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 		console.log(decoded);
 		
 		if(!decoded){
-			return res.status(400).json({success :false, msg : 'token not decoded'})
+			// means token not decoded
+			return res.status(400).json({success :false, msg : 'An Error Occured Please Try Again'})
 		};
 		const user = await userModal.findById({_id : decoded.id});
 		console.log('authenticated user : ', user);
 
 		if(!user){
-			return res.status(400).json({success : false, msg : 'user not found'});
+			// not founded user with decoded id
+			return res.status(400).json({success : false, msg : 'Please Try Again'});
 		};
 
-		return res.status(200).json({success : true, msg : 'user is authorized', data: user || null})
+		return res.status(200).json({success : true, msg : `welcome ${user.name}`, data: user || null})
 
 	} catch (err) {
 		console.error('Error in checkAuth : ', err);
@@ -132,6 +134,9 @@ export const logout = async (req, res) => {
         sameSite : process.env.NODE_ENV !== 'development' ? 'None' : 'Lax',
         httpOnly  : true,
 		});
+		const decoded =  jwt.verify(token, process.env.JWT_SECRET);
+	    await userModal.findByIdAndUpdate({_id : decoded.id}, {$set : {active : false}});
+
 		return res.status(200).json({success : true, msg : 'Logged out successfully'})
 	} catch (err) {
 		console.error('Error in logout function', err);
