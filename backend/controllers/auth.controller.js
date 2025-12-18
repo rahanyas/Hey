@@ -32,7 +32,8 @@ export const register = async (req, res) => {
 
 	const salt = 10;
 	const hashedPass = await bcrypt.hash(
-	password, salt);
+	password, salt);;
+
 
 	const newUser = new userModal({
 	  name, 
@@ -52,7 +53,7 @@ export const register = async (req, res) => {
 	return res.status(200).json({success : true, msg : 'User Registered Successfully', data : newUser})
 	} catch (err){
 	 console.log('error in register function', err);
-	return res.status(500).json({msg : err, success : false})
+	return res.status(500).json({msg : err.message, success : false})
 	}
 }
 
@@ -82,7 +83,7 @@ export const Login = async (req, res) => {
 	
 	}catch(err) {
 	console.log('error in login function', err);
-	return res.status(500).json({msg : err, success : false})
+	return res.status(500).json({msg : err.message, success : false})
 	}
 }
 

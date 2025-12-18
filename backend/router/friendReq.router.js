@@ -6,6 +6,7 @@ const router = Router();
 
 // router.post('/sendReq', verifyToken, frendReq.sendRequest);
 router.post('/sendReq', frendReq.sendRequest);
+router.get('/showReq', frendReq.showReqToUser);
 
 
 export default router;
