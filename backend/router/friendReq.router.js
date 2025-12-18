@@ -5,6 +5,7 @@ import frendReq from "../controllers/friendRequest.controller.js";
 const router = Router();
 
 // router.post('/sendReq', verifyToken, frendReq.sendRequest);
+router.get('/searchUser', frendReq.searchFriends);
 router.post('/sendReq', frendReq.sendRequest);
 router.get('/showReq', frendReq.showReqToUser);
 

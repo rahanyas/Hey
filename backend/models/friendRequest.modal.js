@@ -5,16 +5,19 @@ import mongoose from 'mongoose';
 const friendRequest  = new mongoose.Schema({
     sender : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : 'user'
+        ref : 'user',
+        required : true
     },
     reciever : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : 'user'
+        ref : 'user',
+        required : true
     },
     status : {
         type : String,
         enum : ["pending", "accepted", "rejected", "blocked"],
-        default : "pending"
+        default : "pending",
+        required : true
     }
 },{timestamps : true});
 

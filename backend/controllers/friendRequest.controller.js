@@ -13,6 +13,29 @@ import friendRequestModal from "../models/friendRequest.modal.js";
 import userModal from "../models/user.modal.js";
 
 class FriendRequest{
+    
+     async searchFriends(req, res){
+         // get his id from frontend 
+        const {userToFind} = req.body;
+        console.log('user to find (his id) : ', userToFind);
+
+        try {
+            // find he is in user collection
+            const isUser = await userModal.findOne({_id : userToFind}, {name : 1});
+            console.log(isUser)
+            // if not return no user found msg;
+            if(isUser.length === 0){
+                return res.status(200).json({success : true, msg : 'user not found'});
+            }
+            // if he is in send the user to frontend so the user name can display as search result
+            const nameOfuser = isUser?.name;
+            return res.status(200).json({msg : 'successfyll fetched user', success : true, data : nameOfuser || []})
+        } catch (err) {
+            console.log('error in searchFriends : ', err);
+            return res.status(500).json({success : false, msg : 'Internel Server Error'});
+        }
+     }
+
      async sendRequest(req, res){
             const {recieverId} = req.body;
             const {senderId} = req.user?._id || req.body;
@@ -29,7 +52,7 @@ class FriendRequest{
                 });
     
                 if(isAlreadyFriends){
-                    return res.status(400).json({success : false, msg : 'already in friend list'})
+                    return res.status(200).json({success : false, msg : 'already in friend list'})
                 };
 
                 //check already has sended frend req //
@@ -42,7 +65,7 @@ class FriendRequest{
                 });
 
                 if(isAlreadyRequested){
-                    return res.status(400).json({msg : 'already has a sended req', success : false})
+                    return res.status(200).json({msg : 'already has a sended req', success : false})
                 }
 
                 // add sender id and reciver id in frend req modal //
@@ -73,35 +96,25 @@ class FriendRequest{
         console.log('who want to see req : ', viewer);
         try {
             // fetch req recieved to this user from db
-            const viewerReq = await friendRequestModal.find({
-                reciever : viewer
-            })
-            console.log('req recieved to this users : ', viewerReq);
+            const reqSenders = await friendRequestModal.find({
+                reciever : viewer,
+                status : 'pending'
+            }).populate('sender', 'name')
+
+            console.log('req recieved to this users : ', reqSenders);
             
             // check if user has any freind req , if not return
-            if(viewerReq === 0){
-                return res.status(400).json({
+            if(reqSenders.length === 0){
+                return res.status(200).json({
                     success : false,
                     msg : 'You dont Have any req'
                 })
             };
 
-            // viewerReq gives an array of users who sended req to viewer , so i have to loop through the arr to fetch the id of senders and then to fetch their details
+            const reqSenderNames = reqSenders.map(user => user.sender.name)
 
-            const senderIds = viewerReq.map(item => item.sender);
-            
-            // if has friend req , only select name from them and send to frontend;
-            // sender id is also an array so i included in operator to find user in the this array
 
-            const userNameOfReqSenders = await userModal.find({_id : {$in : senderIds}}, {
-                name : 1
-            });
-
-            console.log('userNameOfReqSenders : ', userNameOfReqSenders)
-
-            // pass userNameOfReqSenders to frontend to display thier names , in there viewer can decide whether  accept or rejct the req
-
-            return res.status(200).json({msg : 'fetched req from db', data : userNameOfReqSenders})
+            return res.status(200).json({msg : 'fetched req from db', data : reqSenderNames, success : true})
 
         } catch (err) {
             console.log('error in req showing function : ', err);
