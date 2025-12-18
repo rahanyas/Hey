@@ -34,7 +34,7 @@ export const register = async (req, res) => {
 	const hashedPass = await bcrypt.hash(
 	password, salt);
 
-	const  newUser = new  userModal({
+	const newUser = new userModal({
 	  name, 
 	  email,
 	  pass : hashedPass,

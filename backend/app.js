@@ -8,6 +8,7 @@ import dbConnect from './config/db.config.js';
 
 import authRouter from './router/auth.router.js';
 import oauthRouter from './router/oauth.router.js';
+import friendRouter from './router/friendReq.router.js';
 
 const port = process.env.PORT 
 
@@ -72,8 +73,8 @@ passport.use(new GoogleStrategy({
 }, oAuth));
 
 app.use('/api', authRouter);
-app.use('/auth', oauthRouter)
-
+app.use('/auth', oauthRouter);
+app.use('/feature', friendRouter);
 
 app.listen(port , (err) => {
    if(err) return console.log('error in listen func', err);

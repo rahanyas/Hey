@@ -18,6 +18,6 @@ const friendRequest  = new mongoose.Schema({
     }
 },{timestamps : true});
 
-const RequestModal = mongoose.model('friendRequests', friendRequest);
+const friendRequestModal = mongoose.model('friendRequests', friendRequest);
 
-export default RequestModal;
+export default friendRequestModal;
