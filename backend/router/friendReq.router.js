@@ -8,6 +8,8 @@ const router = Router();
 router.get('/searchUser', frendReq.searchFriends);
 router.post('/sendReq', frendReq.sendRequest);
 router.get('/showReq', frendReq.showReqToUser);
+router.patch('/acceptreq', frendReq.acceptReq);
+router.patch('/rejectreq', frendReq.rejectReq);
 
 
 export default router;

@@ -15,7 +15,7 @@ import userModal from "../models/user.modal.js";
 class FriendRequest{
     
      async searchFriends(req, res){
-         // get his id from frontend 
+        // get his id from frontend 
         const {userToFind} = req.body;
         console.log('user to find (his id) : ', userToFind);
 
@@ -41,16 +41,16 @@ class FriendRequest{
             const {senderId} = req.user?._id || req.body;
             console.log('sender id : ', senderId, 'reciever id : ', recieverId);
 
-            if(!recieverId && !senderId){
+            if(!recieverId || !senderId){
                 return res.status(400).json({msg : 'reciver id or sender id is not defined'})
             };
 
             try {             
                 const isAlreadyFriends = await userModal.findOne({
                     _id : senderId,
-                    'friends.userId' : recieverId
+                    'friends.userId' : recieverId,
                 });
-    
+                
                 if(isAlreadyFriends){
                     return res.status(200).json({success : false, msg : 'already in friend list'})
                 };
@@ -60,8 +60,9 @@ class FriendRequest{
                 const isAlreadyRequested = await friendRequestModal.findOne({
                    $or : [
                     { sender : senderId, reciever : recieverId},
-                    {sender : recieverId , reciever : senderId}
-                   ] 
+                    {sender : recieverId , reciever : senderId},
+                   ],
+                  
                 });
 
                 if(isAlreadyRequested){
@@ -111,7 +112,7 @@ class FriendRequest{
                 })
             };
 
-            const reqSenderNames = reqSenders.map(user => user.sender.name)
+            const reqSenderNames = reqSenders.map(user => user.sender?.name)
 
 
             return res.status(200).json({msg : 'fetched req from db', data : reqSenderNames, success : true})
@@ -120,7 +121,110 @@ class FriendRequest{
             console.log('error in req showing function : ', err);
             return res.status(500).json({msg : 'Internel Server Error', success : false})
         }
-    }
+    };
+
+     async acceptReq(req, res){
+        // identify which user to accept by sending id of that user from frontend;
+        // aaran req accept cheyunnath === accepter,
+        // aareyan accept cheyunnath === acceptee
+        const { acceptee } = req.body;
+        const accepter = req.body.accepter || req.user?._id;
+        
+        if(!acceptee || !accepter){
+            return res.status(400).json({
+                msg : 'please try again or refresh the page',
+                success : false
+            });
+        };
+        try {
+
+
+            // go to frendReq collection and change the status to accepted 
+            const changeStatus = await friendRequestModal.findOneAndUpdate({
+                sender : acceptee,
+                reciever : accepter
+            }, {
+                $set : {
+                    status : 'accepted'
+                }
+            }, {new : true});
+            
+            // check its updated 
+            if(changeStatus.status !== 'accepted'){
+                return res.status(400).json({
+                    msg : 'somthing went wrong, please try again',
+                    success : false
+                })
+            };
+
+            // then add the accepted user to freind list of accepting user
+
+            const addUserToFriendList = await userModal.bulkWrite([
+                {
+                    updateOne : {
+                        filter : {_id : accepter},
+                        update : {$addToSet : {friends : acceptee}}
+                    },
+                },
+                {
+                    updateOne : {
+                        filter : {_id : acceptee},
+                        update : {$addToSet : {friends : accepter}}
+                    }
+                }
+            ])
+            // also add accepter id in the acceptee friend 
+
+            return res.status(200).json({msg : 'req accepted', data : changeStatus})
+        } catch (err) {
+            console.log('error in acceptReq : ', err);
+            return res.status(500).json({msg : 'Internal Server Error', success : false})
+        }
+     };
+
+     async rejectReq(req, res){
+            const { rejectee }  = req.body;
+            const rejecter = req.user?._id || req.body.rejecter;
+            if(!rejectee || !rejecter){
+                return res.status(401).json({
+                    msg : "got undefined ID's",
+                    success : false
+                })
+            };
+
+            try {               
+                // find the rejecter recievedReq in friendReq modal
+                // change status to rejected in friend request modal of in recievers  view
+                const updateStatus = await friendRequestModal.findOneAndUpdate({
+                    sender : rejectee,
+                    reciever : rejecter,
+                    status : 'pending'
+                }, {
+                    $set : {
+                        status : "rejected"
+                    }
+                }, {new : true});
+    
+                if(!updateStatus){
+                    return res.status(400).json({
+                        msg : 'operation failed, please try again after some time',
+                        success : false
+                    })
+                };
+    
+                return res.status(200).json({
+                    msg : 'req rejected',
+                    success : true
+                })
+            } catch (err) {
+                console.log('error occured in req rejection function : ', err);
+                return res.status(500).json({
+                    msg : 'Internal Server Error',
+                    success  : false
+                })
+            }
+
+     }
 };
 
 export default new FriendRequest();
