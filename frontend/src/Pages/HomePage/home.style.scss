@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+};
+
+//for smaller device
+@media screen and (max-width : 768px){
+   #container{
+        border: 1px solid  blue;
+        width: 100%;
+    };
+    nav{
+        display: flex;
+        justify-content: flex-end;
+        gap: 1em;
+        padding: 1em;
+        align-items: center
+    };
+    input{
+        padding: .7em;
+        outline: none;
+        border: none;
+        border-radius: 10px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+}

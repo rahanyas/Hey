@@ -1,13 +1,20 @@
-import { useSelector } from "react-redux";
+import { FaSearch } from 'react-icons/fa';
 
+import './home.style.scss'
+import { useState } from 'react';
 const Home = () => {
-    const user = useSelector((state) => state.user);
-    
-    const {name} = user
+    const [showSearch, setShowSearch] = useState(false);  
     return (
-        <div>
-            <h1>welcome {name}</h1>
-        </div>
+        <section id="container">
+            <nav>
+                {
+                    showSearch &&  (
+                        <input type="text" placeholder='search friends' />
+                    )
+                }
+               <span onClick={() => setShowSearch((prev) => !prev)}><FaSearch /></span> 
+            </nav>
+        </section>
     )
 };
 

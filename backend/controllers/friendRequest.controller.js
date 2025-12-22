@@ -219,7 +219,7 @@ class FriendRequest{
             } catch (err) {
                 console.log('error occured in req rejection function : ', err);
                 return res.status(500).json({
-                    msg : 'Internal Server Error',
+                    msg : 'Internal Server Error' || err.message,
                     success  : false
                 })
             }
