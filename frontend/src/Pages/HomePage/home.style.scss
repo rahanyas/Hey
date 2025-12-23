@@ -7,21 +7,64 @@
 //for smaller device
 @media screen and (max-width : 768px){
    #container{
-        border: 1px solid  blue;
+        border: 1px solid  gray;
         width: 100%;
+        min-height: min-content;
+        padding: 1em
     };
-    nav{
+    header{
         display: flex;
         justify-content: flex-end;
         gap: 1em;
         padding: 1em;
-        align-items: center
+        align-items: center;
+        justify-items: center;
+        border: 1px solid rgb(78, 119, 96);
+        h2{
+            text-transform: capitalize;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        input{
+            padding: .9em;
+            outline: none;
+            border: none;
+            font-size: medium;
+            border-radius: 10px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            width: 100%;
+        }
     };
-    input{
-        padding: .7em;
+
+    .friendsBox{
+        display: flex;
+        // border: 1px solid blue;
+        height: min-content;
+        min-width: 100%;
+    }
+
+    .no-friends{
+        // border: 1px solid rgb(0, 255, 234);
+        min-height: 70vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        gap: .7em;
+        text-align: center;
+        align-items: center;
+        text-transform: capitalize;
+        justify-content: center;
+    }
+
+    .add-btn{
+        padding: 1em 2em;
         outline: none;
+        background-color: rgb(127, 216, 189);
+        text-transform: capitalize;
+        font-size: 17px;
+        font-weight: 700;
         border: none;
-        border-radius: 10px;
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        border-radius: 9px;
     }
 }

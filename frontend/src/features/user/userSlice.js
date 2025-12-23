@@ -9,6 +9,7 @@ const initialState = {
     isLogedIn : false,
     status : 'idle',
     msg : '',
+    friends : [],
     isError : false
 }
 
