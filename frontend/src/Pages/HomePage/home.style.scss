@@ -1,70 +1,139 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-};
+}
 
-//for smaller device
-@media screen and (max-width : 768px){
-   #container{
-        border: 1px solid  gray;
-        width: 100%;
-        min-height: min-content;
-        padding: 1em
-    };
-    header{
-        display: flex;
-        justify-content: flex-end;
-        gap: 1em;
+// Mobile first
+@media screen and (max-width: 768px) {
+
+    #container {
         padding: 1em;
-        align-items: center;
-        justify-items: center;
-        border: 1px solid rgb(78, 119, 96);
-        h2{
-            text-transform: capitalize;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        }
-
-        input{
-            padding: .9em;
-            outline: none;
-            border: none;
-            font-size: medium;
-            border-radius: 10px;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            width: 100%;
-        }
-    };
-
-    .friendsBox{
-        display: flex;
-        // border: 1px solid blue;
-        height: min-content;
-        min-width: 100%;
+        background: transparent; // let parent black bg show
     }
 
-    .no-friends{
-        // border: 1px solid rgb(0, 255, 234);
+    /* ---------- Top Bar ---------- */
+    .top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: .9em 1em;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 1em;
+        backdrop-filter: blur(6px);
+    }
+
+    .search-area {
+        flex: 1;
+
+        h2 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-transform: capitalize;
+            color: #e5e7eb; // soft white
+            letter-spacing: 0.4px;
+        }
+
+        input {
+            width: 100%;
+            padding: .85em 1em;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.95rem;
+            color: #f9fafb;
+            outline: none;
+            transition: all 0.2s ease;
+
+            &::placeholder {
+                color: #9ca3af;
+            }
+
+            &:focus {
+                border-color: #7fd8bd;
+                box-shadow: 0 0 0 2px rgba(127, 216, 189, 0.35);
+            }
+        }
+    }
+
+    .icon-btn {
+        background: transparent;
+        border: none;
+        font-size: 1.2rem;
+        color: #d1d5db;
+        padding-left: .8em;
+        cursor: pointer;
+        transition: transform 0.2s ease, color 0.2s ease;
+
+        &:hover {
+            color: #ffffff;
+            transform: scale(1.08);
+        }
+    }
+
+    /* ---------- Main ---------- */
+    .friendsBox {
+        display: flex;
+        min-height: min-content;
+    }
+
+    .no-friends {
         min-height: 70vh;
         width: 100%;
         display: flex;
         flex-direction: column;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        gap: .7em;
-        text-align: center;
-        align-items: center;
-        text-transform: capitalize;
         justify-content: center;
+        align-items: center;
+        gap: .5em;
+        text-align: center;
+        padding: 2em;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px dashed rgba(255, 255, 255, 0.08);
     }
 
-    .add-btn{
-        padding: 1em 2em;
-        outline: none;
-        background-color: rgb(127, 216, 189);
-        text-transform: capitalize;
-        font-size: 17px;
+    .no-friends h2 {
+        font-size: 1.4rem;
         font-weight: 700;
+        color: #f9fafb;
+        text-transform: capitalize;
+    }
+
+    .no-friends p {
+        font-size: 0.95rem;
+        color: #9ca3af;
+        letter-spacing: 0.3px;
+        text-transform: capitalize;
+    }
+
+    /* ---------- Button ---------- */
+    .add-btn {
+        margin-top: 1em;
+        padding: .9em 2.2em;
+        border-radius: 12px;
         border: none;
-        border-radius: 9px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: capitalize;
+        background: linear-gradient(
+            135deg,
+            #7fd8bd,
+            #5fb3a2
+        );
+        color: #022c22;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(127, 216, 189, 0.35);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
     }
 }
