@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-
+import {useSelector} from 'react-redux'
+import { useNavigate}  from 'react-router-dom'
 import AddFriendBtnCompo from '../../components/AddFriendBtn.compo';
 import './home.style.scss';
 
 const Home = () => {
 
-    const [showSearch, setShowSearch] = useState(false);  
-    const [friends, setFriends] = useState([]);
-
+    const [showSearch, setShowSearch] = useState(false); 
+    const { friends } = useSelector(state => state.user); 
+    const navigate = useNavigate();
     return (
         <section id="container">
             {/* Top Bar */}
@@ -39,7 +40,7 @@ const Home = () => {
 
                     {
                         friends.length <= 0 && (
-                            <AddFriendBtnCompo className="add-btn">
+                            <AddFriendBtnCompo className="add-btn" navigate={navigate}>
                                 Add friend
                             </AddFriendBtnCompo>
                         )

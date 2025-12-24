@@ -23,6 +23,7 @@ const SignUpPage = lazy(() => import('./Pages/SignUp.page'))
 const ErrorPage = lazy(() => import('./Pages/ErrorPage'))
 const LoginPage = lazy(() => import('./Pages/LoginPage/Login.Page'));
 const SettingsPage = lazy(() => import('./Pages/SettingsPage/Settings.page.jsx'));
+const UserAdd = lazy(() => import('./Pages/addUserPage/UserAdd.jsx'));
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
                 <Route  element={<ProtectedRoutes/>}>
                     <Route path='/home' element={<HomePage/>}/>
                     <Route path='/settings' element={<SettingsPage/>}/>
+                    <Route path='addUserPage' element={<UserAdd/>}/>
                 </Route>
 
           </Route>

@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =====================================================
+   MOBILE UI – ADD USER PAGE
+===================================================== */
+
+@media screen and (max-width : 768px){
+
+#contianer {
+    min-height: 100vh;
+    padding: 1em;
+    background: transparent;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+}
+
+/* ---------- Header / Search ---------- */
+#contianer header {
+    width: 100%;
+}
+
+#contianer header input {
+    width: 100%;
+    padding: 1em 1.1em;
+
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    background: rgba(255, 255, 255, 0.06);
+    color: #f9fafb;
+
+    font-size: 1rem;
+    outline: none;
+
+    transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+#contianer header input::placeholder {
+    color: #9ca3af;
+    letter-spacing: .3px;
+}
+
+#contianer header input:focus {
+    border-color: #7fd8bd;
+    box-shadow: 0 0 0 3px rgba(127, 216, 189, 0.3);
+}
+
+/* ---------- Search Result Area ---------- */
+#contianer main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: .8em;
+}
+
+/* ---------- User Card ---------- */
+#contianer main > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: .9em 1em;
+
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+
+    transition: background .25s ease, transform .2s ease;
+}
+
+#contianer main > div:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-1px);
+}
+
+/* ---------- User Info ---------- */
+#contianer figure {
+    display: flex;
+    align-items: center;
+    gap: .8em;
+}
+
+#contianer figure img {
+    width: 44px;
+    height: 44px;
+
+    border-radius: 50%;
+    object-fit: cover;
+
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+#contianer figure h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f9fafb;
+    letter-spacing: .3px;
+}
+
+/* ---------- Send Request Button ---------- */
+#contianer main button {
+    padding: .6em 1.2em;
+
+    border-radius: 999px;
+    border: none;
+
+    background: linear-gradient(
+        135deg,
+        #7fd8bd,
+        #5fb3a2
+    );
+
+    color: #022c22;
+    font-size: .85rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        box-shadow .25s ease,
+        filter .2s ease;
+}
+
+#contianer main button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(127, 216, 189, 0.45);
+    filter: brightness(1.05);
+}
+
+#contianer main button:active {
+    transform: scale(.95);
+    box-shadow: none;
+}
+}
