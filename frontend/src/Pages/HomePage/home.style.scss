@@ -68,7 +68,7 @@
         transition: transform 0.2s ease, color 0.2s ease;
 
         &:hover {
-            color: #ffffff;
+            color: #dfdfdf;
             transform: scale(1.08);
         }
     }
@@ -137,3 +137,164 @@
         }
     }
 }
+
+@media screen and (min-width: 769px) {
+
+    #container {
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+        min-height: 100vh;
+
+        padding: 2em 0;
+        background: transparent;
+    }
+
+    /* ---------- App Width ---------- */
+    .top-bar,
+    .friendsBox {
+        width: 100%;
+        max-width: 960px;
+        margin: 0 auto;
+    }
+
+    /* ---------- Header ---------- */
+    .top-bar {
+        display: flex;
+        align-items: center;
+        gap: 1em;
+
+        padding: 1em 1.4em;
+        margin-bottom: 1.2em;
+
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .search-area {
+        display: flex;
+        align-items: center;
+        flex: 1;
+
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+
+        padding: .3em;
+        gap: .4em;
+
+        transition: border-color .25s ease, box-shadow .25s ease;
+    }
+
+    .search-area:focus-within {
+        // border-color: #7fd8bd;
+        box-shadow: 0 0 0 3px rgba(127, 216, 189, 0.3);
+    }
+
+    .search-area h2 {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #d1d5db;
+        padding-left: .8em;
+    }
+
+    .search-area input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        padding: .7em 1em;
+        color: #f9fafb;
+        font-size: .95rem;
+        outline: none;
+    }
+
+    .search-area input::placeholder {
+        color: #9ca3af;
+    }
+
+    .icon-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+
+        background: rgba(255, 255, 255, 0.08);
+        border: none;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: #d1d5db;
+        font-size: 1rem;
+
+        cursor: pointer;
+        transition: background .2s ease, transform .2s ease;
+    }
+
+    .icon-btn:hover {
+        background: rgba(127, 216, 189, 0.25);
+        transform: scale(1.06);
+    }
+
+    /* ---------- Main ---------- */
+    .friendsBox {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .no-friends {
+        width: 100%;
+        min-height: 60vh;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        padding: 3em 2em;
+
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px dashed rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+    }
+
+    .no-friends h2 {
+        font-size: 1.6rem;
+        color: #f9fafb;
+    }
+
+    .no-friends p {
+        font-size: 1rem;
+        color: #9ca3af;
+        max-width: 420px;
+        text-align: center;
+        line-height: 1.6;
+    }
+
+    /* ---------- Button ---------- */
+    .add-btn {
+        margin-top: 1.6em;
+        padding: 1em 2.8em;
+
+        border-radius: 14px;
+        border: none;
+
+        background: linear-gradient(135deg, #7fd8bd, #5fb3a2);
+        color: #022c22;
+
+        font-size: 1.05rem;
+        font-weight: 600;
+
+        cursor: pointer;
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .add-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 22px rgba(127, 216, 189, 0.4);
+    }
+}
+
+
