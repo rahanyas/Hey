@@ -6,7 +6,7 @@ console.log(uri);
 
 
 const server = axios.create({
-    baseURL : `${uri}/api`,
+    baseURL : uri,
     withCredentials : true,
 
 });

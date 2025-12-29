@@ -16,7 +16,7 @@ const initialState = {
 
 export const register = createAsyncThunk('user/register', async(data, {rejectWithValue}) => {
     try {     
-        const res = await server.post('/register', data);
+        const res = await server.post('/api/register', data);
         console.log('res from register : ', res);
         
         return res.data;
@@ -29,7 +29,7 @@ export const register = createAsyncThunk('user/register', async(data, {rejectWit
 export const login = createAsyncThunk('user/login', async (data, {rejectWithValue}) => {
     try {
         // console.log('data from login : ', data)
-        const res = await server.post('/login', data);
+        const res = await server.post('/api/login', data);
         console.log('res from login req : , ',res.data)
         return res.data
     } catch (err) {
@@ -40,7 +40,7 @@ export const login = createAsyncThunk('user/login', async (data, {rejectWithValu
 
 export const checkAuth = createAsyncThunk('user/checkAuth', async (_,{rejectWithValue}) => {
     try {
-        const res = await server.get('/checkAuth', {withCredentials : true, });
+        const res = await server.get('/api/checkAuth', {withCredentials : true, });
         return res.data
     } catch (err) {
         console.log('Error in checkAuth  : ', err.response?.data);
@@ -50,7 +50,7 @@ export const checkAuth = createAsyncThunk('user/checkAuth', async (_,{rejectWith
 
 export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue}) => {
     try {
-        const res = await server.post('/logout');
+        const res = await server.post('/api/logout');
         console.log('res from logout : ', res.data);
         return res.data
     } catch (err) {
