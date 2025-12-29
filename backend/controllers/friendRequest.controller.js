@@ -16,20 +16,26 @@ class FriendRequest{
     
      async searchFriends(req, res){
         // get his id from frontend 
-        const {userToFind} = req.body;
-        console.log('user to find (his id) : ', userToFind);
+        const {userToFind} = req.query;
+        // console.log('user to find (his id) : ', userToFind);
+
+        if(!userToFind){
+            return res.status(400).json({msg : "usertofind is undefined", success : false})
+        }
 
         try {
             // find he is in user collection
-            const isUser = await userModal.findOne({_id : userToFind}, {name : 1});
-            console.log(isUser)
+            const user = await userModal.find({ name : {
+                $regex : userToFind, 
+                $options : 'i'
+            }}).select('name profilePic');
+            // console.log(user)
             // if not return no user found msg;
-            if(isUser.length === 0){
+            if(user.length === 0){
                 return res.status(200).json({success : true, msg : 'user not found'});
             }
             // if he is in send the user to frontend so the user name can display as search result
-            const nameOfuser = isUser?.name;
-            return res.status(200).json({msg : 'successfyll fetched user', success : true, data : nameOfuser || []})
+            return res.status(200).json({success : true, data : user || []})
         } catch (err) {
             console.log('error in searchFriends : ', err);
             return res.status(500).json({success : false, msg : 'Internel Server Error'});
