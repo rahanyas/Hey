@@ -17,7 +17,8 @@ class FriendRequest{
      async searchFriends(req, res){
         // get his id from frontend 
         const {userToFind} = req.query;
-        // console.log('user to find (his id) : ', userToFind);
+        const whoIsSearching = req?.user?.id// it is the user id (who is me) go to db and find the user and if the search eqaul to his name dont send this user , when this happen instead of adding send req btn , add show profile in frontend 
+        
 
         if(!userToFind){
             return res.status(400).json({msg : "usertofind is undefined", success : false})
@@ -25,17 +26,70 @@ class FriendRequest{
 
         try {
             // find he is in user collection
-            const user = await userModal.find({ name : {
+            const user = await userModal.find({ 
+            name : {
                 $regex : userToFind, 
-                $options : 'i'
-            }}).select('name profilePic');
-            // console.log(user)
+                $options : 'i',
+            },
+            _id : {
+                 $ne : whoIsSearching
+            }
+        }).select('name profilePic friends');
+            
             // if not return no user found msg;
             if(user.length === 0){
                 return res.status(200).json({success : true, msg : 'user not found'});
-            }
+            };
+
+            //check if anyone in the list is already a friend of his , if anyone is just add key in data like relation
+
+           const requests = await friendRequestModal.find({
+            $or : [
+                {sender : whoIsSearching},
+                {reciever : whoIsSearching}
+            ]
+           })
+
+           //makig response with relation
+           const formatedUsers = user.map(user => {
+            let relation = 'none';
+
+            const isFriend = user?.friends?.some(f => {
+              return f?.toString() === whoIsSearching
+            });
+
+            if(isFriend){
+                relation = 'friends'
+            };
+
+           const req = requests.find(r =>
+                (r.sender.toString() === whoIsSearching &&
+                r.reciever.toString() === user._id.toString()) ||
+                (r.sender.toString() === user._id.toString() &&
+                r.reciever.toString() === whoIsSearching)
+            );
+
+            if (req) {
+                if (req.sender.toString() === whoIsSearching) {
+                 relation = "request_sent";
+                } else {
+                 relation = "request_received";
+                }
+            };
+
+            return {
+                _id: user._id,
+                name: user.name,
+                profilePic: user.profilePic,
+                relation
+           };
+
+           })
+
+
             // if he is in send the user to frontend so the user name can display as search result
-            return res.status(200).json({success : true, data : user || []})
+            return res.status(200).json({success : true, data : formatedUsers || []});
+
         } catch (err) {
             console.log('error in searchFriends : ', err);
             return res.status(500).json({success : false, msg : 'Internel Server Error'});
@@ -43,8 +97,8 @@ class FriendRequest{
      }
 
      async sendRequest(req, res){
-            const {recieverId} = req.body;
-            const {senderId} = req.user?._id || req.body;
+            const {recieverId} = req.query;
+            const senderId = req.user?.id 
             console.log('sender id : ', senderId, 'reciever id : ', recieverId);
 
             if(!recieverId || !senderId){
@@ -58,7 +112,11 @@ class FriendRequest{
                 });
                 
                 if(isAlreadyFriends){
-                    return res.status(200).json({success : false, msg : 'already in friend list'})
+                    return res.status(200).json({
+                        success : false, 
+                        msg : 'already in friend list',
+                        alreadyFriends : true
+                    })
                 };
 
                 //check already has sended frend req //
@@ -72,7 +130,11 @@ class FriendRequest{
                 });
 
                 if(isAlreadyRequested){
-                    return res.status(200).json({msg : 'already has a sended req', success : false})
+                    return res.status(200).json({
+                        msg : 'already has a sended req',
+                        success : false,
+                        alreadyRequested : true
+                    })
                 }
 
                 // add sender id and reciver id in frend req modal //
