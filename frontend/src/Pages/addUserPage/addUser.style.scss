@@ -59,29 +59,6 @@
     gap: 1em;
 }
 
-/* ---------- User Card ---------- */
-#contianer main > div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 1.1em 1.3em;
-
-    background: rgba(255, 255, 255, 0.045);
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    border-radius: 18px;
-
-    transition:
-        background .25s ease,
-        transform .2s ease,
-        box-shadow .25s ease;
-}
-
-#contianer main > div:hover {
-    background: rgba(255, 255, 255, 0.07);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
-}
 
 /* ---------- User Info ---------- */
 #contianer figure {
@@ -116,6 +93,29 @@
     cursor: pointer;
 }
 
+.search-results{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+   
+    div{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1em;
+        padding: 1em;
+        border: 1px solid rgb(39, 39, 43);
+        border-radius: 16px;
+        gap: 2em;
+
+        button:hover{
+            background: rgba(255, 255, 255, 0.07);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+        }
+    }
+}
 /* =====================================================
    MOBILE OVERRIDES (≤ 768px)
 ===================================================== */
@@ -132,18 +132,10 @@
         padding: 1em 1.1em;
     }
 
-    #contianer main > div {
-        padding: .9em 1em;
-        border-radius: 16px;
-    }
+}
 
-    #contianer figure img {
-        width: 44px;
-        height: 44px;
-    }
-
-    #contianer main button {
-        padding: .6em 1.2em;
-        font-size: .85rem;
-    }
+ h2{
+    text-align: center;
+    font-family: sans-serif;
+    margin-top: 1em;
 }

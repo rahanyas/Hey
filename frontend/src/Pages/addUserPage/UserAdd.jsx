@@ -1,13 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
-import './addUser.style.scss';
 import server from '../../utils/axiosInstance.utils';
+import SearchResutls from '../../components/SearchResults.compo';
+import './addUser.style.scss';
 
 const UserAdd = () => {
     const [userToFind, setUserToFind] = useState('');
     const [result, setResult] = useState([]);
     const [msg, setMsg] = useState('');
 
-    const getUsers = useCallback(async (signal) => {
+const getUsers = useCallback(async (signal) => {
        try {           
            let res = await server.get(`/feature/searchUser?userToFind=${userToFind}`, {signal});
             console.log(res);
@@ -16,7 +17,7 @@ const UserAdd = () => {
        } catch (err) {
            console.log('error in getUser func : ', err)
        }
-    },[userToFind]);
+},[userToFind]);
 
     useEffect(() => {
         if(!userToFind.trim()) {
@@ -52,27 +53,17 @@ const UserAdd = () => {
         {/* to display content related to search result */}
         <main>
             {/* section for displaying user profile and name with send request btn */}
-            {result.length === 0 && !msg &&(
-                <h1>search for users</h1>
+            {userToFind.length === 0 && (
+            <h2>search for users</h2>
             )}
 
-            {msg && result.length ===0 &&(
-                <h2>{msg}</h2>
+            {userToFind.length > 0 && result.length === 0 && msg && (
+            <h2>{msg}</h2>
             )}
-            {
-                result.map((item) => (
-            <div key={item?._id}>
-                {/* for displaying user profile and name */}
-               <figure>
-                <img src={item?.profilePic || '#'} alt="user-img" />
-                <h3>{item?.name}</h3>
-               </figure>
-               {/* btn for sending req */}
-                <button  onClick={() => sendReq(item?._id)}>send  request</button>
-            </div>
-            ))
-            }
 
+
+            {/* component created to display the result of search  */}
+            <SearchResutls result={result}/>
 
         </main>
     </section>
