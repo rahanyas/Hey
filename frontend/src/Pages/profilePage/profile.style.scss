@@ -1,0 +1,194 @@
+.profile-page {
+  max-width: 900px;
+  margin: auto;
+  padding: 1.5rem;
+  font-family: system-ui;
+  color: #eaeaea;
+}
+
+/* =======================
+   PROFILE CARD
+======================= */
+
+.profile-card {
+  display: flex;
+  gap: 2rem;
+  background: linear-gradient(145deg, #1e1e1e, #121212);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,.4);
+}
+
+/* =======================
+   PROFILE IMAGE
+======================= */
+
+.profile-pic {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #4f46e5;
+  }
+
+  .change-pic {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    background: #4f46e5;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}
+
+/* =======================
+   PROFILE INFO
+======================= */
+
+.profile-info {
+  flex: 1;
+  min-width: 0;
+
+  h2 {
+    margin: 0;
+    font-size: 1.8rem;
+  }
+
+  .username {
+    color: #9ca3af;
+    margin-bottom: .5rem;
+  }
+
+  .bio {
+    color: #d1d5db;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+
+  .edit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .6rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    background: #4f46e5;
+    color: white;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+}
+
+/* =======================
+   SECTIONS
+======================= */
+
+.section {
+  margin-top: 2rem;
+
+  h3 {
+    margin-bottom: 1rem;
+    color: #a5b4fc;
+  }
+}
+
+.card-row {
+  background: #181818;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+  }
+
+  span {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .actions {
+    display: flex;
+    gap: .5rem;
+
+    button {
+      border: none;
+      padding: .5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .accept { background: #22c55e; }
+    .reject { background: #ef4444; }
+    .unfriend { background: #f97316; }
+    .block { background: #7c2d12; }
+  }
+}
+
+/* =======================
+   TABLET (≤ 900px)
+======================= */
+
+@media (max-width: 900px) {
+  .profile-card {
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .profile-info h2 {
+    font-size: 1.6rem;
+  }
+}
+
+/* =======================
+   MOBILE (≤ 600px)
+======================= */
+
+@media (max-width: 600px) {
+
+  .profile-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-pic {
+    width: 110px;
+    height: 110px;
+  }
+
+  .profile-info {
+    align-items: center;
+  }
+
+  .profile-info .edit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .user-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
