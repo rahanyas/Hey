@@ -5,7 +5,7 @@ import router from './Routes/AppRoutes.jsx';
 import { Suspense, useEffect } from 'react';
 
 import { checkAuth } from './features/user/userSlice.js';
-import { useDispatch} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import LoadingPage from './Pages/LoadingPage/LoadingPage.jsx';
 
 import { ToastContainer } from "react-toastify";
@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const dispatch = useDispatch();
-  
+  const {status} = useSelector(state => state.user)
     
   useEffect(() => {
         const path = window.location.pathname;
@@ -22,6 +22,11 @@ const App = () => {
         dispatch(checkAuth())
 
   },[dispatch]);
+
+
+  if(status === 'loading'){
+    return <LoadingPage />
+  }
 
 
 

@@ -1,7 +1,35 @@
 import { FaUserEdit, FaCamera, FaCheck, FaTimes, FaUserSlash, FaBan } from "react-icons/fa";
+
+import { useEffect, useRef, useState } from "react";
+import server from "../../utils/axiosInstance.utils";
+import ShowReqFriends from "../../components/RequestedFriends.compo";
 import './profile.style.scss'
 
 const ProfilePage = () => {
+
+  const [requestedFriends, setRequestedFriends]  = useState([]);
+
+ 
+
+
+  useEffect(() => {
+    getFriendReqs();
+
+  },[]);
+
+
+ 
+  const getFriendReqs = async () => {
+    try {
+      const res = await server.get('feature/showReq');
+      console.log('res from getFriendReqs : ', res);
+      setRequestedFriends(res?.data?.data)
+    } catch (err) {
+      console.log('error in getFriendReqs function : ', err)
+    }
+  }
+
+
   return (
     <section className="profile-page">
 
@@ -32,17 +60,7 @@ const ProfilePage = () => {
       {/* FRIEND REQUESTS */}
       <div className="section">
         <h3>Friend Requests</h3>
-
-        <div className="card-row">
-          <div className="user-row">
-            <img src="https://i.pravatar.cc/150?img=11" alt="" />
-            <span>Akshay</span>
-            <div className="actions">
-              <button className="accept"><FaCheck /></button>
-              <button className="reject"><FaTimes /></button>
-            </div>
-          </div>
-        </div>
+        <ShowReqFriends requestedFriends={requestedFriends} setRequestedFriends={setRequestedFriends}/>
       </div>
 
       {/* FRIENDS LIST */}
