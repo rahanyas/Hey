@@ -73,7 +73,7 @@ class FriendRequest{
                 if (req.sender.toString() === whoIsSearching) {
                  relation = "request_sent";
                 } else {
-                 relation = "request_received";
+                 relation = "request_recieved";
                 }
             };
 
@@ -161,7 +161,7 @@ class FriendRequest{
     };
 
     async showReqToUser(req, res){
-        const { viewer } = req.body;
+        const  viewer  = req.user?.id;
         console.log('who want to see req : ', viewer);
         try {
             // fetch req recieved to this user from db
@@ -180,7 +180,14 @@ class FriendRequest{
                 })
             };
 
-            const reqSenderNames = reqSenders.map(user => user.sender?.name)
+        const reqSenderNames = reqSenders.map(user => 
+             {
+               return {
+                name : user.sender?.name, 
+                id : user?.sender?._id,
+                profilePic : user?.profilePic || ''
+               }
+             })
 
 
             return res.status(200).json({msg : 'fetched req from db', data : reqSenderNames, success : true})
@@ -196,7 +203,7 @@ class FriendRequest{
         // aaran req accept cheyunnath === accepter,
         // aareyan accept cheyunnath === acceptee
         const { acceptee } = req.body;
-        const accepter = req.body.accepter || req.user?._id;
+        const accepter =  req.user?.id;
         
         if(!acceptee || !accepter){
             return res.status(400).json({
@@ -218,7 +225,7 @@ class FriendRequest{
             }, {new : true});
             
             // check its updated 
-            if(changeStatus.status !== 'accepted'){
+            if(changeStatus?.status !== 'accepted'){
                 return res.status(400).json({
                     msg : 'somthing went wrong, please try again',
                     success : false

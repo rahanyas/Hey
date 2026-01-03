@@ -89,21 +89,21 @@ export const Login = async (req, res) => {
 export const checkAuth = async (req, res) => {
 	try {
 		const token =  req.cookies?.token;
-		console.log('recived token : ', token);
+		// console.log('recived token : ', token);
 
 		if(!token){
 			return res.status(401).json({success : false, msg : 'Please Login'})
 		};
 
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
-		console.log(decoded);
+		// console.log(decoded);
 		
 		if(!decoded){
 			// means token not decoded
 			return res.status(400).json({success :false, msg : 'An Error Occured Please Try Again'})
 		};
-		const user = await userModal.findById({_id : decoded.id});
-		console.log('authenticated user : ', user);
+		const user = await userModal.findById({_id : decoded.id}).select('-googleId -provider');
+		// console.log('authenticated user : ', user);
 
 		if(!user){
 			// not founded user with decoded id
