@@ -1,11 +1,17 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate, useNavigationType } from "react-router-dom";
 import { FaRegCommentDots, FaBars, FaTimes } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { isLogedIn } = useSelector((state) => state.user);
+
+  const location = useLocation();
+  const navigationType = useNavigationType();
+  const showBackBtn = location.key !== 'default' && navigationType !== 'POP';
+  const navigate = useNavigate();
+
 
   return (
     <div className="nav">
@@ -23,6 +29,11 @@ const Navbar = () => {
             <>
               <Link to="/profile" className="nav-link">Profile</Link>
               <Link to="/settings" className="nav-link">Settings</Link>
+              {
+                showBackBtn && (
+                  <button onClick={() => navigate(-1)}>back</button>            
+                )
+              }
             </>
           ) : (
             <>
@@ -43,6 +54,11 @@ const Navbar = () => {
             <>
               <Link to="/profile" className="nav-link" onClick={() => setMenuOpen(false)}>Profile</Link>
               <Link to="/settings" className="nav-link" onClick={() => setMenuOpen(false)}>Settings</Link>
+              {
+                showBackBtn && (
+                  <button onClick={() => navigate(-1)}>back</button>            
+                )
+              }
             </>
           ) : (
             <>
