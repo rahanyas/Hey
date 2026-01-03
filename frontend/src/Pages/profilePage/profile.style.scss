@@ -173,6 +173,12 @@
   }
 }
 
+  .info-msg{
+    text-align: center;
+    text-transform: capitalize;
+    padding: 1em;
+  }
+
 
 /* =========================
    MOBILE OPTIMIZATION
@@ -195,6 +201,7 @@
     width: 100%;
     justify-content: center;
   }
+
 
 .user-row {
   display: flex;

@@ -1,5 +1,6 @@
 import { FaCheck, FaTimes } from "react-icons/fa";
 import server from "../utils/axiosInstance.utils";
+
 const ShowReqFriends = ({requestedFriends = [], setRequestedFriends}) => {
 
     const acceptReq = async (userId) => {
@@ -18,8 +19,23 @@ const ShowReqFriends = ({requestedFriends = [], setRequestedFriends}) => {
          }
     };
 
+    const rejectReq = async (userId) => {
+      if(!userId) return;
+      try {
+        const res = await server.patch('feature/rejectreq', {
+          rejectee : userId
+        });
+        // console.log('res from reject req func : ', res)
+        if(res?.data?.msg === 'req rejected'){
+          setRequestedFriends(prev => prev.filter((user => user.Id !== userId)));
+        }
+      } catch (err) {
+        console.log('err in rejectReq function', err)
+      }
+    }
+
     if(requestedFriends.length === 0){
-        return <h1>no request</h1>
+        return <h1 className="info-msg">no request</h1>
     }
 
     return (
@@ -30,8 +46,17 @@ const ShowReqFriends = ({requestedFriends = [], setRequestedFriends}) => {
                         <img src={user?.profilePic || "https://i.pravatar.cc/150?img=11"} alt="" />
                         <span>{user?.name}</span>
                         <div className="actions">
-                          <button className="accept" onClick={() => acceptReq(user?.id)}><FaCheck /></button>
-                          <button className="reject"><FaTimes /></button>
+
+                          <button 
+                          className="accept" 
+                          onClick={() => acceptReq(user?.id)}><FaCheck />
+                          </button>
+
+                          <button
+                           className="reject"
+                           onClick={() => rejectReq(user?.id)}
+                           ><FaTimes />
+                           </button>
                         </div>
                       </div>
                     </div>
