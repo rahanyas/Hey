@@ -1,13 +1,3 @@
-// 1) frontend send sender and reciever id ;
-
-// 2) check if they are already friends and then add to ;
-
-// 3) by going the sender user and check the reciever is in  his freinds field;
-
-// 4)if yes return . else add the user to freindReq collection;
-
-// 5)and show the req that a user got in req page in frontend where he can add or rejct the req
-// frend Request modal in db;
 
 import friendRequestModal from "../models/friendRequest.modal.js";
 import userModal from "../models/user.modal.js";
@@ -257,9 +247,41 @@ class FriendRequest{
         }
      };
 
+     async showFreinds(req, res){
+            const user = req.user?.id;
+            if(!user){
+                console.log('user id is undefined')
+                return ;
+            };
+
+            try {
+                const friends = await userModal.findOne({
+                    _id : user
+                }).select('friends').populate('friends', 'name , profilePic');
+                if(!friends){
+                    return res.status(200).json({
+                        success : true,
+                        haveFriends : false
+                    })
+                };
+
+                return res.status(200).json({
+                    success : true,
+                    haveFriends : true,
+                    data : friends || []
+                })
+            } catch (err) {
+                console.log('error in ahowFriends func : ', err);
+                return res.status(500).json({
+                    success : false,
+                    msg : 'Internal Server Error'
+                })
+            }
+     }
+
      async rejectReq(req, res){
             const { rejectee }  = req.body;
-            const rejecter = req.user?._id || req.body.rejecter;
+            const rejecter = req.user?.id
             if(!rejectee || !rejecter){
                 return res.status(401).json({
                     msg : "got undefined ID's",
