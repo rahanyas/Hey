@@ -11,8 +11,8 @@ const LandingPage = () => {
         <p className="home-subhead">
           Connect with friends, family, and colleagues instantly. Chat, call, and share your moments in one place.
         </p>
-        <Link to="/demo" className="home-btn">
-          Show Demo
+        <Link to="/login" className="home-btn">
+          login
         </Link>
       </div>
     </div>

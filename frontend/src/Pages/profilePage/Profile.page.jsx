@@ -88,7 +88,7 @@ const ProfilePage = () => {
       <div className="section">
         <h3>Friends</h3>
 
-        <ShowFriends friends={friends}/>
+        <ShowFriends friends={friends} setFriends={setFriends}/>
 
       </div>
 

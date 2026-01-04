@@ -10,7 +10,7 @@ import Layout from '../structure/Layout'
 import LandingPage from '../Pages/Landing.page.jsx';
 import Oauth from '../Pages/OauthPage.jsx';
 import HomePage from '../Pages/HomePage/Home.page.jsx'
-
+import IndexRidirect from "../security/IndexRidirect.jsx";
 
 import { ProtectedRoutes } from '../security/ProtectedRoutes';
 
@@ -26,16 +26,19 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         <Route errorElement={<ErrorPage/>}>
           <Route path='/' element={<Layout/>}>
-                <Route index element={<LandingPage/>}/>
-                <Route path='/signup' element={<SignUpPage/>}/>
-                <Route path='/login' element={<LoginPage/>}/>
 
-                <Route path='/oauth/google/success' element={<Oauth/>}/>
+          <Route index element={<IndexRidirect/>} />
+
+                <Route path="landing" element={<LandingPage/>}/>
+                <Route path='signup' element={<SignUpPage/>}/>
+                <Route path='login' element={<LoginPage/>}/>
+
+                <Route path='oauth/google/success' element={<Oauth/>}/>
 
                 {/* if not user is loged in go to login page  */}
                 <Route  element={<ProtectedRoutes/>}>
-                    <Route path='/home' element={<HomePage/>}/>
-                    <Route path='/settings' element={<SettingsPage/>}/>
+                    <Route path='home'  element={<HomePage/>}/>
+                    <Route path='settings' element={<SettingsPage/>}/>
                     <Route path='addUserPage' element={<UserAdd/>}/>
                     <Route path="profile" element={<ProfilePage/>}/>
                 </Route>

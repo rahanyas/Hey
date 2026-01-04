@@ -8,10 +8,11 @@ const initialState = {
     mobile : '',
     isLogedIn : false,
     status : 'idle',
+    authChecked : false,
     msg : '',
     friends : [],
     isError : false
-}
+};
 
 
 export const register = createAsyncThunk('user/register', async(data, {rejectWithValue}) => {
@@ -137,6 +138,8 @@ const userSlice = createSlice({
                 state.msg = action.payload?.msg;
                 state.isLogedIn = action.payload?.success;
                 state.status  = 'success';
+                state.friends = action.payload?.data?.friends
+                state.authChecked = true
                 state.name = action.payload?.data?.name;
                 state.email = action.payload?.data?.email;
                 state.mobile = action.payload?.data?.mobile;
@@ -145,6 +148,7 @@ const userSlice = createSlice({
             .addCase(checkAuth.rejected, (state, action) => {
                 state.msg = action.payload?.msg || '';
                 state.isLogedIn = false;
+                state.authChecked = true
                 state.status = 'failed';
                 state.isError = true
             })

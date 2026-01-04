@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Link, useLocation, useNavigate, useNavigationType } from "react-router-dom";
 import { FaRegCommentDots, FaBars, FaTimes } from "react-icons/fa";
 import { useSelector } from "react-redux";
@@ -31,7 +31,10 @@ const Navbar = () => {
               <Link to="/settings" className="nav-link">Settings</Link>
               {
                 showBackBtn && (
-                  <button onClick={() => navigate(-1)}>back</button>            
+                  <Link
+                  className="nav-link"
+                   onClick={() => navigate(-1)}
+                   >back</Link>            
                 )
               }
             </>
@@ -56,7 +59,9 @@ const Navbar = () => {
               <Link to="/settings" className="nav-link" onClick={() => setMenuOpen(false)}>Settings</Link>
               {
                 showBackBtn && (
-                  <button onClick={() => navigate(-1)}>back</button>            
+                  <Link 
+                  className="nav-link"
+                  onClick={() => navigate(-1)}>back</Link>            
                 )
               }
             </>

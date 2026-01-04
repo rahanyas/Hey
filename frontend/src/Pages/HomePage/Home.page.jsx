@@ -9,10 +9,12 @@ const Home = () => {
 
     const [showSearch, setShowSearch] = useState(false); 
     const { friends } = useSelector(state => state.user); 
+
     const navigate = useNavigate();
     return (
         <section id="container">
-            {/* Top Bar */}
+            {
+                friends.length !== 0 && (
             <header className="top-bar">
                 <div className="search-area">
                     {
@@ -31,21 +33,32 @@ const Home = () => {
                     <FaSearch />
                 </button>
             </header>
+                )
+            }
+            {/* Top Bar */}
 
             {/* Main */}
             <main className="friendsBox">
+                    {
+                        friends.length === 0 && (
                 <div className="no-friends">
                     <h2>Add friends</h2>
                     <p>to get chat started</p>
 
-                    {
-                        friends.length <= 0 && (
                             <AddFriendBtnCompo className="add-btn" navigate={navigate}>
                                 Add friend
                             </AddFriendBtnCompo>
+                </div>
                         )
                     }
-                </div>
+{/* 
+                    <div className="friends">
+                            {
+                                friends.map(user => (
+                                    <h1>{}</h1>
+                                ))
+                            }
+                    </div> */}
             </main>
         </section>
     );
