@@ -102,7 +102,7 @@ export const checkAuth = async (req, res) => {
 			// means token not decoded
 			return res.status(400).json({success :false, msg : 'An Error Occured Please Try Again'})
 		};
-		const user = await userModal.findById({_id : decoded.id}).select('-googleId -provider');
+		const user = await userModal.findById({_id : decoded.id}).select('-googleId -provider -createdAt -updatedAt').populate('friends', 'name');
 		// console.log('authenticated user : ', user);
 
 		if(!user){
