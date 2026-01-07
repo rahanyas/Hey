@@ -70,4 +70,4 @@ const getUsers = useCallback(async (signal) => {
   )
 }
 
-export default UserAdd;
+export default UserAdd

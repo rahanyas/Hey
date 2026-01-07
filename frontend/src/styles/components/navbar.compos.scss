@@ -135,7 +135,7 @@ $bg : rgb(19, 17, 17);
         display: flex;
         justify-content: flex-end;
         margin-right: 0;
-        column-gap: 1em;
+        column-gap: .5em;
         
         @media screen and (max-width:768px) {
           display: none;
@@ -149,6 +149,7 @@ $bg : rgb(19, 17, 17);
     font-size: 1rem;
     font-weight: 600;
     text-wrap: nowrap;
+    text-align: center;
     color: #4e9af1;
     border: 2px solid #4e9af1;
     border-radius: 8px;
@@ -158,9 +159,12 @@ $bg : rgb(19, 17, 17);
     transition: all 0.3s ease;
 
     @media screen and (max-width : 768px){
-        width : 3rem;
-        text-align: center;
-        width: fit-content;
+      min-width: 150px;
+      text-align: center;
+    }
+
+    @media screen and (min-width : 800px){
+      min-width: 150px;
     }
 
     &:hover {

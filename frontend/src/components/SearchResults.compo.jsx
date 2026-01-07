@@ -14,7 +14,13 @@ const SearchResutls = ({result}) => {
              }));
 
            const res = await server.post(`feature/sendReq?recieverId=${userId}`);
-            console.log(res);
+
+            if(res?.data?.alreadyRequested === true){
+                setRequestState(prev => ({
+                    ...prev, 
+                    [userId] : 'already requested'
+                }))
+            }
              
            if(res?.data?.success){
             setRequestState(prev => ({
@@ -39,14 +45,21 @@ const SearchResutls = ({result}) => {
         if(tempState === 'sending'){
             return {text : 'sending...', disabled : true}
         };
+        if(tempState === 'already requested'){
+            return {text : 'already requested', disabled : true}
+        };
+
+        if(tempState === 'sent'){
+            return {text : 'req sended', disabled : true}
+        }
 
         switch(user.relation){
             case "friends" : 
               return {text : 'freinds', disabled : true};
             
-            case 'request_sent':
+            case 'already requested':
                 return {text : 'requested', disabled : true};
-            
+        
             case 'request_recieved': 
                 return {text : 'accept request', disabled: true};
             

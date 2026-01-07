@@ -81,6 +81,13 @@ const userSlice = createSlice({
         clearMsg : state => {
             state.isError = false;
             state.msg = '';
+        },
+        updateFriendList : (state, action) => {
+             const {feature, _id, name} = action.payload
+             if(feature === 'add'){
+                state.friends = [...state.friends,{ _id , name}];
+                console.log(state.friends)
+             };     
         }
     },
     extraReducers : (builder) => {
@@ -173,6 +180,6 @@ const userSlice = createSlice({
     }
 });
 
-export const {updateFeild, addErrorMsg, clearMsg} = userSlice.actions
+export const {updateFeild, addErrorMsg, clearMsg, updateFriendList} = userSlice.actions
 
 export default userSlice.reducer;

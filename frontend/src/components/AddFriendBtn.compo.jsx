@@ -1,10 +1,16 @@
 
 const AddFriendBtn = ({children, className, navigate}) => {
+
   function handleClick(){
     navigate('/addUserPage')
-  }
+  };
+  
   return (
-    <button className={className} onClick={handleClick}>{children}</button>
+    <button
+    onClick={handleClick}
+     className={className}>
+      {children}
+      </button>
   )
 };
 

@@ -1,19 +1,30 @@
 import { FaCheck, FaTimes } from "react-icons/fa";
 import server from "../utils/axiosInstance.utils";
+import { updateFriendList } from "../features/user/userSlice";
+import { useDispatch } from 'react-redux';
 
 const ShowReqFriends = ({requestedFriends = [], setRequestedFriends}) => {
 
-    const acceptReq = async (userId) => {
+      const dispatch = useDispatch()
+
+    const acceptReq = async (userId, userName) => {
          if(!userId) return;
-         console.log('userid : ' , userId)
-         try {
-            const res = await server.post('feature/acceptreq', {
-                acceptee : userId
-            });
-            console.log('res from acceptReq : ', res);
-            if(res?.data?.msg === "req accepted"){
-                setRequestedFriends(prev => prev.filter(user => user.id !== userId))
-            }
+        //  console.log('userid : ' , userId)
+        try {
+          const res = await server.post('feature/acceptreq', {
+            acceptee : userId
+          });
+          console.log('res from acceptReq : ', res);
+          if(res?.data?.msg === "req accepted"){
+            setRequestedFriends(prev => prev.filter(user => user.id !== userId));
+
+            dispatch(updateFriendList({
+              feature : 'add',
+              _id : userId,
+              name : userName
+            }));
+
+              }
          } catch (err) {
             console.log('err in acceptReq function : ', err)
          }
@@ -27,7 +38,7 @@ const ShowReqFriends = ({requestedFriends = [], setRequestedFriends}) => {
         });
         // console.log('res from reject req func : ', res)
         if(res?.data?.msg === 'req rejected'){
-          setRequestedFriends(prev => prev.filter((user => user.Id !== userId)));
+          setRequestedFriends(prev => prev.filter((user => user.id !== userId)));
         }
       } catch (err) {
         console.log('err in rejectReq function', err)
@@ -49,7 +60,7 @@ const ShowReqFriends = ({requestedFriends = [], setRequestedFriends}) => {
 
                           <button 
                           className="accept" 
-                          onClick={() => acceptReq(user?.id)}><FaCheck />
+                          onClick={() => acceptReq(user?.id, user?.name)}><FaCheck />
                           </button>
 
                           <button

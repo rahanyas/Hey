@@ -29,6 +29,7 @@ const Navbar = () => {
             <>
               <Link to="/profile" className="nav-link">Profile</Link>
               <Link to="/settings" className="nav-link">Settings</Link>
+              <Link to='/addUserPage' className="nav-link">add friends</Link>
               {
                 showBackBtn && (
                   <Link
@@ -57,6 +58,7 @@ const Navbar = () => {
             <>
               <Link to="/profile" className="nav-link" onClick={() => setMenuOpen(false)}>Profile</Link>
               <Link to="/settings" className="nav-link" onClick={() => setMenuOpen(false)}>Settings</Link>
+                <Link to='/addUserPage' className="nav-link">add friends</Link>
               {
                 showBackBtn && (
                   <Link 

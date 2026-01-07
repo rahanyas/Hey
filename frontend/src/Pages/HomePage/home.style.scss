@@ -7,8 +7,6 @@
 // Mobile first
 @media screen and (max-width: 768px) {
 
-    
-
     #container {
         padding: 1em;
         background: transparent; // let parent black bg show
@@ -138,61 +136,6 @@
             box-shadow: none;
         }
     }
-    
-
-        .friends {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: .6em;
-    }
-
-    .friends > div {
-        display: flex;
-        align-items: center;
-        gap: .8em;
-
-        padding: .75em .9em;
-        border-radius: 14px;
-
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.06);
-
-        cursor: pointer;
-        transition: background .2s ease, transform .15s ease;
-    }
-
-    .friends > div:hover {
-        background: rgba(127, 216, 189, 0.08);
-        transform: translateY(-1px);
-    }
-
-    /* Avatar */
-    .friends span {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-
-        background: linear-gradient(135deg, #7fd8bd, #5fb3a2);
-        color: #022c22;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        font-weight: 700;
-        font-size: .95rem;
-        text-transform: uppercase;
-        flex-shrink: 0;
-    }
-
-    /* Name */
-    .friends h1 {
-        font-size: 1rem;
-        font-weight: 600;
-        color: #f9fafb;
-        text-transform: capitalize;
-    }
 }
 
 @media screen and (min-width: 769px) {
@@ -234,17 +177,25 @@
         display: flex;
         align-items: center;
         flex: 1;
+
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
         border-radius: 999px;
+
         padding: .3em;
         gap: .4em;
+
         transition: border-color .25s ease, box-shadow .25s ease;
     }
 
+    .search-area:focus-within {
+        // border-color: #7fd8bd;
+        box-shadow: 0 0 0 3px rgba(127, 216, 189, 0.3);
+    }
 
     .search-area h2 {
-        font-size: 1.2rem;
+        font-size: 1rem;
         font-weight: 500;
-        font-family: sans-serif;
         color: #d1d5db;
         padding-left: .8em;
     }
@@ -252,9 +203,8 @@
     .search-area input {
         flex: 1;
         background: transparent;
-        border-radius: 999px;
-        border: 1px solid gray;
-        padding:  1em;
+        border: none;
+        padding: .7em 1em;
         color: #f9fafb;
         font-size: .95rem;
         outline: none;
@@ -344,61 +294,6 @@
     .add-btn:hover {
         transform: translateY(-1px);
         box-shadow: 0 8px 22px rgba(127, 216, 189, 0.4);
-    }
-
-        .friends {
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 1em;
-    }
-
-    .friends > div {
-        display: flex;
-        align-items: center;
-        gap: 1em;
-
-        padding: 1em 1.1em;
-        border-radius: 18px;
-
-        background: rgba(255, 255, 255, 0.035);
-        border: 1px solid rgba(255, 255, 255, 0.07);
-
-        cursor: pointer;
-        transition: background .25s ease, transform .2s ease, box-shadow .2s ease;
-    }
-
-    .friends > div:hover {
-        background: rgba(127, 216, 189, 0.1);
-        transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-    }
-
-    /* Avatar */
-    .friends span {
-        width: 52px;
-        height: 52px;
-        border-radius: 50%;
-
-        background: linear-gradient(135deg, #7fd8bd, #5fb3a2);
-        color: #022c22;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        font-weight: 700;
-        font-size: 1.05rem;
-        text-transform: uppercase;
-        flex-shrink: 0;
-    }
-
-    /* Name */
-    .friends h1 {
-        font-size: 1.05rem;
-        font-weight: 600;
-        color: #f9fafb;
-        text-transform: capitalize;
     }
 }
 

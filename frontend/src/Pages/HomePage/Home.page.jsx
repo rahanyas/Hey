@@ -52,16 +52,16 @@ const Home = () => {
                         )
                     }
 
-            <div className="friends">
-                    {
-                        friends.map(user => (
-                    <div key={user._id}>
-                            <span>{user?.profilePic || ''}</span>
-                            <h1>{user?.name}</h1>
-                    </div>
-                        ))
-                    }
-            </div>
+<div className="friends">
+    {friends.map(user => (
+        <div key={user._id} className="friend-item">
+            <span>{user?.profilePic || ''}</span>
+            <h1>{user?.name}</h1>
+        </div>
+    ))}
+</div>
+
+
             </main>
 
         </section>
