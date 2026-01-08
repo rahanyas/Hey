@@ -4,12 +4,17 @@ import userModal from "../models/user.modal.js";
 
 class FriendRequest{
     
-     async searchFriends(req, res){
+     async searchUsers(req, res){
         // get his id from frontend 
         const {userToFind} = req.query;
         const whoIsSearching = req?.user?.id// it is the user id (who is me) go to db and find the user and if the search eqaul to his name dont send this user , when this happen instead of adding send req btn , add show profile in frontend 
+        if(!whoIsSearching){
+            return res.status(401).json({
+                success : false,
+                msg : 'Not Authorized'
+                })
+        }
         
-
         if(!userToFind){
             return res.status(400).json({msg : "usertofind is undefined", success : false})
         }
@@ -25,6 +30,7 @@ class FriendRequest{
                  $ne : whoIsSearching
             }
         }).select('name profilePic friends');
+            console.log('users : ', user);
             
             // if not return no user found msg;
             if(user.length === 0){
@@ -38,43 +44,62 @@ class FriendRequest{
                 {sender : whoIsSearching},
                 {reciever : whoIsSearching}
             ]
-           })
+           });
 
+        //    console.log('requeste users : ', requests)
+
+
+
+        const reqPendingUser = requests.filter(user => {
+           return user.status === 'pending'
+        });
+
+        const reqRejectedUser = requests.filter(user => {
+            return user.status === 'rejected'
+        })
+
+
+
+
+        console.log('request pending users : ', reqPendingUser);
+        
+        
            //makig response with relation
-           const formatedUsers = user.map(user => {
-            let relation = 'none';
+const formatedUsers = user.map(user => {
+  let relation ;
 
-            const isFriend = user?.friends?.some(f => {
-              return f?.toString() === whoIsSearching
-            });
+  const isFriend = user.friends.some(
+    f => f.toString() === whoIsSearching
+  );
 
-            if(isFriend){
-                relation = 'friends'
-            };
+  if (isFriend) {
+    relation = 'friends';
+  } else {
+    const sent = reqPendingUser.some(
+      r =>
+        r.sender.toString() === whoIsSearching &&
+        r.reciever.toString() === user._id.toString()
+    );
 
-           const req = requests.find(r =>
-                (r.sender.toString() === whoIsSearching &&
-                r.reciever.toString() === user._id.toString()) ||
-                (r.sender.toString() === user._id.toString() &&
-                r.reciever.toString() === whoIsSearching)
-            );
 
-            if (req) {
-                if (req.sender.toString() === whoIsSearching) {
-                 relation = "request_sent";
-                } else {
-                 relation = "request_recieved";
-                }
-            };
+    const received = reqPendingUser.some(
+      r =>
+        r.sender.toString() === user._id.toString() &&
+        r.reciever.toString() === whoIsSearching
+    );
 
-            return {
-                _id: user._id,
-                name: user.name,
-                profilePic: user.profilePic,
-                relation
-           };
+    if (sent) relation = 'already requested';
+    else if (received) relation = 'accept request';
+  }
 
-           })
+  return {
+    _id: user._id,
+    name: user.name,
+    profilePic: user.profilePic,
+    relation
+  };
+});
+
 
 
             // if he is in send the user to frontend so the user name can display as search result
@@ -96,9 +121,9 @@ class FriendRequest{
             };
 
             try {             
-                const isAlreadyFriends = await userModal.findOne({
+                const isAlreadyFriends = await userModal.exists({
                     _id : senderId,
-                    'friends.userId' : recieverId,
+                    friends : recieverId
                 });
                 
                 if(isAlreadyFriends){
@@ -110,11 +135,20 @@ class FriendRequest{
                 };
 
                 //check already has sended frend req //
-
+ 
+                
                 const isAlreadyRequested = await friendRequestModal.findOne({
                    $or : [
-                    { sender : senderId, reciever : recieverId},
-                    {sender : recieverId , reciever : senderId},
+                    { 
+                        sender : senderId, 
+                        reciever : recieverId,
+                        status : 'pending'
+                    },
+                    {
+                        sender : recieverId , 
+                        reciever : senderId,
+                        status : 'pending'
+                    },
                    ],
                   
                 });
@@ -158,7 +192,7 @@ class FriendRequest{
             const reqSenders = await friendRequestModal.find({
                 reciever : viewer,
                 status : 'pending'
-            }).populate('sender', 'name')
+            }).populate('sender', 'name profilePic')
 
             console.log('req recieved to this users : ', reqSenders);
             
