@@ -14,6 +14,7 @@ const SearchResutls = ({result}) => {
              }));
 
            const res = await server.post(`feature/sendReq?recieverId=${userId}`);
+           console.log('res from send req : ', res)
 
             if(res?.data?.alreadyRequested === true){
                 setRequestState(prev => ({
@@ -55,16 +56,28 @@ const SearchResutls = ({result}) => {
 
         switch(user.relation){
             case "friends" : 
-              return {text : 'freinds', disabled : true};
+              return {
+                text : 'freinds', 
+                disabled : true
+            };
             
             case 'already requested':
-                return {text : 'requested', disabled : true};
+                return {
+                    text : 'requested', 
+                    disabled : true
+                };
         
-            case 'request_recieved': 
-                return {text : 'accept request', disabled: true};
+            case 'accept request': 
+                return {
+                    text : 'accept request', 
+                    disabled: true
+                };
             
             default:
-                return {text : 'send request', disabled : false}
+                return {
+                    text : 'send request', 
+                    disabled : false
+                }
         }
     }
 
@@ -85,7 +98,7 @@ const SearchResutls = ({result}) => {
                 <button
                 disabled = {btn.disabled}
                 onClick={() => sendReq(user?._id)}>
-                    {btn.text}
+                    {user?.relation ? user?.relation : btn.text }
                 </button>
             </div>
                 )

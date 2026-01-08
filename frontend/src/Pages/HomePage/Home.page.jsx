@@ -11,6 +11,7 @@ const Home = () => {
     const { friends } = useSelector(state => state.user); 
 
     const navigate = useNavigate();
+
     return (
         <section id="container">
             {
@@ -38,31 +39,31 @@ const Home = () => {
             {/* Top Bar */}
 
             {/* Main */}
-            <main className="friendsBox">
-                    {
-                        friends.length === 0 && (
-                <div className="no-friends">
-                    <h2>Add friends</h2>
-                    <p>to get chat started</p>
+  <main className="friendsBox">
+  {friends.length === 0 && (
+    <div className="no-friends">
+      <h2>Add friends</h2>
+      <p>to get chat started</p>
+      <AddFriendBtnCompo className="add-btn" navigate={navigate}>
+        Add friend
+      </AddFriendBtnCompo>
+    </div>
+  )}
 
-                            <AddFriendBtnCompo className="add-btn" navigate={navigate}>
-                                Add friend
-                            </AddFriendBtnCompo>
-                </div>
-                        )
-                    }
+  {friends.map(user => (
+    <div className="friend-item" key={user._id}>
+      <span className="avatar">
+        {user?.profilePic ? (
+          <img src={user.profilePic} alt={user.name} />
+        ) : (
+          user.name[0]
+        )}
+      </span>
+      <h3>{user.name}</h3>
+    </div>
+  ))}
+</main>
 
-<div className="friends">
-    {friends.map(user => (
-        <div key={user._id} className="friend-item">
-            <span>{user?.profilePic || ''}</span>
-            <h1>{user?.name}</h1>
-        </div>
-    ))}
-</div>
-
-
-            </main>
 
         </section>
     );
