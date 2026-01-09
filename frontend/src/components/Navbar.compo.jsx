@@ -1,5 +1,5 @@
 import {  useState } from "react";
-import { Link, useLocation, useNavigate, useNavigationType } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaRegCommentDots, FaBars, FaTimes } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
@@ -8,8 +8,9 @@ const Navbar = () => {
   const { isLogedIn } = useSelector((state) => state.user);
 
   const location = useLocation();
-  const navigationType = useNavigationType();
-  const showBackBtn = location.key !== 'default' && navigationType !== 'POP';
+  const hideBackBtn =['/', '/home'];
+
+  const showBackBtn = isLogedIn && !hideBackBtn.includes(location.pathname)
   const navigate = useNavigate();
 
 

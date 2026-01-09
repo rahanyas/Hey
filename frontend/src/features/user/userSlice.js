@@ -138,18 +138,19 @@ const userSlice = createSlice({
 
             .addCase(checkAuth.pending, state => {
                 state.status = 'loading';
-                state.isError = false
+                state.isError = false;
+                state.friends = []
             })
             .addCase(checkAuth.fulfilled, (state, action) => {
                 console.log('res checkauth fullfiled : ',action);
-                state.msg = action.payload?.msg;
-                state.isLogedIn = action.payload?.success;
+                state.msg = action.payload?.msg || '';
+                state.isLogedIn = action.payload?.success || '';
                 state.status  = 'success';
-                state.friends = action.payload?.data?.friends
+                state.friends = action.payload?.data?.friends || ''
                 state.authChecked = true
-                state.name = action.payload?.data?.name;
-                state.email = action.payload?.data?.email;
-                state.mobile = action.payload?.data?.mobile;
+                state.name = action.payload?.data?.name || '';
+                state.email = action.payload?.data?.email || '';
+                state.mobile = action.payload?.data?.mobile || '';
                 state.isError = false
             })
             .addCase(checkAuth.rejected, (state, action) => {
@@ -168,6 +169,8 @@ const userSlice = createSlice({
                 state.email = '';
                 state.mobile = '';
                 state.isLogedIn = false;
+                state.name = '';
+                state.friends = []
                 state.status = 'success';
                 state.msg = action.payload?.msg;
                 state.isError = false

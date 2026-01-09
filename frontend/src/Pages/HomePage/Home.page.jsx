@@ -3,6 +3,7 @@ import { FaSearch } from 'react-icons/fa';
 import {useSelector} from 'react-redux'
 import { useNavigate}  from 'react-router-dom'
 import AddFriendBtnCompo from '../../components/AddFriendBtn.compo';
+import Friends from '../../components/Friends.compo';
 import './home.style.scss';
 
 const Home = () => {
@@ -50,18 +51,9 @@ const Home = () => {
     </div>
   )}
 
-  {friends.map(user => (
-    <div className="friend-item" key={user._id}>
-      <span className="avatar">
-        {user?.profilePic ? (
-          <img src={user.profilePic} alt={user.name} />
-        ) : (
-          user.name[0]
-        )}
-      </span>
-      <h3>{user.name}</h3>
-    </div>
-  ))}
+  {/* to show friends of user that got from user state */}
+  <Friends friends={friends}/>
+
 </main>
 
 

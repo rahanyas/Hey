@@ -19,7 +19,7 @@ const App = () => {
         const path = window.location.pathname;
         if(path.includes('/oauth/google/success')) return ;
         
-        dispatch(checkAuth())
+        dispatch(checkAuth());
 
   },[dispatch]);
 

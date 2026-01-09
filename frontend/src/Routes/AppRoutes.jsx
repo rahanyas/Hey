@@ -21,6 +21,8 @@ const LoginPage = lazy(() => import('../Pages/LoginPage/Login.Page.jsx'));
 const SettingsPage = lazy(() => import('../Pages/SettingsPage/Settings.page.jsx'));
 const UserAdd = lazy(() => import('../Pages/addUserPage/UserAdd.jsx'));
 const ProfilePage = lazy(() => import('../Pages/profilePage/Profile.page.jsx'))
+const MsgPage = lazy(() => import('../Pages/chatArea/Msg.page.jsx'));
+
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -41,6 +43,7 @@ const router = createBrowserRouter(
                     <Route path='settings' element={<SettingsPage/>}/>
                     <Route path='addUserPage' element={<UserAdd/>}/>
                     <Route path="profile" element={<ProfilePage/>}/>
+                    <Route path="chat" element={<MsgPage/>}/>
                 </Route>
 
           </Route>
