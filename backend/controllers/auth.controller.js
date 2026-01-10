@@ -66,7 +66,7 @@ export const Login = async (req, res) => {
 		Auth_check.checkEmail(email);
 		Auth_check.checkPass(password)
 		
-		const user = await userModal.findOne({email}).select("+pass");
+		const user = await userModal.findOne({email}).select("+pass").populate('friends', 'name');
 
 		if(!user) return res.status(400).json({success : false,  msg : 'User Not Exist'})
 		
