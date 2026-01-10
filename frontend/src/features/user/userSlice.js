@@ -3,6 +3,7 @@ import server from '../../utils/axiosInstance.utils.js'
 
 
 const initialState = {
+    id : 0,
     name : '',
     email : '',
     mobile : '',
@@ -95,12 +96,15 @@ const userSlice = createSlice({
             .addCase(register.pending, (state) => {
                 state.msg = '';
                 state.status = 'loading',
+                state.friends = []
                 state.isError = false
             })
             .addCase(register.fulfilled, (state, action) => {
-                console.log('register fullfiled res : ', action);               
+                console.log('register fullfiled res : ', action);          
+                state.id = action.payload?.data?._id
                 state.msg = action.payload?.msg;
                 state.email = action.payload?.data?.email;
+                state.friends = []
                 state.name = action.payload?.data?.name;
                 state.isLogedIn = action.payload?.success;
                 state.status = 'success';
@@ -108,6 +112,7 @@ const userSlice = createSlice({
             })
             .addCase(register.rejected, (state, action) =>  {
                 console.log('register rejected res : ',action);
+                state.friends = []
                 state.msg = action.payload?.msg ;
                 state.isLogedIn = action.payload?.success;               
                 state.status = 'failed';
@@ -116,13 +121,16 @@ const userSlice = createSlice({
 
             .addCase(login.pending, state => {
                 state.msg = '';
+                state.id = 0
                 state.status  = 'loading'
                 state.isError = false
             })
             .addCase(login.fulfilled, (state, action) => {
                 console.log('login fullfiled res : ',action);
+                state.id = action.payload?.data?._id
                 state.msg = action.payload?.msg;
                 state.isLogedIn = action.payload?.success;
+                state.friends = action?.payload?.data?.friends || []
                 state.status  = 'success';
                 state.name = action.payload?.data?.name;
                 state.email = action.payload?.data?.email;
@@ -131,6 +139,7 @@ const userSlice = createSlice({
             })
             .addCase(login.rejected, (state, action) => {
                 state.msg = action.payload?.msg;
+                state.id = 0
                 state.isLogedIn = action.payload?.success;
                 state.status = 'failed';
                 state.isError = true
@@ -138,11 +147,13 @@ const userSlice = createSlice({
 
             .addCase(checkAuth.pending, state => {
                 state.status = 'loading';
+                state.id = 0
                 state.isError = false;
                 state.friends = []
             })
             .addCase(checkAuth.fulfilled, (state, action) => {
                 console.log('res checkauth fullfiled : ',action);
+                state.id = action.payload?.data?._id
                 state.msg = action.payload?.msg || '';
                 state.isLogedIn = action.payload?.success || '';
                 state.status  = 'success';
@@ -155,6 +166,7 @@ const userSlice = createSlice({
             })
             .addCase(checkAuth.rejected, (state, action) => {
                 state.msg = action.payload?.msg || '';
+                state.id = 0
                 state.isLogedIn = false;
                 state.authChecked = true
                 state.status = 'failed';

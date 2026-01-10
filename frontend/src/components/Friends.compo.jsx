@@ -2,13 +2,11 @@
 import { useNavigate } from "react-router-dom";
 const Friends = ({friends}) => {
 
+    console.log('friends : ', friends)
     const navigate = useNavigate();
     
-    const openChat = (userId) => {
-        if(!userId) return;
-        navigate('/chat', {
-            state : {userId}
-        })
+    const openChat = () => {
+        navigate('/chat')
     }
 
     return (
@@ -17,7 +15,7 @@ const Friends = ({friends}) => {
             <div 
             className="friend-item" 
             key={user._id}
-            onClick={() => openChat(user?._id)}
+            onClick={() => openChat(user)}
             >
             <span className="avatar">
                 <img src={user.profilePic} alt='' />
