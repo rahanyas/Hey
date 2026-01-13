@@ -64,7 +64,7 @@ const Navbar = () => {
                 showBackBtn && (
                   <Link 
                   className="nav-link"
-                  onClick={() => navigate(-1)}>back</Link>            
+                  onClick={() => (navigate(-1), setMenuOpen(false))}>back</Link>            
                 )
               }
             </>

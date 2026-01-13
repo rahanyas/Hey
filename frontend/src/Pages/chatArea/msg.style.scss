@@ -10,7 +10,18 @@
   background: linear-gradient(180deg, #0f0f0f, #151515);
   color: #fff;
 }
+.no-msg-box{
+  border: 1px solid rgb(57, 57, 62);
+  border-radius: 999px;
+  margin: auto;
 
+  .no-msg-txt{
+    text-align: center;
+    text-transform: capitalize;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding: 1em;
+  }
+}
 /* HEADER */
 .chat-header {
   display: flex;

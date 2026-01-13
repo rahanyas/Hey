@@ -1,33 +1,62 @@
 import { FaPaperPlane } from "react-icons/fa";
 import { useSelector }  from 'react-redux'
+import { useLocation } from "react-router-dom";
 import './msg.style.scss'
+import { useRef, useState } from "react";
 
 const Message = () => {
   
-    const {id} = useSelector((state) => state.user)
+    const location = useLocation();
+    const {_id, name} = location.state.user // user id is passed through navigate and fetched from here to know which user msg has to display
 
   // dummy UI messages
-  const messages = [
+
+  const [messages, setMessages] = useState([
     { id: 1, text: "Hey 👋", type: "received" },
     { id: 2, text: "Hi, how are you?", type: "sent" },
     { id: 3, text: "I'm good, working on the chat UI.", type: "received" },
     { id: 4, text: "Nice 😄 looks modern!", type: "sent" },
-  ];
+  ])
+
+  const [text, setText] = useState('');
+
+
+  console.log('msg : ', messages)
+  function handleSubmit(){
+    if(!text.trim()) return;
+     setMessages(prev => (
+           [
+            ...prev,
+            {
+              id : Date.now(),
+              text,
+              type : 'sent'
+            }
+           ]
+     ));
+     setText('')
+  }
+
+
 
   return (
     <div className="chat-wrapper">
       {/* Header */}
       <div className="chat-header">
-        <div className="avatar">{id?.[0]?.toUpperCase() || "U"}</div>
+        <div className="avatar">{name[0].toUpperCase() || "U"}</div>
         <div className="user-info">
-          <h4>{id || "User"}</h4>
+          <h4>{name || "User"}</h4>
           <span>Online</span>
         </div>
       </div>
 
       {/* Messages */}
       <div className="chat-body">
-        {messages.map((msg) => (
+        {messages.length === 0 ? (
+          <div className="no-msg-box">
+            <h2 className="no-msg-txt">no messages</h2>
+          </div>
+        ) : messages.map((msg) => (
           <div key={msg.id} className={`msg ${msg.type}`}>
             <p>{msg.text}</p>
             <span className="time">10:45 PM</span>
@@ -37,8 +66,13 @@ const Message = () => {
 
       {/* Input */}
       <div className="chat-input">
-        <input type="text" placeholder="Type a message..." />
-        <button>
+        <input 
+        type="text"
+        placeholder="Type a message..." 
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        />
+        <button onClick={handleSubmit} disabled={!text.trim()}>
           <FaPaperPlane />
         </button>
       </div>

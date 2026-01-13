@@ -1,12 +1,15 @@
 
 import { useNavigate } from "react-router-dom";
-const Friends = ({friends}) => {
 
-    console.log('friends : ', friends)
+const Friends = ({friends}) => {
     const navigate = useNavigate();
     
-    const openChat = () => {
-        navigate('/chat')
+    const openChat = (user) => {
+        navigate('/chat', {
+            state : {
+                user : user
+            }
+        })
     }
 
     return (
