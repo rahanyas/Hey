@@ -20,8 +20,6 @@ const Message = () => {
 
   const [text, setText] = useState('');
 
-
-  console.log('msg : ', messages)
   function handleSubmit(){
     if(!text.trim()) return;
      setMessages(prev => (

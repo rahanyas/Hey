@@ -1,6 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import server from '../../utils/axiosInstance.utils.js'
-
+import { io } from 'socket.io-client'
+import { uri } from '../../utils/axiosInstance.utils.js';
 
 const initialState = {
     id : 0,
@@ -15,12 +16,18 @@ const initialState = {
     isError : false
 };
 
+function connectSocket(res){
+    if(res.status === 200){
+        const server = io(uri)
+    }
+}
+
 
 export const register = createAsyncThunk('user/register', async(data, {rejectWithValue}) => {
     try {     
         const res = await server.post('/api/register', data);
         console.log('res from register : ', res);
-        
+        connectSocket(res)
         return res.data;
     } catch (err) {
         console.log('error in register func : ', err.response?.data)
@@ -33,6 +40,7 @@ export const login = createAsyncThunk('user/login', async (data, {rejectWithValu
         // console.log('data from login : ', data)
         const res = await server.post('/api/login', data);
         console.log('res from login req : , ',res.data)
+       connectSocket(res)
         return res.data
     } catch (err) {
         console.log('error in login func', err.response?.data);

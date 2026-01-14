@@ -21,7 +21,7 @@ const Friends = ({friends}) => {
             onClick={() => openChat(user)}
             >
             <span className="avatar">
-                <img src={user.profilePic} alt='' />
+                <img src={user?.profilePic || ''} alt='' />
             </span>
             <h3>{user.name}</h3>
             </div>

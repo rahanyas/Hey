@@ -55,8 +55,6 @@ const Home = () => {
   <Friends friends={friends}/>
 
 </main>
-
-
         </section>
     );
 };

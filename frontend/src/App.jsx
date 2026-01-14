@@ -11,9 +11,11 @@ import LoadingPage from './Pages/LoadingPage/LoadingPage.jsx';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 const App = () => {
   const dispatch = useDispatch();
-  const {status} = useSelector(state => state.user)
+  const {status} = useSelector(state => state.user);
+
     
   useEffect(() => {
         const path = window.location.pathname;
