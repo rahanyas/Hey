@@ -66,7 +66,7 @@ export const Login = async (req, res) => {
 		Auth_check.checkEmail(email);
 		Auth_check.checkPass(password)
 		
-		const user = await userModal.findOne({email}).select("+pass").populate('friends', 'name');
+		const user = await userModal.findOne({email}).select("+pass").populate('friends', 'name  profilePic');
 
 		if(!user) return res.status(400).json({success : false,  msg : 'User Not Exist'})
 		
@@ -89,9 +89,9 @@ export const Login = async (req, res) => {
 export const checkAuth = async (req, res) => {
 	try {
 		const token =  req.cookies?.token;
-		// console.log('recived token : ', token);
+		console.log('recived token : ', req.cookies);
 
-		if(!token){
+		if(!token || token.length === 0){
 			return res.status(401).json({success : false, msg : 'Please Login'})
 		};
 
@@ -102,7 +102,7 @@ export const checkAuth = async (req, res) => {
 			// means token not decoded
 			return res.status(400).json({success :false, msg : 'An Error Occured Please Try Again'})
 		};
-		const user = await userModal.findById({_id : decoded.id}).select('-googleId -provider -createdAt -updatedAt').populate('friends', 'name');
+		const user = await userModal.findById({_id : decoded.id}).select('-googleId -provider -createdAt -updatedAt').populate('friends', 'name profilePic');
 		// console.log('authenticated user : ', user);
 
 		if(!user){

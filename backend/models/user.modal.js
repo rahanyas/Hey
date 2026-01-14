@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
 	default : 'local'
 },
   active : {
-	type : String,
+	type : Boolean,
 	default : true
 },
  friends :  [{

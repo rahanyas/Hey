@@ -5,7 +5,7 @@ export const verifyToken = (req, res, next) => {
         const token =  req?.cookies?.token;
         // console.log('token : ', token);
 
-        if(!token || token.length < 0){
+        if(!token){
             return res.status(401).json({success : false , msg : 'user is not Authenticated'});
         }
 
@@ -14,6 +14,6 @@ export const verifyToken = (req, res, next) => {
         next()
     } catch (err) {
         console.log('Error in authCheck : ', err);
-        return res.status(400).json({msg : 'invalid or expired token', success : false})
+        return res.status(401).json({msg : 'invalid or expired token', success : false})
     }
 }

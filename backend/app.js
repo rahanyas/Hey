@@ -16,6 +16,9 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import passport from 'passport';
 import { oAuth } from './controllers/oauth.controller.js';
 
+import { createServer } from 'http';
+import { Server } from 'socket.io'; 
+ 
 const clientID = process.env.OAUTH_CLIENT_ID;
 const clientSecret = process.env.OAUTH_CLIENT_SECRET;
 
@@ -25,10 +28,23 @@ if(!port || port === undefined){
  console.log('port is undefined')
 };
 
+let uri = process.env.NODE_ENV === 'development' ? process.env.DEV_URI : process.env.PROD_URI
+
 dbConnect(process.env.MONGO_URI);
 
 const app = express();
+const httpServer = createServer(app);
 
+const io = new Server(httpServer, {
+  cors : {
+    origin : [uri],
+    credentials : true
+  }
+});
+
+io.on('connection', (socket) => {
+  console.log('a user connected : ', socket.id)
+});
 
 app.use(cookieParser())
 app.use(passport.initialize());
@@ -47,16 +63,8 @@ app.use(cors({
 
 // this tells the browser:
 //  allow cookies to be sent between these domains
-let uri = process.env.NODE_ENV === 'development' ? 'http://localhost:9000' : 'https://hey-stgl.onrender.com'
 
 
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Credentials", "true");
-//   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-//   if (req.method === "OPTIONS") return res.sendStatus(200);
-//   next();
-// });
 
 
 app.use(express.json());
@@ -64,19 +72,20 @@ app.use(express.json());
 
 app.use(morgan('dev'));
 
-console.log(uri);
+
+let callbackUri = process.env.NODE_ENV === 'development' ? 'http://localhost:9000' : 'https://hey-stgl.onrender.com'
 
 passport.use(new GoogleStrategy({
   clientID,
   clientSecret,
-  callbackURL : `${uri}/auth/google/callback`
+  callbackURL : `${callbackUri}/auth/google/callback`
 }, oAuth));
 
 app.use('/api', authRouter);
 app.use('/auth', oauthRouter);
 app.use('/feature', friendRouter);
 
-app.listen(port , (err) => {
+httpServer.listen(port , (err) => {
    if(err) return console.log('error in listen func', err);
    else{
   console.log('app is running on port ', port);
