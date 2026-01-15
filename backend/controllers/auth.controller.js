@@ -10,7 +10,6 @@ export const register = async (req, res) => {
 	try{
 
 	const {name, email, password, mobile}  = req.body;
-	console.log('mobile nb length', mobile.length);
 
 	if(!name || !email || !password || !mobile){
 	return res.status(400).json({success : false, 
@@ -89,7 +88,6 @@ export const Login = async (req, res) => {
 export const checkAuth = async (req, res) => {
 	try {
 		const token =  req.cookies?.token;
-		console.log('recived token : ', req.cookies);
 
 		if(!token || token.length === 0){
 			return res.status(401).json({success : false, msg : 'Please Login'})

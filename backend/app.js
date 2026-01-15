@@ -10,41 +10,22 @@ import authRouter from './router/auth.router.js';
 import oauthRouter from './router/oauth.router.js';
 import friendRouter from './router/friendReq.router.js';
 
-const port = process.env.PORT 
+
 
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import passport from 'passport';
 import { oAuth } from './controllers/oauth.controller.js';
 
-import { createServer } from 'http';
-import { Server } from 'socket.io'; 
+
  
 const clientID = process.env.OAUTH_CLIENT_ID;
 const clientSecret = process.env.OAUTH_CLIENT_SECRET;
 
 
-
-if(!port || port === undefined){ 
- console.log('port is undefined')
-};
-
-let uri = process.env.NODE_ENV === 'development' ? process.env.DEV_URI : process.env.PROD_URI
-
 dbConnect(process.env.MONGO_URI);
 
 const app = express();
-const httpServer = createServer(app);
 
-const io = new Server(httpServer, {
-  cors : {
-    origin : [uri],
-    credentials : true
-  }
-});
-
-io.on('connection', (socket) => {
-  console.log('a user connected : ', socket.id)
-});
 
 app.use(cookieParser())
 app.use(passport.initialize());
@@ -85,9 +66,5 @@ app.use('/api', authRouter);
 app.use('/auth', oauthRouter);
 app.use('/feature', friendRouter);
 
-httpServer.listen(port , (err) => {
-   if(err) return console.log('error in listen func', err);
-   else{
-  console.log('app is running on port ', port);
-}
-})
+export default app;
+
