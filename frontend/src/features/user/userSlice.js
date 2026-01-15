@@ -1,7 +1,9 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
-import server from '../../utils/axiosInstance.utils.js'
-import { io } from 'socket.io-client'
-import { uri } from '../../utils/axiosInstance.utils.js';
+import server from '../../utils/axiosInstance.utils.js';
+import { 
+    connectSocket,
+    disconnectSocket 
+} from '../../sokcet/connectSocket.js';
 
 const initialState = {
     id : 0,
@@ -16,11 +18,7 @@ const initialState = {
     isError : false
 };
 
-function connectSocket(res){
-    if(res.status === 200){
-        const server = io(uri)
-    }
-}
+
 
 
 export const register = createAsyncThunk('user/register', async(data, {rejectWithValue}) => {
@@ -40,7 +38,7 @@ export const login = createAsyncThunk('user/login', async (data, {rejectWithValu
         // console.log('data from login : ', data)
         const res = await server.post('/api/login', data);
         console.log('res from login req : , ',res.data)
-       connectSocket(res)
+        connectSocket(res)
         return res.data
     } catch (err) {
         console.log('error in login func', err.response?.data);
@@ -62,6 +60,7 @@ export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue
     try {
         const res = await server.post('/api/logout');
         console.log('res from logout : ', res.data);
+        disconnectSocket()
         return res.data
     } catch (err) {
         console.log('Error in logout Thunk', err);
