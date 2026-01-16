@@ -5,9 +5,9 @@ import jwt from 'jsonwebtoken';
 
 export const createToken = (userId, res) => {
  try{
-   console.log(userId);
+  //  console.log(userId);
    if(!userId){
-     console.log('user id is not definded');
+    //  console.log('user id is not definded');
      return res.status(400).json({msg : 'Error in token Creation', success : false})
    }
    //create jwt token
@@ -25,7 +25,7 @@ export const createToken = (userId, res) => {
       maxAge : 2 * 24 * 60  * 60 * 1000,
     });
 
-    console.log('token created ', token);
+    // console.log('token created ', token);
 
  }catch(err){
 	console.error('error in createToken : ', err);

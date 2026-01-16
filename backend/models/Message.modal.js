@@ -2,15 +2,11 @@ import mongoose from "mongoose";
 
 const msgSchema = new mongoose.Schema({
     conversationId : {
-        type : String,
+        type : mongoose.Schema.Types.ObjectId,
         ref : 'conversation',
         required : true
     },
     sender : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'user'
-    },
-    reciever : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'user'
     },
@@ -20,8 +16,8 @@ const msgSchema = new mongoose.Schema({
     },
     status : {
         type : String,
-        enum : ["send", "deliverd", "read"],
-        default : "send"
+        enum : ["sent", "deliverd", "read"],
+        default : "sent"
     }
 }, {timestamps : true});
 
