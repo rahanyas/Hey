@@ -1,17 +1,14 @@
 import {io} from 'socket.io-client';
 import { uri } from '../utils/axiosInstance.utils';
 
-let socket = null;
+export let socket ;
 
-export const connectSocket = (res) => {
-    if(res.status === 200){
+export const connectSocket = () => {
         if(!socket){
             socket = io(uri, {
                withCredentials : true
             });
-            console.log('connected socket : ', socket.id);
         };
-    }
 };
 
 
@@ -22,3 +19,4 @@ export const disconnectSocket = () => {
     socket = null;
     console.log('socket disconnected');
 }
+

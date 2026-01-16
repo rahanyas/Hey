@@ -2,12 +2,15 @@ import { FaPaperPlane } from "react-icons/fa";
 import { useSelector }  from 'react-redux'
 import { useLocation } from "react-router-dom";
 import './msg.style.scss'
-import { useRef, useState } from "react";
+import {  useState } from "react";
+import { sendMsg } from "../../sokcet/socketEvents";
 
 const Message = () => {
   
     const location = useLocation();
     const {_id, name} = location.state.user // user id is passed through navigate and fetched from here to know which user msg has to display
+
+    const {id} = useSelector(state => state.user)
 
   // dummy UI messages
 
@@ -32,6 +35,7 @@ const Message = () => {
             }
            ]
      ));
+     sendMsg({text, howIsSending : _id, foWhomToSending : id});
      setText('')
   }
 

@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import {  checkAuth } from "../features/user/userSlice";
 import { useEffect } from "react";
-import { connectSocket } from "../sokcet/connectSocket";
 
 //4seconds
 
@@ -16,7 +15,6 @@ const Oauth = () => {
             try {      
                 const res = await dispatch(checkAuth()).unwrap();
                 if(res.success === true){
-                    connectSocket(res)
                     return navigate('/home')
                 }
             } catch (err) {

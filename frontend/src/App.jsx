@@ -10,11 +10,12 @@ import LoadingPage from './Pages/LoadingPage/LoadingPage.jsx';
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { connectSocket } from './sokcet/connectSocket.js';
 
 
 const App = () => {
   const dispatch = useDispatch();
-  const {status} = useSelector(state => state.user);
+  const {status, isLogedIn} = useSelector(state => state.user);
 
     
   useEffect(() => {
@@ -23,7 +24,11 @@ const App = () => {
         
         dispatch(checkAuth());
 
-  },[dispatch]);
+        if(isLogedIn){
+          connectSocket()
+        }
+
+  },[dispatch, isLogedIn]);
 
 
   if(status === 'loading'){

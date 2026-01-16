@@ -1,7 +1,6 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import server from '../../utils/axiosInstance.utils.js';
 import { 
-    connectSocket,
     disconnectSocket 
 } from '../../sokcet/connectSocket.js';
 
@@ -25,7 +24,6 @@ export const register = createAsyncThunk('user/register', async(data, {rejectWit
     try {     
         const res = await server.post('/api/register', data);
         console.log('res from register : ', res);
-        connectSocket(res)
         return res.data;
     } catch (err) {
         console.log('error in register func : ', err.response?.data)
@@ -38,7 +36,6 @@ export const login = createAsyncThunk('user/login', async (data, {rejectWithValu
         // console.log('data from login : ', data)
         const res = await server.post('/api/login', data);
         console.log('res from login req : , ',res.data)
-        connectSocket(res)
         return res.data
     } catch (err) {
         console.log('error in login func', err.response?.data);
@@ -60,7 +57,7 @@ export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue
     try {
         const res = await server.post('/api/logout');
         console.log('res from logout : ', res.data);
-        disconnectSocket()
+        disconnectSocket();
         return res.data
     } catch (err) {
         console.log('Error in logout Thunk', err);
@@ -94,7 +91,6 @@ const userSlice = createSlice({
              const {feature, _id, name} = action.payload
              if(feature === 'add'){
                 state.friends = [...state.friends,{ _id , name}];
-                console.log(state.friends)
              };     
         }
     },
