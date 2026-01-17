@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
     socket.on('send-msg', async (data) => {
         try {    
             const {howIsSending, foWhomToSending, text} = data
-            const participants = await addUserToParticipants(howIsSending, foWhomToSending);
+            await addUserToParticipants(howIsSending, foWhomToSending);
             // console.log(participants)
         } catch (err) {
             socket.emit('error-msg', err.message);
