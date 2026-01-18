@@ -99,7 +99,6 @@ const userSlice = createSlice({
             .addCase(register.pending, (state) => {
                 state.msg = '';
                 state.status = 'loading',
-                state.friends = []
                 state.isError = false
             })
             .addCase(register.fulfilled, (state, action) => {

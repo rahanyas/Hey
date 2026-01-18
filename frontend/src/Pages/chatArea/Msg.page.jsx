@@ -1,9 +1,9 @@
 import { FaPaperPlane } from "react-icons/fa";
 import { useSelector }  from 'react-redux'
 import { useLocation } from "react-router-dom";
-import './msg.style.scss'
 import {  useState } from "react";
 import { sendMsg } from "../../sokcet/socketEvents";
+import './msg.style.scss'
 
 const Message = () => {
   
@@ -35,7 +35,7 @@ const Message = () => {
             }
            ]
      ));
-     sendMsg({text, howIsSending : _id, foWhomToSending : id});
+     sendMsg({text, reciever : _id, sender : id});
      setText('')
   }
 
