@@ -53,15 +53,6 @@ class FriendRequest{
         const reqPendingUser = requests.filter(user => {
            return user.status === 'pending'
         });
-
-        const reqRejectedUser = requests.filter(user => {
-            return user.status === 'rejected'
-        })
-
-
-
-
-        console.log('request pending users : ', reqPendingUser);
         
         
            //makig response with relation
@@ -99,9 +90,6 @@ const formatedUsers = user.map(user => {
     relation
   };
 });
-
-
-
             // if he is in send the user to frontend so the user name can display as search result
             return res.status(200).json({success : true, data : formatedUsers || []});
 

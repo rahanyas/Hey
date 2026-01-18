@@ -9,7 +9,7 @@ import dbConnect from './config/db.config.js';
 import authRouter from './router/auth.router.js';
 import oauthRouter from './router/oauth.router.js';
 import friendRouter from './router/friendReq.router.js';
-
+import messageRouter from './router/message.router.js';
 
 
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
@@ -39,13 +39,6 @@ app.use(cors({
 }));
 
 
-// iam using cookie with cross-site req vercel to render
-// when sending cookies acros diff domains, the browser requires these response headers
-
-// this tells the browser:
-//  allow cookies to be sent between these domains
-
-
 
 
 app.use(express.json());
@@ -65,6 +58,7 @@ passport.use(new GoogleStrategy({
 app.use('/api', authRouter);
 app.use('/auth', oauthRouter);
 app.use('/feature', friendRouter);
+app.use('/message', messageRouter);
 
 export default app;
 

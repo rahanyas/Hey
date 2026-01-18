@@ -1,7 +1,9 @@
 import { Server  } from "socket.io";
 import { createServer } from 'http'
 import app from "./app.js";
-import { addUserToParticipants } from "./service/messages.controller.js";
+import { 
+    addMsgToSchema 
+} from "./service/messages.controller.js";
 
 
 let uri = process.env.NODE_ENV === 'development' ? process.env.DEV_URI : process.env.PROD_URI;
@@ -26,11 +28,12 @@ io.on('connection', (socket) => {
 
     socket.on('send-msg', async (data) => {
         try {    
-            const {howIsSending, foWhomToSending, text} = data
-            await addUserToParticipants(howIsSending, foWhomToSending);
-            // console.log(participants)
+            const {sender, reciever, text} = data
+            const message = await addMsgToSchema(sender, reciever, text);
+            socket.to(data.reciever).emit('recieve-msg', message)
         } catch (err) {
             socket.emit('error-msg', err.message);
+            console.log('error : ', err)
             return;
         }
     })
