@@ -4,22 +4,40 @@ import { useLocation } from "react-router-dom";
 import {  useState } from "react";
 import { sendMsg } from "../../sokcet/socketEvents";
 import './msg.style.scss'
+import { useCallback } from "react";
+import { useEffect } from "react";
+
+
 
 const Message = () => {
+
+  const [leftMsg, setLeftMsg] = useState([]);
+  const [rightMsg, setRightMsg] = useState([]);
+
+  function sortMessages(msg, userId){
+    let leftMsg = msg.filter(item => {
+      return item.sender !== userId
+    });
+    let rightMsg = msg.filter(item => {
+      return item.sender === userId
+    });
+    // console.log({'leftMsg : ' : leftMsg, 'rightMsg : ' : rightMsg})
+    return [leftMsg, rightMsg]
+  }
   
-    const location = useLocation();
-    const {_id, name} = location.state.user // user id is passed through navigate and fetched from here to know which user msg has to display
+  const location = useLocation();
+  const {_id, name} = location.state.user // user id is passed through navigate and fetched from here to know which user msg has to display
 
-    const {id} = useSelector(state => state.user)
+  const {id} = useSelector(state => state.user);
+  const {messages} = useSelector(state => state.msg);
 
-  // dummy UI messages
 
-  const [messages, setMessages] = useState([
-    { id: 1, text: "Hey 👋", type: "received" },
-    { id: 2, text: "Hi, how are you?", type: "sent" },
-    { id: 3, text: "I'm good, working on the chat UI.", type: "received" },
-    { id: 4, text: "Nice 😄 looks modern!", type: "sent" },
-  ])
+
+  // useEffect(() => {
+  //       sortingMsg()
+  // },[])
+  
+
 
   const [text, setText] = useState('');
 
@@ -59,7 +77,7 @@ const Message = () => {
             <h2 className="no-msg-txt">no messages</h2>
           </div>
         ) : messages.map((msg) => (
-          <div key={msg.id} className={`msg ${msg.type}`}>
+          <div key={msg._id} className={`msg ${msg.type}`}>
             <p>{msg.text}</p>
             <span className="time">10:45 PM</span>
           </div>

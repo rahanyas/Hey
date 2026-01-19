@@ -3,7 +3,7 @@ import server from "../../utils/axiosInstance.utils";
 
 
 const initialState = {
-    message : [],
+    messages : [],
     status : 'loading'
 };
 
@@ -33,11 +33,11 @@ const messageSlice = createSlice({
           })
           .addCase(getMessages.fulfilled, (state, action) => {
             state.status = 'success',
-            state.message = action.payload?.data || []
+            state.messages = action.payload?.data || []
           })
           .addCase(getMessages.rejected, (state) => {
             state.status = 'failed',
-            state.message = []
+            state.messages = []
           })
     }
 });

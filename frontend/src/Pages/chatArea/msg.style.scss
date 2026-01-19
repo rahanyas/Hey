@@ -57,6 +57,9 @@
 .chat-body {
   flex: 1;
   padding: 2em;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  padding-bottom: 1.5em;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -143,4 +146,42 @@
     overflow: hidden;
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
   }
+}
+
+@media (max-width: 768px) {
+  .chat-body {
+    scrollbar-width: none;
+  }
+
+  .chat-body::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+
+/* ===========================
+   CHAT BODY SCROLLBAR
+   =========================== */
+
+.chat-body {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+
+/* Chrome / Edge / Safari */
+.chat-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+}
+
+.chat-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.45);
 }
