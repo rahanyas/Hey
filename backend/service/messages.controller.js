@@ -49,13 +49,14 @@ export const fetchMessages = async (req, res) => {
             success : false,
             msg : 'Not Authorized'
         })
-    }
+    };
+
     try {
         const isParticipants = await addUserToParticipants( whoWantToSee ,otherUserId);
         
         const messages = await msgModal.find({
             conversationId : isParticipants._id
-        }).select('text');
+        }).select('text sender');
 
         if(!isParticipants || !messages){
             return res.status(200).json({
