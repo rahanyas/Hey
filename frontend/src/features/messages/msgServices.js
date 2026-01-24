@@ -23,7 +23,7 @@ const messageSlice = createSlice({
     initialState,
     reducers : {
         addMessageToState : (state, action) => {
-            console.log('hello from add message function');   
+            state.messages.push(action?.payload)
         }
     },
     extraReducers : (builder) => {
@@ -32,11 +32,11 @@ const messageSlice = createSlice({
             state.status = 'loading'
           })
           .addCase(getMessages.fulfilled, (state, action) => {
-            state.status = 'success',
+            state.status = 'success';
             state.messages = action.payload?.data || []
           })
           .addCase(getMessages.rejected, (state) => {
-            state.status = 'failed',
+            state.status = 'failed';
             state.messages = []
           })
     }
