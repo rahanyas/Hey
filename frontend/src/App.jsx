@@ -10,8 +10,8 @@ import LoadingPage from './Pages/LoadingPage/LoadingPage.jsx';
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { connectSocket } from './sokcet/connectSocket.js';
-
+import { connectSocket, disconnectSocket } from './sokcet/connectSocket.js';
+import { registerSocketListeners } from './sokcet/socketEvents.js';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -23,18 +23,21 @@ const App = () => {
         if(path.includes('/oauth/google/success')) return ;
         
         dispatch(checkAuth());
+  },[dispatch]);
 
-        if(isLogedIn){
-          connectSocket()
-        }
-
-  },[dispatch, isLogedIn]);
+  useEffect(() => {
+      if(isLogedIn){
+          connectSocket();
+          registerSocketListeners()
+      }else{
+        disconnectSocket()
+      }
+  }, [isLogedIn])
 
 
   if(status === 'loading'){
     return <LoadingPage />
   }
-
 
 
   return (

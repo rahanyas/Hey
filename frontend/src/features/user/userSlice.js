@@ -1,8 +1,8 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import server from '../../utils/axiosInstance.utils.js';
-import { 
-    disconnectSocket 
-} from '../../sokcet/connectSocket.js';
+// import { 
+//     disconnectSocket 
+// } from '../../sokcet/connectSocket.js';
 
 const initialState = {
     id : 0,
@@ -57,7 +57,7 @@ export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue
     try {
         const res = await server.post('/api/logout');
         console.log('res from logout : ', res.data);
-        disconnectSocket();
+        // disconnectSocket();
         return res.data
     } catch (err) {
         console.log('Error in logout Thunk', err);

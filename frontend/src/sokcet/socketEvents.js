@@ -7,14 +7,21 @@ import { addMessageToState } from "../features/messages/msgServices.js";
 // but how to add anything to store => import the store , import the function , call it like given in below
 
 export const sendMsg = (data) => {
-    if(socket){
-        socket.emit('send-msg', data)
-        socket.on('error-msg', (err) => {
-            store.dispatch(addErrorMsg(err))
-        })
-        socket.on('recieve-msg', msg => {
-        store.dispatch(addMessageToState(msg))
-       })
-    }
+    if(!socket) return ;
+    socket.emit('send-msg', data)
 };
 
+export const registerSocketListeners = () => {
+    if(!socket) return;
+
+    socket.off('recieve-msg');
+    socket.off('error-msg');
+
+    socket.on('recieve-msg', (msg) => {
+        store.dispatch(addMessageToState(msg))
+    });
+
+    socket.on('error-msg', (err) => {
+        store.dispatch(addErrorMsg(err))
+    })
+}

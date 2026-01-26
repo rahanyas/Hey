@@ -2,7 +2,7 @@ import { FaPaperPlane } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { recieveMsg, sendMsg } from "../../sokcet/socketEvents";
+import {  sendMsg } from "../../sokcet/socketEvents";
 import { addMessageToState } from "../../features/messages/msgServices";
 import "./msg.style.scss";
 
@@ -23,17 +23,8 @@ const Message = () => {
 
     sendMsg({
       text,
-      sender: myUserId,
       reciever: otherUserId,
     });
-
-
-  recieveMsg({
-    _id : Date.now(),
-    text, 
-    sender : myUserId, 
-    reciever : otherUserId
-  })
 
     setText("");
   }

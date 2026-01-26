@@ -4,9 +4,7 @@ import { logout } from "../../features/user/userSlice";
 const SettingsPage =  () => {
     const dispatch = useDispatch();
 
-    const  handleLogout = () => {
-        dispatch(logout())
-    }
+
     return (
         <div>
             <h1>settings page</h1>
