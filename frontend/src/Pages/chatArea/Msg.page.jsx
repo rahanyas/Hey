@@ -2,8 +2,7 @@ import { FaPaperPlane } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import {  sendMsg } from "../../sokcet/socketEvents";
-import { addMessageToState } from "../../features/messages/msgServices";
+import { sendMsg } from "../../sokcet/socketEvents";
 import "./msg.style.scss";
 
 const Message = () => {
@@ -16,8 +15,6 @@ const Message = () => {
   const { id: myUserId } = useSelector((state) => state.user);
   const { messages } = useSelector((state) => state.msg);
 
-  
-
   function handleSubmit() {
     if (!text.trim()) return;
 
@@ -29,9 +26,6 @@ const Message = () => {
     setText("");
   }
 
-
-
-  // Auto scroll to bottom
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -63,12 +57,22 @@ const Message = () => {
                 className={`msg ${isMine ? "sent" : "received"}`}
               >
                 <p>{msg.text}</p>
+
                 <span className="time">
                   {new Date(msg.createdAt || Date.now()).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}
                 </span>
+
+                {/* 🔽 UI ONLY (NO LOGIC ADDED) */}
+                <div className="msg-ui-options">
+                  <span className="msg-ui-dots">⋮</span>
+
+                  <div className="msg-ui-menu">
+                    <button className="msg-ui-delete">Delete</button>
+                  </div>
+                </div>
               </div>
             );
           })

@@ -180,6 +180,83 @@
    RESPONSIVE
    ====================== */
 
+   /* ======================================
+   MESSAGE OPTIONS UI (ADDITIVE ONLY)
+   ====================================== */
+
+.msg-ui-options {
+  position: absolute;
+  top: 6px;
+  right: -30px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+  z-index: 5;
+}
+
+/* show on hover (desktop) */
+.msg:hover .msg-ui-options {
+  opacity: 1;
+}
+
+.msg-ui-dots {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  user-select: none;
+}
+
+/* ======================================
+   OPTIONS MENU
+   ====================================== */
+
+.msg-ui-menu {
+  position: absolute;
+  top: 18px;
+  right: 0;
+  background: #1f1f1f;
+  border-radius: 8px;
+  min-width: 120px;
+  padding: 6px 0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  display: none;
+  z-index: 10;
+}
+
+.msg-ui-options:hover .msg-ui-menu {
+  display: block;
+}
+
+/* ======================================
+   DELETE BUTTON
+   ====================================== */
+
+.msg-ui-delete {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.msg-ui-delete:hover {
+  background: rgba(239, 68, 68, 0.15);
+}
+
+/* ======================================
+   MOBILE FRIENDLY
+   ====================================== */
+
+@media (max-width: 768px) {
+  .msg-ui-options {
+    opacity: 1;
+    right: -20px;
+  }
+}
+
+
 @media (min-width: 768px) {
   .chat-wrapper {
     max-width: 720px;
