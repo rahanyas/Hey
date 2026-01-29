@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
   profilePic : {
 	type : String
 },
-  googleId: {
+ googleId: {
 	type : String,
 	unique : true,
 	sparse : true
@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
 	enum : ['local', 'google'],
 	default : 'local'
 },
-  active : {
+ active : {
 	type : Boolean,
 	default : true
 },

@@ -11,6 +11,7 @@ export const oAuth = async (accessToken, refreshToken, profile, done) => {
             if(user){
                 user.googleId = profile.id;
                 user.provider = 'google';
+                user.active = true
                 await user.save();
             }
         };
@@ -21,7 +22,8 @@ export const oAuth = async (accessToken, refreshToken, profile, done) => {
                 name : profile.displayName,
                 email : profile.emails[0].value,
                 profilePic : profile.photos[0].value,
-                provider : 'google'
+                provider : 'google',
+                active : true                
             });
             await user.save(null, );
         }

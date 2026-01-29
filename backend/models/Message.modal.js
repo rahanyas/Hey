@@ -18,6 +18,10 @@ const msgSchema = new mongoose.Schema({
         type : String,
         enum : ["sent", "deliverd", "read"],
         default : "sent"
+    },
+    isDeleted : {
+        type : Boolean,
+        default : false    
     }
 }, {timestamps : true});
 

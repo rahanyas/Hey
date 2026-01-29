@@ -17,7 +17,6 @@ export const register = async (req, res) => {
 	})
 	}
   
-
 	// setter methods in authcheck 
 	Auth_check.checkEmail(email);
 	Auth_check.checkPass(password);
@@ -27,7 +26,7 @@ export const register = async (req, res) => {
 	
 	if(existingUser){
 	return res.status(400).json({success : false, msg : 'user already exist, please use login instead'})
-		};
+	};
 
 	const salt = 10;
 	const hashedPass = await bcrypt.hash(
@@ -39,7 +38,7 @@ export const register = async (req, res) => {
 	  pass : hashedPass,
 	  mobile,
 	  provider : 'local',
-	  
+	  active : true
 	})
 	
 	await newUser.save();
@@ -67,15 +66,19 @@ export const Login = async (req, res) => {
 		
 		const user = await userModal.findOne({email}).select("+pass").populate('friends', 'name  profilePic');
 
-		if(!user) return res.status(400).json({success : false,  msg : 'User Not Exist'})
+		if(!user) return res.status(404).json({success : false,  msg : 'User Not Exist'})
 		
 		const checkPass =  await bcrypt.compare(password, user.pass);
 
-		if(!checkPass) return res.status(400).json({success : false, msg : 'Invalid Credentials'});
+		if(!checkPass) return res.status(401).json({success : false, msg : 'Invalid Credentials'});
+
+		user.active = true;
+
+        await user.save();
 
 		user.pass = undefined
 
-		createToken(user._id, res)
+		createToken(user._id, res);
 
 		return res.status(200).json({success : true, msg : 'Successfully Loged In', data:user});
 	

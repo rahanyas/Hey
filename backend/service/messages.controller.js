@@ -77,4 +77,19 @@ export const fetchMessages = async (req, res) => {
             msg : 'Internal Server Error'
         })
     }
+};
+
+export const deleteMsg = async (userId, msgId) => {
+     const message = await msgModal.findById(msgId);
+
+     if(!message){
+        throw new Error('message not found')
+     };
+
+     if(message.sender.toString() !== userId){
+        throw new Error('not Allowed to delete this Message')
+     }
+
+     message.isDeleted = true;
+     await message.save();
 }

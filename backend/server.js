@@ -1,11 +1,13 @@
 import { Server  } from "socket.io";
 import { createServer } from 'http'
 import app from "./app.js";
-import { 
-    addMsgToSchema 
-} from "./service/messages.controller.js";
 import cookieParser from "cookie-parser";
 import jwt from 'jsonwebtoken';
+import { 
+    addMsgToSchema,
+    deleteMsg
+} 
+from "./service/messages.controller.js";
 
 let uri = process.env.NODE_ENV === 'development' ? process.env.DEV_URI : process.env.PROD_URI;
 
@@ -24,8 +26,10 @@ const io = new Server(httpServer, {
     }
 });
 
+// created middleware to check authenitcated user
 io.use((socket, next) => {
     try {
+        // socket does not automatically parse cookies , we have we to do that
         cookieParser()(socket.request, {}, () => {
             const token = socket.request.cookies.token;
     
@@ -72,6 +76,17 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on('delete-msg', async (data) => {
+        try {
+            const {msgId, reciever} = data
+            await deleteMsg(userId, msgId);
+            io.to(reciever).emit('msg-deleted', msgId);
+            io.to(userId).emit('msg-deleted', msgId)
+        } catch (err) {
+            console.log('error in delete-msg socket in server : ', err);
+            socket.emit('error-msg', err.message)
+        }
+    })
 
 
     socket.on('disconnect', () => {
