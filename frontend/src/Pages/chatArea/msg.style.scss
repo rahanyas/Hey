@@ -3,6 +3,10 @@
   font-family: "Inter", system-ui, sans-serif;
 }
 
+/* ======================
+   WRAPPER
+   ====================== */
+
 .chat-wrapper {
   height: 70vh;
   display: flex;
@@ -73,6 +77,18 @@
   flex-direction: column;
   gap: 12px;
   scroll-behavior: smooth;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+
+.chat-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
 }
 
 /* ======================
@@ -90,11 +106,15 @@
   white-space: pre-wrap;
 }
 
+/* SENT MESSAGE */
+
 .msg.sent {
   align-self: flex-end;
   background: linear-gradient(135deg, #4f46e5, #6366f1);
   border-bottom-right-radius: 4px;
 }
+
+/* RECEIVED MESSAGE */
 
 .msg.received {
   align-self: flex-start;
@@ -102,12 +122,102 @@
   border-bottom-left-radius: 4px;
 }
 
+/* TIME */
+
 .msg .time {
   display: block;
   margin-top: 6px;
   font-size: 10px;
   opacity: 0.6;
   text-align: right;
+}
+
+/* ======================
+   MESSAGE OPTIONS (DOTS)
+   ====================== */
+
+.msg-ui-options {
+  position: absolute;
+  top: 6px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+  z-index: 5;
+}
+
+/* show on hover */
+.msg:hover .msg-ui-options {
+  opacity: 1;
+}
+
+/* Sender → right side */
+.msg.sent .msg-ui-options {
+  right: -30px;
+  left: auto;
+}
+
+/* Receiver → left side */
+.msg.received .msg-ui-options {
+  left: -30px;
+  right: auto;
+}
+
+.msg-ui-dots {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  user-select: none;
+}
+
+/* ======================
+   OPTIONS MENU
+   ====================== */
+
+.msg-ui-menu {
+  position: absolute;
+  top: 18px;
+  background: #1f1f1f;
+  border-radius: 8px;
+  min-width: 120px;
+  padding: 6px 0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  display: none;
+  z-index: 10;
+}
+
+/* open menu on hover */
+.msg-ui-options:hover .msg-ui-menu {
+  display: block;
+}
+
+/* Sender dropdown inward */
+.msg.sent .msg-ui-menu {
+  right: 0;
+  left: auto;
+}
+
+/* Receiver dropdown inward */
+.msg.received .msg-ui-menu {
+  left: 0;
+  right: auto;
+}
+
+/* ======================
+   DELETE BUTTON
+   ====================== */
+
+.msg-ui-delete {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.msg-ui-delete:hover {
+  background: rgba(239, 68, 68, 0.15);
 }
 
 /* ======================
@@ -159,103 +269,30 @@
 }
 
 /* ======================
-   SCROLLBAR
+   MOBILE
    ====================== */
-
-.chat-body {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
-}
-
-.chat-body::-webkit-scrollbar {
-  width: 6px;
-}
-
-.chat-body::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 20px;
-}
-
-/* ======================
-   RESPONSIVE
-   ====================== */
-
-   /* ======================================
-   MESSAGE OPTIONS UI (ADDITIVE ONLY)
-   ====================================== */
-
-.msg-ui-options {
-  position: absolute;
-  top: 6px;
-  right: -30px;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  cursor: pointer;
-  z-index: 5;
-}
-
-/* show on hover (desktop) */
-.msg:hover .msg-ui-options {
-  opacity: 1;
-}
-
-.msg-ui-dots {
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.6);
-  user-select: none;
-}
-
-/* ======================================
-   OPTIONS MENU
-   ====================================== */
-
-.msg-ui-menu {
-  position: absolute;
-  top: 18px;
-  right: 0;
-  background: #1f1f1f;
-  border-radius: 8px;
-  min-width: 120px;
-  padding: 6px 0;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
-  display: none;
-  z-index: 10;
-}
-
-.msg-ui-options:hover .msg-ui-menu {
-  display: block;
-}
-
-/* ======================================
-   DELETE BUTTON
-   ====================================== */
-
-.msg-ui-delete {
-  width: 100%;
-  background: transparent;
-  border: none;
-  color: #ef4444;
-  padding: 10px 14px;
-  text-align: left;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.msg-ui-delete:hover {
-  background: rgba(239, 68, 68, 0.15);
-}
-
-/* ======================================
-   MOBILE FRIENDLY
-   ====================================== */
 
 @media (max-width: 768px) {
   .msg-ui-options {
     opacity: 1;
+  }
+
+  .msg.sent .msg-ui-options {
     right: -20px;
+  }
+
+  .msg.received .msg-ui-options {
+    left: -20px;
+  }
+
+  .chat-body::-webkit-scrollbar {
+    display: none;
   }
 }
 
+/* ======================
+   DESKTOP CONTAINER
+   ====================== */
 
 @media (min-width: 768px) {
   .chat-wrapper {
@@ -265,11 +302,5 @@
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
-  }
-}
-
-@media (max-width: 768px) {
-  .chat-body::-webkit-scrollbar {
-    display: none;
   }
 }

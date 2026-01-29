@@ -24,6 +24,11 @@ const messageSlice = createSlice({
     reducers : {
         addMessageToState : (state, action) => {
             state.messages.push(action?.payload)
+        },
+        deletMsgFromState : (state, action) => {
+            state.messages = state.messages.map(msg => 
+                 msg._id === action.payload ? {...msg, isDeleted : true } : msg
+            )
         }
     },
     extraReducers : (builder) => {
@@ -42,6 +47,6 @@ const messageSlice = createSlice({
     }
 });
 
-export const {addMessageToState} = messageSlice.actions;
+export const {addMessageToState, deletMsgFromState} = messageSlice.actions;
 
 export default messageSlice.reducer

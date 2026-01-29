@@ -2,7 +2,7 @@ import { FaPaperPlane } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { sendMsg } from "../../sokcet/socketEvents";
+import { deleteMsg, sendMsg } from "../../sokcet/socketEvents";
 import "./msg.style.scss";
 
 const Message = () => {
@@ -15,20 +15,29 @@ const Message = () => {
   const { id: myUserId } = useSelector((state) => state.user);
   const { messages } = useSelector((state) => state.msg);
 
+  useEffect(() => {
+    bottomRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   function handleSubmit() {
     if (!text.trim()) return;
-
+    
     sendMsg({
       text,
       reciever: otherUserId,
     });
-
+    
     setText("");
   }
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  function handleDelete(msgId){
+      deleteMsg({
+        msgId,
+        reciever : otherUserId
+      })
+  }
+  
+
 
   return (
     <div className="chat-wrapper">
@@ -49,14 +58,16 @@ const Message = () => {
           </div>
         ) : (
           messages.map((msg) => {
-            const isMine = msg.sender === myUserId;
-
+            const isMine = msg?.sender === myUserId;
             return (
               <div
                 key={msg._id}
                 className={`msg ${isMine ? "sent" : "received"}`}
               >
-                <p>{msg.text}</p>
+                {
+                  msg?.isDeleted ? <i>this msg is deleted</i> : 
+                <p>{msg.text}</p> 
+                }
 
                 <span className="time">
                   {new Date(msg.createdAt || Date.now()).toLocaleTimeString([], {
@@ -65,12 +76,17 @@ const Message = () => {
                   })}
                 </span>
 
-                {/* 🔽 UI ONLY (NO LOGIC ADDED) */}
+                  {/* delete icon ui */}
                 <div className="msg-ui-options">
                   <span className="msg-ui-dots">⋮</span>
 
                   <div className="msg-ui-menu">
-                    <button className="msg-ui-delete">Delete</button>
+                    <button
+                    onClick={() => handleDelete(msg._id)} 
+                    className="msg-ui-delete"
+                    >
+                    Delete
+                    </button>
                   </div>
                 </div>
               </div>
