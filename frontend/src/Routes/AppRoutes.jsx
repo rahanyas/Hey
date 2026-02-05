@@ -22,7 +22,7 @@ const SettingsPage = lazy(() => import('../Pages/SettingsPage/Settings.page.jsx'
 const UserAdd = lazy(() => import('../Pages/addUserPage/UserAdd.jsx'));
 const ProfilePage = lazy(() => import('../Pages/profilePage/Profile.page.jsx'))
 const MsgPage = lazy(() => import('../Pages/chatArea/Msg.page.jsx'));
-
+const OtpPage = lazy(() => import('../Pages/otp/OtpPage.jsx'));
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -31,19 +31,20 @@ const router = createBrowserRouter(
 
           <Route index element={<IndexRidirect/>} />
 
-                <Route path="landing" element={<LandingPage/>}/>
-                <Route path='signup' element={<SignUpPage/>}/>
-                <Route path='login' element={<LoginPage/>}/>
+                <Route path="/landing" element={<LandingPage/>}/>
+                <Route path='/signup' element={<SignUpPage/>}/>
+                <Route path="/otpPage" element={<OtpPage/>}/>
+                <Route path='/login' element={<LoginPage/>}/>
 
-                <Route path='oauth/google/success' element={<Oauth/>}/>
+                <Route path='/oauth/google/success' element={<Oauth/>}/>
 
                 {/* if not user is loged in go to login page  */}
                 <Route  element={<ProtectedRoutes/>}>
-                    <Route path='home'  element={<HomePage/>}/>
-                    <Route path='settings' element={<SettingsPage/>}/>
-                    <Route path='addUserPage' element={<UserAdd/>}/>
-                    <Route path="profile" element={<ProfilePage/>}/>
-                    <Route path="chat" element={<MsgPage/>}/>
+                    <Route path='/home'  element={<HomePage/>}/>
+                    <Route path='/settings' element={<SettingsPage/>}/>
+                    <Route path='/addUserPage' element={<UserAdd/>}/>
+                    <Route path="/profile" element={<ProfilePage/>}/>
+                    <Route path="/chat" element={<MsgPage/>}/>
                 </Route>
 
           </Route>

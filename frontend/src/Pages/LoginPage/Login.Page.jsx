@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 
-import './login.style.scss'
+import './login.style.scss';
 
 const LoginPage = () => {
     const dispatch = useDispatch();

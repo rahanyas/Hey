@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { 
          register, 
@@ -28,31 +28,37 @@ const Signup = () => {
     dispatch(updateFeild({ field: name, value }))
   }
 
+  function otpHandler(){
+    navigate('/otpPage');
+  }
+
   const handleSubmit = () => {
-    if (!name || !email || !password || !mobile || !confirmPass) {
-      dispatch(addErrorMsg('Enter all valid fields'));
-      return
-  }
+  //   if (!name || !email || !password || !mobile || !confirmPass) {
+  //     dispatch(addErrorMsg('Enter all valid fields'));
+  //     return
+  // }
 
-  if (!email.includes('@') || !email.includes('gmail.com')) {
-     return dispatch(addErrorMsg('Please enter a valid email'));
+  // if (!email.includes('@') || !email.includes('gmail.com')) {
+  //    return dispatch(addErrorMsg('Please enter a valid email'));
       
-  }
+  // }
 
-  if (mobile.length !== 10) {
-     return dispatch(addErrorMsg('Please enter a valid mobile number'));
-  }
+  // if (mobile.length !== 10) {
+  //    return dispatch(addErrorMsg('Please enter a valid mobile number'));
+  // }
 
-  if (password.length < 3) {
-     return dispatch(addErrorMsg('Password must be at least 3 characters'));
-  }
+  // if (password.length < 3) {
+  //    return dispatch(addErrorMsg('Password must be at least 3 characters'));
+  // }
 
-  if (confirmPass !== password) {
-    dispatch(addErrorMsg('Passwords do not match'));
-    setConfirmPass('');
-    return
-  }
-   return dispatch(register({ name, email, mobile, password}))
+  // if (confirmPass !== password) {
+  //   dispatch(addErrorMsg('Passwords do not match'));
+  //   setConfirmPass('');
+  //   return
+  // }
+
+  otpHandler()
+  //  return dispatch(register({ name, email, mobile, password}))
   }
 
   return (
