@@ -6,11 +6,16 @@ const user = process.env.USER;
 const pass =  process.env.PASS;
 
 export const transporter = nodemailer.createTransport({
-  service : 'gmail',
+  host : 'smtp.gmail.com',
+  port : 587,
+  secure : false,
   auth : {
     user : user,
     pass : pass
   },
+  tls : {
+    family : 4
+  }
 });
 
 
