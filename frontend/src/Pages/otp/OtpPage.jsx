@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import server from '../../utils/axiosInstance.utils';
+import {useSelector} from 'react-redux';
 import './otpStyles.scss';
 
 const OtpPage = () => {
@@ -6,10 +8,32 @@ const OtpPage = () => {
   const otp_digit = 4;
   const [inputArr, setInpArr] = useState(new Array(otp_digit).fill(''));
   const inpRef = useRef([]);
+  const {email} = useSelector(state => state.user);
 
   useEffect(() => {
       inpRef.current[0]?.focus();
-  },[])
+      sendOtp(email)
+  },[email]);
+
+  async function sendOtp(email){
+    try {
+      const res = await server.post('/otp/sendotp', {
+        email : email
+      });
+      console.log('res from send otp : ', res)
+    } catch (err) {
+      console.log('err : ', err)
+    }
+  }
+
+  async function verifyOtp (otp){
+     try {
+        const res = await server.post('/otp/otpverify');
+        console.log('res from verifyOtp: ', res)
+     } catch (err) {
+      console.log('error in otp sending : ', err)
+     }
+  }
 
   function handleOnChange(value, index) {
     const newValue = value.trim();
@@ -44,6 +68,14 @@ const OtpPage = () => {
         />
       ))}
     </div>
+
+  <button
+  className="otp-btn"
+  disabled={inputArr.some(digit => digit === '')}
+  >
+  Verify
+  </button>
+
 
     <p className="otp-hint">Enter the {otp_digit}-digit code sent to your device</p>
   </div>

@@ -79,3 +79,56 @@
     font-size: 1.1rem;
   }
 }
+
+
+/* Verify Button */
+.otp-btn {
+  width: 100%;
+  max-width: 260px;
+  height: 44px;
+  margin-top: 8px;
+
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease,
+              box-shadow 0.2s ease,
+              transform 0.1s ease;
+}
+
+/* Hover */
+.otp-btn:hover:not(:disabled) {
+  background-color: #1d4ed8;
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
+}
+
+/* Active (click feedback) */
+.otp-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Focus (accessibility) */
+.otp-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+}
+
+/* Disabled */
+.otp-btn:disabled {
+  background-color: #c7d2fe;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Mobile tweak */
+@media (max-width: 480px) {
+  .otp-btn {
+    height: 42px;
+    font-size: 0.9rem;
+  }
+}

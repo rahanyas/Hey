@@ -33,29 +33,29 @@ const Signup = () => {
   }
 
   const handleSubmit = () => {
-  //   if (!name || !email || !password || !mobile || !confirmPass) {
-  //     dispatch(addErrorMsg('Enter all valid fields'));
-  //     return
-  // }
+    if (!name || !email || !password || !mobile || !confirmPass) {
+      dispatch(addErrorMsg('Enter all valid fields'));
+      return
+  }
 
-  // if (!email.includes('@') || !email.includes('gmail.com')) {
-  //    return dispatch(addErrorMsg('Please enter a valid email'));
+  if (!email.includes('@') || !email.includes('gmail.com')) {
+     return dispatch(addErrorMsg('Please enter a valid email'));
       
-  // }
+  }
 
-  // if (mobile.length !== 10) {
-  //    return dispatch(addErrorMsg('Please enter a valid mobile number'));
-  // }
+  if (mobile.length !== 10) {
+     return dispatch(addErrorMsg('Please enter a valid mobile number'));
+  }
 
-  // if (password.length < 3) {
-  //    return dispatch(addErrorMsg('Password must be at least 3 characters'));
-  // }
+  if (password.length < 3) {
+     return dispatch(addErrorMsg('Password must be at least 3 characters'));
+  }
 
-  // if (confirmPass !== password) {
-  //   dispatch(addErrorMsg('Passwords do not match'));
-  //   setConfirmPass('');
-  //   return
-  // }
+  if (confirmPass !== password) {
+    dispatch(addErrorMsg('Passwords do not match'));
+    setConfirmPass('');
+    return
+  }
 
   otpHandler()
   //  return dispatch(register({ name, email, mobile, password}))
