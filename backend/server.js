@@ -1,13 +1,13 @@
 import { Server  } from "socket.io";
 import { createServer } from 'http'
-import app from "./app.js";
 import cookieParser from "cookie-parser";
 import jwt from 'jsonwebtoken';
 import { 
-    addMsgToSchema,
-    deleteMsg
+  addMsgToSchema,
+  deleteMsg
 } 
 from "./service/messages.controller.js";
+import app from "./app.js";
 
 let uri = process.env.NODE_ENV === 'development' ? process.env.DEV_URI : process.env.PROD_URI;
 
@@ -59,7 +59,7 @@ io.use((socket, next) => {
 
 io.on('connection', (socket) => {
     const userId = socket.user?.id
-    console.log('connected  user : ', userId);
+    // console.log('connected  user : ', userId);
     socket.join(userId);
     
     socket.on('send-msg', async (data) => {

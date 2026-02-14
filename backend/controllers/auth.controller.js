@@ -84,7 +84,7 @@ export const Login = async (req, res) => {
 	
 	}catch(err) {
 	console.log('error in login function', err);
-	return res.status(500).json({msg : err, success : false})
+	return res.status(500).json({msg : err.message, success : false})
 	}
 }
 

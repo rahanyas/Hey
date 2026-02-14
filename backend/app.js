@@ -1,7 +1,7 @@
-import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
+import express from 'express';
+import cors from 'cors';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import dbConnect from './config/db.config.js';
@@ -10,14 +10,13 @@ import authRouter from './router/auth.router.js';
 import oauthRouter from './router/oauth.router.js';
 import friendRouter from './router/friendReq.router.js';
 import messageRouter from './router/message.router.js';
-
+import otpRouter from './router/otp.router.js'
 
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import passport from 'passport';
 import { oAuth } from './controllers/oauth.controller.js';
 
 
- 
 const clientID = process.env.OAUTH_CLIENT_ID;
 const clientSecret = process.env.OAUTH_CLIENT_SECRET;
 
@@ -39,8 +38,6 @@ app.use(cors({
 }));
 
 
-
-
 app.use(express.json());
 
 
@@ -59,6 +56,7 @@ app.use('/api', authRouter);
 app.use('/auth', oauthRouter);
 app.use('/feature', friendRouter);
 app.use('/message', messageRouter);
+app.use('/otp', otpRouter);
 
 export default app;
 
