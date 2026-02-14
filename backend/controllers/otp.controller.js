@@ -14,17 +14,23 @@ export const sendOtp = async (req, res) => {
 
   const otp = otpCreate();
 
-  await otpModal.deleteMany({email})
+  await otpModal.deleteMany({email});
+
   // store otp in db 
 
-  const savingOtp = await otpModal.create({
+  await otpModal.create({
     email : email,
     otp : otp,
     expiresAt : new Date(Date.now() + 5 * 60 * 1000) // 5mnts
   });
 
-  const mail = await transporter.sendMail({
-    from : `HEY APP ${process.env.SMTP_USER}`,
+  res.status(200).json({
+    success : true,
+    msg : 'OTP sent successfully'
+  })
+
+   transporter.sendMail({
+    from : `HEY APP ${process.env.USER}`,
     to : email,
     subject : 'Your OTP code',
     html : `
@@ -35,15 +41,13 @@ export const sendOtp = async (req, res) => {
           <p>This code expires in 5 minutes.</p>
         </div>
       `,
-  });
-
-  
-  console.log('Message is sent : %s', mail.messageId);
- 
-  return res.status(200).json({
-    success : true,
-    msg : 'OTP sent successfully'
+  }).then(info => {
+    console.log('Messsage sent : ', info.messageId)
+  }).catch(err => {
+    console.error('Email send error : ',err)
   })
+
+ 
 
   } catch (err) {
     console.log('error in send otp : ', err);
