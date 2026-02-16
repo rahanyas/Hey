@@ -14,15 +14,14 @@ export const sendOtp = async (req, res) => {
 
   const otp = otpCreate();
 
-  await otpModal.deleteMany({email});
-
-  // store otp in db 
-
-  await otpModal.create({
-    email : email,
-    otp : otp,
-    expiresAt : new Date(Date.now() + 5 * 60 * 1000) // 5mnts
-  });
+  await otpModal.findOneAndUpdate(
+    { email },
+    {
+      otp,
+      expiresAt : new Date(Date.now() + 5 * 60 * 1000)
+    },
+    {upsert : true}
+  );
 
   res.status(200).json({
     success : true,
@@ -48,7 +47,6 @@ export const sendOtp = async (req, res) => {
   })
 
  
-
   } catch (err) {
     console.log('error in send otp : ', err);
     return res.status(500).json({

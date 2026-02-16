@@ -18,4 +18,11 @@ export const transporter = nodemailer.createTransport({
   }
 });
 
+transporter.verify((err, success) => {
+  if(err){
+    console.log('error in tranporter : ', err)
+  }else{
+    console.log('Ready for message : ', success)
+  }
+})
 
