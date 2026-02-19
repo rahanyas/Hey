@@ -3,15 +3,14 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const pass =  process.env.PASS;
-const user = 'rahanyas3@gmail.com';
+const pass =  process.env.RESEND_PASS;
+// const user = process.env.USER;
 
 const transporter = nodemailer.createTransport({
-    host : 'smtp.gmail.com',
-    port : 465,
-    secure : true,
+    host : 'smtp.resend.com',
+    port : 587,
     auth : {
-      user : user,
+      user : 'resend',
       pass : pass
     }
 });

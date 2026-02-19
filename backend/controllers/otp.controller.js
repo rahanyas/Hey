@@ -23,13 +23,10 @@ export const sendOtp = async (req, res) => {
     {upsert : true}
   );
 
-  res.status(200).json({
-    success : true,
-    msg : 'OTP sent successfully'
-  })
+
 
   const info = await transporter.sendMail({
-    from : `process.env.USER`,
+    from : 'onboarding@resend.dev',
     to : email,
     subject : 'Your OTP code',
     html : `
@@ -40,7 +37,14 @@ export const sendOtp = async (req, res) => {
           <p>This code expires in 5 minutes.</p>
         </div>
       `,
-  }).then(res => console.log(res.messageId)).catch(err => console.log('err in info : ', err))
+  });
+
+  console.log('Message sent : ', info.messageId);
+  
+  return res.status(200).json({
+    success : true,
+    msg : 'OTP sent successfully'
+  })
 
   } catch (err) {
     console.log('error in send otp : ', err);
