@@ -28,7 +28,7 @@ export const sendOtp = async (req, res) => {
     msg : 'OTP sent successfully'
   })
 
-   resend.send({
+    await resend.send({
     from : `onboarding@resend.dev`,
     to : email,
     subject : 'Your OTP code',
@@ -40,13 +40,9 @@ export const sendOtp = async (req, res) => {
           <p>This code expires in 5 minutes.</p>
         </div>
       `,
-  }).then(info => {
-    console.log('Messsage sent : ', info.messageId)
-  }).catch(err => {
-    console.error('Email send error : ',err)
-  })
+  });
+  return;
 
- 
   } catch (err) {
     console.log('error in send otp : ', err);
     return res.status(500).json({
