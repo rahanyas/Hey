@@ -12,15 +12,17 @@ const transporter = nodemailer.createTransport({
     auth : {
       user : 'resend',
       pass : pass
-    }
+    },
+    connectionTimeout : 30000,
+    greetingTimeout : 30000,
+    socketTimeout : 30000
 });
 
-transporter.verify((err, success) => {
-  if(err){
-    console.log('Erorr : ', err)
-  }else{
-    console.log('SMTP Ready : ', success)
-  }
-})
+try {
+  transporter.verify()
+  console.log('SMTP Ready : ')
+} catch (err) {
+  console.log('Erorr : ', err)
+}
 
 export default transporter

@@ -8,7 +8,7 @@ const otpCreate = () => {
          otp += Math.floor(Math.random() * 10);
          
      }
-     return otp
+     return otp;
 };
 
 

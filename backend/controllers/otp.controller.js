@@ -5,6 +5,7 @@ import transporter from '../service/mailer.js'
 export const sendOtp = async (req, res) => {
   try {
     const {email} = req.body;
+
     if(!email){
       return res.status(400).json({
         success : false,
@@ -23,8 +24,6 @@ export const sendOtp = async (req, res) => {
     {upsert : true}
   );
 
-
-
   const info = await transporter.sendMail({
     from : 'onboarding@resend.dev',
     to : email,
@@ -40,7 +39,7 @@ export const sendOtp = async (req, res) => {
   });
 
   console.log('Message sent : ', info.messageId);
-  
+
   return res.status(200).json({
     success : true,
     msg : 'OTP sent successfully'
