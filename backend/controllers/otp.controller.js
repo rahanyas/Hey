@@ -1,6 +1,6 @@
 import otpModal from '../models/otp.modal.js';
 import otpCreate from '../helpers/createOtp.js';
-import resend from '../service/mailer.js'
+import transporter from '../service/mailer.js'
 
 export const sendOtp = async (req, res) => {
   try {
@@ -28,8 +28,8 @@ export const sendOtp = async (req, res) => {
     msg : 'OTP sent successfully'
   })
 
-    await resend.send({
-    from : `onboarding@resend.dev`,
+  const info = await transporter.sendMail({
+    from : `process.env.USER`,
     to : email,
     subject : 'Your OTP code',
     html : `
@@ -40,8 +40,7 @@ export const sendOtp = async (req, res) => {
           <p>This code expires in 5 minutes.</p>
         </div>
       `,
-  });
-  return;
+  }).then(res => console.log(res.messageId)).catch(err => console.log('err in info : ', err))
 
   } catch (err) {
     console.log('error in send otp : ', err);
