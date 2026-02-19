@@ -31,7 +31,7 @@ app.use(passport.initialize());
 
 app.use(cors({
    origin : [
-      process.env.DEV_URI,       // http://192.168.31.174:5173
+      process.env.DEV_URI, 
       process.env.PROD_URI,
     ],
   credentials: true,
@@ -39,7 +39,6 @@ app.use(cors({
 
 
 app.use(express.json());
-
 
 app.use(morgan('dev'));
 
