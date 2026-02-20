@@ -23,3 +23,5 @@ const otpSchema = new mongoose.Schema({
 const otpModal = mongoose.model('otp', otpSchema);
 
 export default otpModal;
+
+// mongodb automatically deletes otp , because of expires : 0 in index

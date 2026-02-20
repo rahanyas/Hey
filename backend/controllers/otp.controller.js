@@ -38,8 +38,6 @@ export const sendOtp = async (req, res) => {
       `,
   });
 
-  console.log('Message sent : ', response.id);
-
   return res.status(200).json({
     success : true,
     msg : 'OTP sent successfully'
@@ -55,3 +53,64 @@ export const sendOtp = async (req, res) => {
 };
 
 
+export const verifyOtp = async (req, res) => {
+  try {
+     const {email, otp} = req.body;
+    //  console.log(otp, email);
+
+     if(!email || !otp){
+      return res.status(400).json({
+        success : false,
+        msg : 'please try again'
+      })
+     };
+    // fetch otp from db related to the user
+    const otpDoc = await otpModal.findOne({email});
+    // console.log(otpStoredInDb);
+    
+    if(!otpDoc){
+      return res.status(400).json({
+        success : false,
+        msg : 'OTP expired, please start from first'
+      })
+    };
+
+    const storedOtp = otpDoc.otp;
+    const attempts = otpDoc.attempts;
+
+    if(attempts >= 3){
+       await otpModal.deleteOne({email});
+
+        return res.status(400).json({
+          success : false,
+          msg : 'too many attempts, Please request new OTP'
+        });
+
+    }
+
+    if(otp !== storedOtp){
+       await otpModal.updateOne({email}, {
+        $inc : { attempts :  1}
+      });
+
+      return res.status(200).json({
+        success : false,
+        msg : 'wrong OTP, please try again'
+      })
+    };
+
+    await otpModal.deleteOne({email});
+
+    return res.status(200).json({
+      success : true,
+      msg : 'OTP verifyied'
+    });
+
+  } catch (err) {
+    console.log('error in verifyOtp : ', err);
+    return res.status(500).json({
+      success : false,
+      msg : 'Internal Server Error'
+    })
+  }
+}
