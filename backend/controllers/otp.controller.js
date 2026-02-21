@@ -4,7 +4,8 @@ import resend from '../service/mailer.js'
 
 export const sendOtp = async (req, res) => {
   try {
-    const {email} = req.body;
+    const {data} = req.body;
+    const { email } = data;
 
     if(!email){
       return res.status(400).json({
@@ -55,9 +56,10 @@ export const sendOtp = async (req, res) => {
 
 export const verifyOtp = async (req, res) => {
   try {
-     const {email, otp} = req.body;
+     const {email, otp} = req.body.data;
     //  console.log(otp, email);
-
+   
+    
      if(!email || !otp){
       return res.status(400).json({
         success : false,
