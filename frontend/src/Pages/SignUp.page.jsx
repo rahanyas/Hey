@@ -1,7 +1,6 @@
  import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { 
-         register, 
+import {  
          updateFeild, 
          oauthLogin,
          addErrorMsg
@@ -29,7 +28,11 @@ const Signup = () => {
   }
 
   function otpHandler(){
-    navigate('/otpPage');
+    navigate('/otpPage', {
+      state : {
+        pass : password
+      }
+    });
   }
 
   const handleSubmit = () => {
@@ -58,7 +61,7 @@ const Signup = () => {
   }
 
   otpHandler()
-  //  return dispatch(register({ name, email, mobile, password}))
+  
   }
 
   return (

@@ -63,6 +63,29 @@ export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue
         console.log('Error in logout Thunk', err);
         return rejectWithValue(err.response?.msg || {msg : 'Logout Failed', success : false})
     }
+});
+
+export const sendOtp = createAsyncThunk('user/sendOtp', async (data, {rejectWithValue}) => {
+    try {
+      const res =   await server.post('/otp/sendotp', { data });
+      console.log(res.data)
+      return res.data
+    } catch (err) {
+      console.log('error in send otp reduc function : ', err);
+      return rejectWithValue(err.response?.msg || {msg : 'sending OTP failed', success : false})
+    }
+});
+
+export const verifyOtp = createAsyncThunk('user/verifyOtp', async (data, {rejectWithValue}) => {
+    try {
+      const res = await server.post('/otp/otpverify', {data});
+      console.log('data : ', data);
+      console.log(res.data);
+      return res.data;
+    } catch (err) {
+      console.log('error in verifying otp : ', err);
+      return rejectWithValue(err.response?.msg, {msg : 'OTP verification failed', success : false})
+    }
 })
 
 export const oauthLogin = () => {
@@ -76,6 +99,7 @@ const userSlice = createSlice({
     initialState,
     reducers : {
         updateFeild : (state, action) => {
+          // console.log(action.payload)
             const {field, value} = action.payload;
             state[field] = value;
         },
@@ -193,7 +217,33 @@ const userSlice = createSlice({
                 state.status = 'failed';
                 state.msg = action.payload?.msg;
                 state.isError = true
-            });
+            })
+            .addCase(sendOtp.pending, (state) => {
+              state.msg = '';
+              state.isError = false
+            })
+            .addCase(sendOtp.fulfilled, (state, action) => {
+              state.msg = action?.payload?.msg;
+              state.isError = false
+            })
+            .addCase(sendOtp.rejected, (state, action) => {
+              state.isError = true;
+              state.msg = action?.payload?.msg
+            })
+            .addCase(verifyOtp.pending, (state) => {
+                state.msg = 'OTP verifying';
+                state.isError = false
+            })
+            .addCase(verifyOtp.fulfilled, (state, action) => {
+              state.msg = action.payload?.msg;
+              state.isLogedIn = action.payload?.success;
+              state.isError = false
+            })
+            .addCase(verifyOtp.rejected, (state, action) => {
+              state.isError = true;
+              state.isLogedIn = false;
+              state.msg = action.payload?.msg
+            })
     }
 });
 

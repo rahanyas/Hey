@@ -24,7 +24,7 @@ const ShowErrMsg = () => {
       })
     };
     dispatch(clearMsg())
-  },[isError, msg])
+  },[isError, msg, dispatch])
     return null
 };
 

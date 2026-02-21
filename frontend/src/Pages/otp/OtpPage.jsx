@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState,  useCallback} from 'react';
 import server from '../../utils/axiosInstance.utils';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom'
+import { register, sendOtp, verifyOtp} from '../../features/user/userSlice';
 import './otpStyles.scss';
 
 const OtpPage = () => {
@@ -8,50 +10,45 @@ const OtpPage = () => {
   const OTP_LENGTH = 4;
   const RESEND_DELAY = 30; // seconds
   const MAX_RESEND = 5;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const password = location?.state?.pass
 
   const [inputArr, setInpArr] = useState(new Array(OTP_LENGTH).fill(''));
   const [timeLeft, setTimeLeft] = useState(RESEND_DELAY);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [resendCount, setResendCount] = useState(0);
-  const [isVerifying, setIsVerifying] = useState(false);
 
   const inpRef = useRef([]);
   const timerRef = useRef(null);
 
-  const { email } = useSelector(state => state.user);
+  const { email, name, mobile, isLogedIn } = useSelector(state => state.user);
+
+  useEffect(() => {
+    if(isLogedIn){
+        navigate('/home')
+    }
+  }, [isLogedIn, navigate])
 
   // ---------------- SEND OTP ----------------
 
-  async function sendOtp(email) {
-    try {
-      await server.post('/otp/sendotp', { email });
-      startTimer();
-    } catch (err) {
-      console.log(err);
-    }
+  const OtpSend = useCallback( async (email) => {
+    if(!email) return;
+    dispatch(sendOtp({email}))
+    startTimer();
+  },[dispatch]);
+
+
+
+  async function otpverify(otp) {
+      dispatch(verifyOtp({otp, email}))
+      dispatch(register({ name, email, mobile, password}))
+
   }
+  
 
-  // ---------------- VERIFY OTP ----------------
-
-  async function verifyOtp(otp) {
-    try {
-      setIsVerifying(true);
-
-      const res = await server.post('/otp/otpverify', {
-        email,
-        otp
-      });
-
-      console.log(res.data);
-
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsVerifying(false);
-    }
-  }
-
-  // ---------------- TIMER ----------------
 
   function startTimer() {
 
@@ -76,17 +73,15 @@ const OtpPage = () => {
     }, 1000);
   }
 
-  // ---------------- RESEND ----------------
 
   function handleResend() {
 
     if (resendCount >= MAX_RESEND) return;
 
-    sendOtp(email);
+    OtpSend(email);
     setResendCount(prev => prev + 1);
   }
 
-  // ---------------- INPUT CHANGE ----------------
 
   function handleOnChange(value, index) {
 
@@ -103,20 +98,17 @@ const OtpPage = () => {
     const otp = newArr.join('');
 
     if (otp.length === OTP_LENGTH && !newArr.includes('')) {
-      verifyOtp(otp);
+      otpverify(otp);
     }
   }
 
-  // ---------------- BACKSPACE ----------------
 
   function handleKeyDown(e, index) {
-
     if (e.key === 'Backspace' && !inputArr[index] && index > 0) {
       inpRef.current[index - 1]?.focus();
     }
   }
 
-  // ---------------- PASTE SUPPORT ----------------
 
   function handlePaste(e) {
 
@@ -139,31 +131,27 @@ const OtpPage = () => {
     inpRef.current[lastIndex]?.focus();
 
     if (pasteArr.length === OTP_LENGTH) {
-      verifyOtp(pasteArr.join(''));
+      otpverify(pasteArr.join(''));
     }
   }
 
-  // ---------------- INIT ----------------
 
   useEffect(() => {
 
     inpRef.current[0]?.focus();
 
-    sendOtp(email);
+    OtpSend(email);
 
     return () => clearInterval(timerRef.current);
 
-  }, [email]);
+  }, [email, OtpSend]);
 
-  // ---------------- FORMAT TIMER ----------------
 
   function formatTime(sec) {
-
     const s = sec.toString().padStart(2, '0');
     return `00:${s}`;
   }
 
-  // ---------------- UI ----------------
 
   return (
 
@@ -193,13 +181,12 @@ const OtpPage = () => {
 
         </div>
 
-        <button
+        {/* <button
           className="otp-btn"
           disabled={inputArr.includes('') || isVerifying}
-          onClick={() => verifyOtp(inputArr.join(''))}
         >
           {isVerifying ? 'Verifying...' : 'Verify'}
-        </button>
+        </button> */}
 
         <div className="otp-resend-container">
 
