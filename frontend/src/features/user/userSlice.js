@@ -84,13 +84,12 @@ export const verifyOtp = createAsyncThunk('user/verifyOtp', async (data, {reject
       return res.data;
     } catch (err) {
       console.log('error in verifying otp : ', err);
-      return rejectWithValue(err.response?.msg, {msg : 'OTP verification failed', success : false})
+      return rejectWithValue(err.response?.msg || {msg : 'OTP verification failed', success : false})
     }
 })
 
 export const oauthLogin = () => {
         let Oauth_uri = import.meta.env.VITE_ENV === 'dev' ? import.meta.env.VITE_OAUTH_DEV_URI : import.meta.env.VITE_OAUTH_PROD_URI ;
-
         window.location.href = Oauth_uri ;
 };
 
@@ -99,7 +98,6 @@ const userSlice = createSlice({
     initialState,
     reducers : {
         updateFeild : (state, action) => {
-          // console.log(action.payload)
             const {field, value} = action.payload;
             state[field] = value;
         },
@@ -236,7 +234,6 @@ const userSlice = createSlice({
             })
             .addCase(verifyOtp.fulfilled, (state, action) => {
               state.msg = action.payload?.msg;
-              state.isLogedIn = action.payload?.success;
               state.isError = false
             })
             .addCase(verifyOtp.rejected, (state, action) => {

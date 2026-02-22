@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState,  useCallback} from 'react';
-import server from '../../utils/axiosInstance.utils';
+// import server from '../../utils/axiosInstance.utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { register, sendOtp, verifyOtp} from '../../features/user/userSlice';
@@ -9,7 +9,7 @@ const OtpPage = () => {
 
   const OTP_LENGTH = 4;
   const RESEND_DELAY = 30; // seconds
-  const MAX_RESEND = 5;
+  const MAX_RESEND = 3;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -24,31 +24,37 @@ const OtpPage = () => {
   const inpRef = useRef([]);
   const timerRef = useRef(null);
 
-  const { email, name, mobile, isLogedIn } = useSelector(state => state.user);
+  const { email, name, mobile } = useSelector(state => state.user);
 
-  useEffect(() => {
-    if(isLogedIn){
-        navigate('/home')
-    }
-  }, [isLogedIn, navigate])
+
 
   // ---------------- SEND OTP ----------------
 
   const OtpSend = useCallback( async (email) => {
-    if(!email) return;
-    dispatch(sendOtp({email}))
-    startTimer();
-  },[dispatch]);
+    try {
+      
+      if(!email || !password) return;
+  
+      await dispatch(sendOtp({email})).unwrap();
+  
+      startTimer();
 
-
+    } catch (err) {
+      console.log(err)
+    }
+  },[dispatch, password]);
 
   async function otpverify(otp) {
-      dispatch(verifyOtp({otp, email}))
-      dispatch(register({ name, email, mobile, password}))
+    try {   
 
+      await dispatch(verifyOtp({otp, email})).unwrap();
+      await dispatch(register({ name, email, mobile, password})).unwrap();
+      navigate('/home');
+    } catch (err) {
+      console.log('error in verifyotp in otp_page : ', err)
+    }
   }
   
-
 
   function startTimer() {
 
@@ -75,9 +81,7 @@ const OtpPage = () => {
 
 
   function handleResend() {
-
     if (resendCount >= MAX_RESEND) return;
-
     OtpSend(email);
     setResendCount(prev => prev + 1);
   }
@@ -140,11 +144,11 @@ const OtpPage = () => {
 
     inpRef.current[0]?.focus();
 
-    OtpSend(email);
+    // OtpSend(email);
 
     return () => clearInterval(timerRef.current);
 
-  }, [email, OtpSend]);
+  }, [email]);
 
 
   function formatTime(sec) {
