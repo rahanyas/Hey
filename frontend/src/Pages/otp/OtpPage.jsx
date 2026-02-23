@@ -2,7 +2,7 @@ import { useEffect, useRef, useState,  useCallback} from 'react';
 // import server from '../../utils/axiosInstance.utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom'
-import { register, sendOtp, verifyOtp} from '../../features/user/userSlice';
+import { register, sendOtp, verifyOtp, addErrorMsg} from '../../features/user/userSlice';
 import './otpStyles.scss';
 
 const OtpPage = () => {
@@ -13,6 +13,7 @@ const OtpPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
+  const OTP_SEND = useRef(false);
 
   const password = location?.state?.pass
 
@@ -20,6 +21,7 @@ const OtpPage = () => {
   const [timeLeft, setTimeLeft] = useState(RESEND_DELAY);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [resendCount, setResendCount] = useState(0);
+  const [isVerifying, setIsVerifying] = useState(false);
 
   const inpRef = useRef([]);
   const timerRef = useRef(null);
@@ -40,18 +42,23 @@ const OtpPage = () => {
       startTimer();
 
     } catch (err) {
-      console.log(err)
+      return console.log(err)
+      // dispatch(addErrorMsg(err?.response?.data?.msg || 'OTP sending failed'))
     }
   },[dispatch, password]);
 
   async function otpverify(otp) {
+    if(isVerifying) return;
     try {   
-
+      setIsVerifying(true)
       await dispatch(verifyOtp({otp, email})).unwrap();
       await dispatch(register({ name, email, mobile, password})).unwrap();
       navigate('/home');
     } catch (err) {
-      console.log('error in verifyotp in otp_page : ', err)
+      // console.log('error in verifyotp in otp_page : ', err);
+      dispatch(addErrorMsg(err?.response?.data?.msg || 'OTP verification Failed'))
+    }finally{
+      setIsVerifying(false)
     }
   }
   
@@ -80,9 +87,9 @@ const OtpPage = () => {
   }
 
 
-  function handleResend() {
+ async function handleResend() {
     if (resendCount >= MAX_RESEND) return;
-    OtpSend(email);
+    await OtpSend(email);
     setResendCount(prev => prev + 1);
   }
 
@@ -144,11 +151,19 @@ const OtpPage = () => {
 
     inpRef.current[0]?.focus();
 
-    // OtpSend(email);
-
+    if(!email){
+       navigate('/signup')
+    }
     return () => clearInterval(timerRef.current);
 
-  }, [email]);
+  }, [email, navigate]);
+  
+  useEffect(() => {
+    if(email && !OTP_SEND.current){
+          OTP_SEND.current = true
+         OtpSend(email)
+    }
+  }, [email, OtpSend])
 
 
   function formatTime(sec) {

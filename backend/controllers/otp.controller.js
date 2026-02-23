@@ -1,6 +1,7 @@
 import otpModal from '../models/otp.modal.js';
 import otpCreate from '../helpers/createOtp.js';
 import resend from '../service/mailer.js'
+import userModal from '../models/user.modal.js';
 
 export const sendOtp = async (req, res) => {
   try {
@@ -14,13 +15,20 @@ export const sendOtp = async (req, res) => {
       })
     };
 
+  const isExistingUser = await userModal.findOne({email});
+
+  if(isExistingUser){
+    return res.status(400).json({msg : 'user already exist, please login', success : false})
+  }
+
   const otp = otpCreate();
 
   await otpModal.findOneAndUpdate(
     { email },
     {
       otp,
-      expiresAt : new Date(Date.now() + 5 * 60 * 1000)
+      expiresAt : new Date(Date.now() + 5 * 60 * 1000),
+      attempts : 0
     },
     {upsert : true}
   );
@@ -95,7 +103,7 @@ export const verifyOtp = async (req, res) => {
         $inc : { attempts :  1}
       });
 
-      return res.status(200).json({
+      return res.status(400).json({
         success : false,
         msg : 'wrong OTP, please try again'
       })

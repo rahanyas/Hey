@@ -72,19 +72,18 @@ export const sendOtp = createAsyncThunk('user/sendOtp', async (data, {rejectWith
       return res.data
     } catch (err) {
       console.log('error in send otp reduc function : ', err);
-      return rejectWithValue(err.response?.msg || {msg : 'sending OTP failed', success : false})
+      return rejectWithValue(err.response?.data || {msg : 'sending OTP failed', success : false})
     }
 });
 
 export const verifyOtp = createAsyncThunk('user/verifyOtp', async (data, {rejectWithValue}) => {
     try {
       const res = await server.post('/otp/otpverify', {data});
-      console.log('data : ', data);
       console.log(res.data);
       return res.data;
     } catch (err) {
       console.log('error in verifying otp : ', err);
-      return rejectWithValue(err.response?.msg || {msg : 'OTP verification failed', success : false})
+      return rejectWithValue(err.response?.data?.msg || {msg : 'OTP verification failed', success : false})
     }
 })
 
@@ -228,18 +227,17 @@ const userSlice = createSlice({
               state.isError = true;
               state.msg = action?.payload?.msg
             })
-            .addCase(verifyOtp.pending, (state) => {
-                state.msg = 'OTP verifying';
-                state.isError = false
-            })
+            // .addCase(verifyOtp.pending, (state) => {
+            //     state.msg = 'OTP verifying';
+            //     state.isError = false
+            // })
             .addCase(verifyOtp.fulfilled, (state, action) => {
               state.msg = action.payload?.msg;
               state.isError = false
             })
-            .addCase(verifyOtp.rejected, (state, action) => {
+            .addCase(verifyOtp.rejected, (state) => {
               state.isError = true;
-              state.isLogedIn = false;
-              state.msg = action.payload?.msg
+              // state.msg = action.payload?.msg
             })
     }
 });
