@@ -1,6 +1,7 @@
 import otpModal from '../models/otp.modal.js';
 import otpCreate from '../helpers/createOtp.js';
-import resend from '../service/mailer.js'
+// import resend from '../service/mailer.js'
+import  transporter from '../service/mailer.js'
 import userModal from '../models/user.modal.js';
 
 export const sendOtp = async (req, res) => {
@@ -33,7 +34,7 @@ export const sendOtp = async (req, res) => {
     {upsert : true}
   );
 
-  const response = await resend.emails.send({
+  const response = await transporter.sendMail({
     from : 'onboarding@resend.dev',
     to : email,
     subject : 'Your OTP code',
