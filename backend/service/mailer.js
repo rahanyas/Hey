@@ -9,12 +9,13 @@ import nodemailer from 'nodemailer';
 console.log( process.env.ZOHO_PASS)
 
 const transporter = nodemailer.createTransport({
-  service : 'gmail',
-  port : 587,
+  host : 'smtp.gmail.com',
+  port : 465,
+  secure : true,
   connectionTimeout : 90000,
   greetingTimeout : 60000,
   socketTimeout : 300000,
-  
+
   auth : {
     user : process.env.USER,
     pass : process.env.PASS
