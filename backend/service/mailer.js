@@ -6,18 +6,19 @@ import nodemailer from 'nodemailer';
 // const pass =  process.env.RESEND_PASS;
 
 // const resend = new Resend(pass)
-console.log( process.env.ZOHO_PASS)
+console.log( process.env.BREVO_PASS);
 
 const transporter = nodemailer.createTransport({
-  host : 'smtp.gmail.com',
-  port : 465,
-  secure : true,
+  host : 'smtp-relay.brevo.com',
+  port : 587,
+  secure : false,
   family : 4,
   auth : {
-    user : process.env.USER,
-    pass : process.env.PASS
+    user : 
+       'a2b142001@smtp-brevo.com',
+    pass : process.env.BREVO_PASS
   },
-  connectionTimeout : 90000,
+  connectionTimeout : 30000,
   greetingTimeout : 60000,
   socketTimeout : 300000,
   tls : {

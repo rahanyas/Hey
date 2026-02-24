@@ -35,7 +35,7 @@ export const sendOtp = async (req, res) => {
   );
 
   const response = await transporter.sendMail({
-    from : 'onboarding@resend.dev',
+    from : 'rahanyas3@gmail.com',
     to : email,
     subject : 'Your OTP code',
     html : `
