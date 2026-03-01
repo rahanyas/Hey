@@ -1,6 +1,5 @@
 import otpModal from '../models/otp.modal.js';
 import otpCreate from '../helpers/createOtp.js';
-// import resend from '../service/mailer.js'
 import  transporter from '../service/mailer.js'
 import userModal from '../models/user.modal.js';
 

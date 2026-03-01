@@ -56,7 +56,7 @@ export const fetchMessages = async (req, res) => {
         
         const messages = await msgModal.find({
             conversationId : isParticipants._id
-        }).select('text sender');
+        }).select('text sender isDeleted');
 
         if(!isParticipants || !messages){
             return res.status(200).json({
