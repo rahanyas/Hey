@@ -1,126 +1,133 @@
-import otpModal from '../models/otp.modal.js';
-import otpCreate from '../helpers/createOtp.js';
-import  transporter from '../service/mailer.js'
-import userModal from '../models/user.modal.js';
+// import dotenv from 'dotenv';
+// dotenv.config();
 
-export const sendOtp = async (req, res) => {
-  try {
-    const {data} = req.body;
-    const { email } = data;
+// import otpModal from '../models/otp.modal.js';
+// import otpCreate from '../helpers/createOtp.js';
+// import  transporter from '../service/mailer.js';
+// import userModal from '../models/user.modal.js';
+// import SibApiV3Sdk from 'sib-api-v3-sdk';
 
-    if(!email){
-      return res.status(400).json({
-        success : false,
-        msg : 'Email is required'
-      })
-    };
+// const PASS = process.env.BREVO_PASS;
+// // console.log(PASS)
+// const defaultClient = SibApiV3Sdk.ApiClient.instance;
+// defaultClient.authentications['api-key'].apiKey = PASS;
 
-  const isExistingUser = await userModal.findOne({email});
-
-  if(isExistingUser){
-    return res.status(400).json({msg : 'user already exist, please login', success : false})
-  }
-
-  const otp = otpCreate();
-
-  await otpModal.findOneAndUpdate(
-    { email },
-    {
-      otp,
-      expiresAt : new Date(Date.now() + 5 * 60 * 1000),
-      attempts : 0
-    },
-    {upsert : true}
-  );
-
-  const response = await transporter.sendMail({
-    from : 'rahanyas3@gmail.com',
-    to : email,
-    subject : 'Your OTP code',
-    html : `
-         <div style="font-family: Arial, sans-serif;">
-          <h2>Verify your email</h2>
-          <p>Your OTP code is:</p>
-          <h1 style="letter-spacing: 4px;">${otp}</h1>
-          <p>This code expires in 5 minutes.</p>
-        </div>
-      `,
-  });
-
-  return res.status(200).json({
-    success : true,
-    msg : 'OTP sent successfully'
-  })
-
-  } catch (err) {
-    console.log('error in send otp : ', err);
-    return res.status(500).json({
-      success : false,
-      msg : 'Failed to send OTP'
-    })
-  }
-};
+// const client = new SibApiV3Sdk.TransactionalEmailsApi()
 
 
-export const verifyOtp = async (req, res) => {
-  try {
-     const {email, otp} = req.body.data;
-    //  console.log(otp, email);
+
+// export const sendOtp = async (req, res) => {
+//   try {
+//     const {email} = req.body.data;
+
+//     if(!email){
+//       return res.status(400).json({
+//         success : false,
+//         msg : 'Email is required'
+//       })
+//     };
+
+//   const isExistingUser = await userModal.findOne({email});
+
+//   if(isExistingUser){
+//     return res.status(400).json({msg : 'user already exist, please login', success : false})
+//   }
+
+//   const otp = otpCreate();
+
+//   await otpModal.findOneAndUpdate(
+//     { email },
+//     {
+//       otp,
+//       expiresAt : new Date(Date.now() + 5 * 60 * 1000),
+//       attempts : 0
+//     },
+//     {upsert : true}
+//   );
+//     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+  
+//   sendSmtpEmail.sender = { email: 'rahanyas3@gmail.com', name: 'HEY' };
+//   sendSmtpEmail.to = [{ email }];
+//   sendSmtpEmail.subject = 'Your OTP Code';
+//   sendSmtpEmail.htmlContent = `<p>Your OTP is: <strong>${otp}</strong></p>`;
+
+//   await client.sendTransacEmail(sendSmtpEmail);
+
+
+//   return res.status(200).json({
+//     success : true,
+//     msg : 'OTP sent successfully'
+//   })
+
+//   } catch (err) {
+//     console.log('error in send otp : ', err);
+//     return res.status(500).json({
+//       success : false,
+//       msg : 'Failed to send OTP'
+//     })
+//   }
+// };
+
+
+// export const verifyOtp = async (req, res) => {
+//   try {
+//      const {email, otp} = req.body.data;
+//     //  console.log(otp, email);
    
     
-     if(!email || !otp){
-      return res.status(400).json({
-        success : false,
-        msg : 'please try again'
-      })
-     };
-    // fetch otp from db related to the user
-    const otpDoc = await otpModal.findOne({email});
-    // console.log(otpStoredInDb);
+//      if(!email || !otp){
+//       return res.status(400).json({
+//         success : false,
+//         msg : 'please try again'
+//       })
+//      };
+//     // fetch otp from db related to the user
+//     const otpDoc = await otpModal.findOne({email});
+//     // console.log(otpStoredInDb);
     
-    if(!otpDoc){
-      return res.status(400).json({
-        success : false,
-        msg : 'OTP expired, please start from first'
-      })
-    };
+//     if(!otpDoc){
+//       return res.status(400).json({
+//         success : false,
+//         msg : 'OTP expired, please start from first'
+//       })
+//     };
 
-    const storedOtp = otpDoc.otp;
-    const attempts = otpDoc.attempts;
+//     const storedOtp = otpDoc.otp;
+//     const attempts = otpDoc.attempts;
 
-    if(attempts >= 3){
-       await otpModal.deleteOne({email});
+//     if(attempts >= 3){
+//        await otpModal.deleteOne({email});
 
-        return res.status(400).json({
-          success : false,
-          msg : 'too many attempts, Please request new OTP'
-        });
+//         return res.status(400).json({
+//           success : false,
+//           msg : 'too many attempts, Please request new OTP'
+//         });
 
-    }
+//     }
 
-    if(otp !== storedOtp){
-       await otpModal.updateOne({email}, {
-        $inc : { attempts :  1}
-      });
+//     if(otp !== storedOtp){
+//        await otpModal.updateOne({email}, {
+//         $inc : { attempts :  1}
+//       });
 
-      return res.status(400).json({
-        success : false,
-        msg : 'wrong OTP, please try again'
-      })
-    };
+//       return res.status(400).json({
+//         success : false,
+//         msg : 'wrong OTP, please try again'
+//       })
+//     };
 
-    await otpModal.deleteOne({email});
+//     await otpModal.deleteOne({email});
 
-    return res.status(200).json({
-      success : true,
-      msg : 'OTP verifyied'
-    });
+//     return res.status(200).json({
+//       success : true,
+//       msg : 'OTP verifyied'
+//     });
 
-  } catch (err) {
-    console.log('error in verifyOtp : ', err);
-    return res.status(500).json({
-      success : false,
-      msg : 'Internal Server Error'
-    })
-  }
-}
+//   } catch (err) {
+//     console.log('error in verifyOtp : ', err);
+//     return res.status(500).json({
+//       success : false,
+//       msg : 'Internal Server Error'
+//     })
+//   }
+// }

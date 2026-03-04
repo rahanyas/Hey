@@ -10,7 +10,7 @@ import authRouter from './router/auth.router.js';
 import oauthRouter from './router/oauth.router.js';
 import friendRouter from './router/friendReq.router.js';
 import messageRouter from './router/message.router.js';
-import otpRouter from './router/otp.router.js'
+// import otpRouter from './router/otp.router.js'
 
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import passport from 'passport';
@@ -55,7 +55,7 @@ app.use('/api', authRouter);
 app.use('/auth', oauthRouter);
 app.use('/feature', friendRouter);
 app.use('/message', messageRouter);
-app.use('/otp', otpRouter);
+// app.use('/otp', otpRouter);
 
 export default app;
 
