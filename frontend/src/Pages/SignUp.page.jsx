@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import {  
          updateFeild, 
          oauthLogin,
-         addErrorMsg
+         addErrorMsg,
+         register
 } from '../features/user/userSlice.js' 
 
 import { useState, useEffect } from 'react'
@@ -27,15 +28,15 @@ const Signup = () => {
     dispatch(updateFeild({ field: name, value }))
   }
 
-  function otpHandler(){
-    navigate('/otpPage', {
-      state : {
-        pass : password
-      }
-    });
-  }
+  // function otpHandler(){
+  //   navigate('/otpPage', {
+  //     state : {
+  //       pass : password
+  //     }
+  //   });
+  // }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!name || !email || !password || !mobile || !confirmPass) {
       dispatch(addErrorMsg('Enter all valid fields'));
       return
@@ -59,8 +60,15 @@ const Signup = () => {
     setConfirmPass('');
     return
   }
+  try {
+    
+    await dispatch(register({name, email, password, mobile})).unwrap()
+  } catch (err) {
+    console.error('error in register dispatching : ', err)
+  }
 
-  otpHandler()
+
+  // otpHandler()
   
   }
 

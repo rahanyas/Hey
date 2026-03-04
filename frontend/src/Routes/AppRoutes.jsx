@@ -22,7 +22,7 @@ const SettingsPage = lazy(() => import('../Pages/SettingsPage/Settings.page.jsx'
 const UserAdd = lazy(() => import('../Pages/addUserPage/UserAdd.jsx'));
 const ProfilePage = lazy(() => import('../Pages/profilePage/Profile.page.jsx'))
 const MsgPage = lazy(() => import('../Pages/chatArea/Msg.page.jsx'));
-const OtpPage = lazy(() => import('../Pages/otp/OtpPage.jsx'));
+// const OtpPage = lazy(() => import('../Pages/otp/OtpPage.jsx'));
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -33,7 +33,7 @@ const router = createBrowserRouter(
 
                 <Route path="/landing" element={<LandingPage/>}/>
                 <Route path='/signup' element={<SignUpPage/>}/>
-                <Route path="/otpPage" element={<OtpPage/>}/>
+                {/* <Route path="/otpPage" element={<OtpPage/>}/> */}
                 <Route path='/login' element={<LoginPage/>}/>
 
                 <Route path='/oauth/google/success' element={<Oauth/>}/>

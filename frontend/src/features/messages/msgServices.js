@@ -4,7 +4,7 @@ import server from "../../utils/axiosInstance.utils";
 
 const initialState = {
     messages : [],
-    status : 'loading'
+    status : 'loading',
 };
 
 export const getMessages = createAsyncThunk('/message/get', async(otherUserId, {rejectWithValue}) => {

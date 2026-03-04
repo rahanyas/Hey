@@ -16,7 +16,9 @@ const Message = () => {
   const { messages } = useSelector((state) => state.msg);
 
   useEffect(() => {
-    bottomRef.current.scrollIntoView({ behavior: "smooth" });
+     if(messages.length > 7){
+       bottomRef.current.scrollIntoView({ behavior: "smooth" });
+     }
   }, [messages]);
 
   function handleSubmit() {
@@ -37,7 +39,6 @@ const Message = () => {
       })
   }
   
-
 
   return (
     <div className="chat-wrapper">
@@ -89,11 +90,12 @@ const Message = () => {
                     </button>
                   </div>
                 </div>
+                <div ref={bottomRef} />
               </div>
             );
           })
         )}
-        <div ref={bottomRef} />
+        {/* <div ref={bottomRef} /> */}
       </div>
 
       {/* INPUT */}

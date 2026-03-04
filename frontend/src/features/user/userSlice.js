@@ -65,27 +65,27 @@ export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue
     }
 });
 
-export const sendOtp = createAsyncThunk('user/sendOtp', async (data, {rejectWithValue}) => {
-    try {
-      const res =   await server.post('/otp/sendotp', { data });
-      console.log(res.data)
-      return res.data
-    } catch (err) {
-      console.log('error in send otp reduc function : ', err);
-      return rejectWithValue(err.response?.data || {msg : 'sending OTP failed', success : false})
-    }
-});
+// export const sendOtp = createAsyncThunk('user/sendOtp', async (data, {rejectWithValue}) => {
+//     try {
+//       const res =   await server.post('/otp/sendotp', { data });
+//       console.log(res.data)
+//       return res.data
+//     } catch (err) {
+//       console.log('error in send otp reduc function : ', err);
+//       return rejectWithValue(err.response?.data || {msg : 'sending OTP failed', success : false})
+//     }
+// });
 
-export const verifyOtp = createAsyncThunk('user/verifyOtp', async (data, {rejectWithValue}) => {
-    try {
-      const res = await server.post('/otp/otpverify', {data});
-      console.log(res.data);
-      return res.data;
-    } catch (err) {
-      console.log('error in verifying otp : ', err);
-      return rejectWithValue(err.response?.data?.msg || {msg : 'OTP verification failed', success : false})
-    }
-})
+// export const verifyOtp = createAsyncThunk('user/verifyOtp', async (data, {rejectWithValue}) => {
+//     try {
+//       const res = await server.post('/otp/otpverify', {data});
+//       console.log(res.data);
+//       return res.data;
+//     } catch (err) {
+//       console.log('error in verifying otp : ', err);
+//       return rejectWithValue(err.response?.data?.msg || {msg : 'OTP verification failed', success : false})
+//     }
+// })
 
 export const oauthLogin = () => {
         let Oauth_uri = import.meta.env.VITE_ENV === 'dev' ? import.meta.env.VITE_OAUTH_DEV_URI : import.meta.env.VITE_OAUTH_PROD_URI ;
@@ -215,30 +215,30 @@ const userSlice = createSlice({
                 state.msg = action.payload?.msg;
                 state.isError = true
             })
-            .addCase(sendOtp.pending, (state) => {
-              state.msg = '';
-              state.isError = false
-            })
-            .addCase(sendOtp.fulfilled, (state, action) => {
-              state.msg = action?.payload?.msg;
-              state.isError = false
-            })
-            .addCase(sendOtp.rejected, (state, action) => {
-              state.isError = true;
-              state.msg = action?.payload?.msg
-            })
-            // .addCase(verifyOtp.pending, (state) => {
-            //     state.msg = 'OTP verifying';
-            //     state.isError = false
+            // .addCase(sendOtp.pending, (state) => {
+            //   state.msg = '';
+            //   state.isError = false
             // })
-            .addCase(verifyOtp.fulfilled, (state, action) => {
-              state.msg = action.payload?.msg;
-              state.isError = false
-            })
-            .addCase(verifyOtp.rejected, (state) => {
-              state.isError = true;
-              // state.msg = action.payload?.msg
-            })
+            // .addCase(sendOtp.fulfilled, (state, action) => {
+            //   state.msg = action?.payload?.msg;
+            //   state.isError = false
+            // })
+            // .addCase(sendOtp.rejected, (state, action) => {
+            //   state.isError = true;
+            //   state.msg = action?.payload?.msg
+            // })
+            // // .addCase(verifyOtp.pending, (state) => {
+            // //     state.msg = 'OTP verifying';
+            // //     state.isError = false
+            // // })
+            // .addCase(verifyOtp.fulfilled, (state, action) => {
+            //   state.msg = action.payload?.msg;
+            //   state.isError = false
+            // })
+            // .addCase(verifyOtp.rejected, (state) => {
+            //   state.isError = true;
+            //   // state.msg = action.payload?.msg
+            // })
     }
 });
 

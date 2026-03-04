@@ -25,7 +25,7 @@ export const registerSocketListeners = () => {
     socket.off('delete-msg');
 
     socket.on('recieve-msg', (msg) => {
-        store.dispatch(addMessageToState(msg))
+        store.dispatch(addMessageToState(msg));
     });
 
     socket.on('error-msg', (err) => {

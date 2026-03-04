@@ -1,243 +1,245 @@
-import { useEffect, useRef, useState,  useCallback} from 'react';
-// import server from '../../utils/axiosInstance.utils';
-import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom'
-import { register, sendOtp, verifyOtp, addErrorMsg} from '../../features/user/userSlice';
-import './otpStyles.scss';
+// import { useEffect, useRef, useState,  useCallback} from 'react';
+// // import server from '../../utils/axiosInstance.utils';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { useLocation, useNavigate } from 'react-router-dom'
+// import { register, sendOtp, verifyOtp, addErrorMsg} from '../../features/user/userSlice';
+// import './otpStyles.scss';
 
-const OtpPage = () => {
+// const OtpPage = () => {
 
-  const OTP_LENGTH = 4;
-  const RESEND_DELAY = 30; // seconds
-  const MAX_RESEND = 3;
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const OTP_SEND = useRef(false);
+//   const OTP_LENGTH = 4;
+//   const RESEND_DELAY = 30; // seconds
+//   const MAX_RESEND = 3;
+//   const navigate = useNavigate();
+//   const dispatch = useDispatch();
+//   const location = useLocation();
+//   const OTP_SEND = useRef(false);
 
-  const password = location?.state?.pass
+//   const password = location?.state?.pass
 
-  const [inputArr, setInpArr] = useState(new Array(OTP_LENGTH).fill(''));
-  const [timeLeft, setTimeLeft] = useState(RESEND_DELAY);
-  const [isResendDisabled, setIsResendDisabled] = useState(true);
-  const [resendCount, setResendCount] = useState(0);
-  const [isVerifying, setIsVerifying] = useState(false);
+//   const [inputArr, setInpArr] = useState(new Array(OTP_LENGTH).fill(''));
+//   const [timeLeft, setTimeLeft] = useState(RESEND_DELAY);
+//   const [isResendDisabled, setIsResendDisabled] = useState(true);
+//   const [resendCount, setResendCount] = useState(0);
+//   const [isVerifying, setIsVerifying] = useState(false);
 
-  const inpRef = useRef([]);
-  const timerRef = useRef(null);
+//   const inpRef = useRef([]);
+//   const timerRef = useRef(null);
 
-  const { email, name, mobile } = useSelector(state => state.user);
+//   const { email, name, mobile } = useSelector(state => state.user);
 
 
 
-  // ---------------- SEND OTP ----------------
+//   // ---------------- SEND OTP ----------------
 
-  const OtpSend = useCallback( async (email) => {
-    try {
+//   const OtpSend = useCallback( async (email) => {
+//     try {
       
-      if(!email || !password) return;
+//       if(!email || !password) return;
   
-      await dispatch(sendOtp({email})).unwrap();
+//       await dispatch(sendOtp({email})).unwrap();
   
-      startTimer();
+//       startTimer();
 
-    } catch (err) {
-      return console.log(err)
-      // dispatch(addErrorMsg(err?.response?.data?.msg || 'OTP sending failed'))
-    }
-  },[dispatch, password]);
+//     } catch (err) {
+//       return console.log(err)
+//       // dispatch(addErrorMsg(err?.response?.data?.msg || 'OTP sending failed'))
+//     }
+//   },[dispatch, password]);
 
-  async function otpverify(otp) {
-    if(isVerifying) return;
-    try {   
-      setIsVerifying(true)
-      await dispatch(verifyOtp({otp, email})).unwrap();
-      await dispatch(register({ name, email, mobile, password})).unwrap();
-      navigate('/home');
-    } catch (err) {
-      // console.log('error in verifyotp in otp_page : ', err);
-      dispatch(addErrorMsg(err?.response?.data?.msg || 'OTP verification Failed'))
-    }finally{
-      setIsVerifying(false)
-    }
-  }
+//   async function otpverify(otp) {
+//     if(isVerifying) return;
+//     try {   
+//       setIsVerifying(true)
+//       await dispatch(verifyOtp({otp, email})).unwrap();
+
+      // await dispatch(register({ name, email, mobile, password})).unwrap();
+
+//       navigate('/home');
+//     } catch (err) {
+//       // console.log('error in verifyotp in otp_page : ', err);
+//       dispatch(addErrorMsg(err?.response?.data?.msg || 'OTP verification Failed'))
+//     }finally{
+//       setIsVerifying(false)
+//     }
+//   }
   
 
-  function startTimer() {
+//   function startTimer() {
 
-    setIsResendDisabled(true);
-    setTimeLeft(RESEND_DELAY);
+//     setIsResendDisabled(true);
+//     setTimeLeft(RESEND_DELAY);
 
-    clearInterval(timerRef.current);
+//     clearInterval(timerRef.current);
 
-    timerRef.current = setInterval(() => {
+//     timerRef.current = setInterval(() => {
 
-      setTimeLeft(prev => {
+//       setTimeLeft(prev => {
 
-        if (prev <= 1) {
-          clearInterval(timerRef.current);
-          setIsResendDisabled(false);
-          return 0;
-        }
+//         if (prev <= 1) {
+//           clearInterval(timerRef.current);
+//           setIsResendDisabled(false);
+//           return 0;
+//         }
 
-        return prev - 1;
-      });
+//         return prev - 1;
+//       });
 
-    }, 1000);
-  }
-
-
- async function handleResend() {
-    if (resendCount >= MAX_RESEND) return;
-    await OtpSend(email);
-    setResendCount(prev => prev + 1);
-  }
+//     }, 1000);
+//   }
 
 
-  function handleOnChange(value, index) {
-
-    if (!/^\d*$/.test(value)) return;
-
-    const newArr = [...inputArr];
-    newArr[index] = value.slice(-1);
-    setInpArr(newArr);
-
-    if (value && index < OTP_LENGTH - 1) {
-      inpRef.current[index + 1]?.focus();
-    }
-
-    const otp = newArr.join('');
-
-    if (otp.length === OTP_LENGTH && !newArr.includes('')) {
-      otpverify(otp);
-    }
-  }
+//  async function handleResend() {
+//     if (resendCount >= MAX_RESEND) return;
+//     await OtpSend(email);
+//     setResendCount(prev => prev + 1);
+//   }
 
 
-  function handleKeyDown(e, index) {
-    if (e.key === 'Backspace' && !inputArr[index] && index > 0) {
-      inpRef.current[index - 1]?.focus();
-    }
-  }
+//   function handleOnChange(value, index) {
+
+//     if (!/^\d*$/.test(value)) return;
+
+//     const newArr = [...inputArr];
+//     newArr[index] = value.slice(-1);
+//     setInpArr(newArr);
+
+//     if (value && index < OTP_LENGTH - 1) {
+//       inpRef.current[index + 1]?.focus();
+//     }
+
+//     const otp = newArr.join('');
+
+//     if (otp.length === OTP_LENGTH && !newArr.includes('')) {
+//       otpverify(otp);
+//     }
+//   }
 
 
-  function handlePaste(e) {
-
-    const paste = e.clipboardData.getData('text').trim();
-
-    if (!/^\d+$/.test(paste)) return;
-
-    const pasteArr = paste.slice(0, OTP_LENGTH).split('');
-
-    const newArr = [...inputArr];
-
-    pasteArr.forEach((digit, i) => {
-      newArr[i] = digit;
-    });
-
-    setInpArr(newArr);
-
-    const lastIndex = pasteArr.length - 1;
-
-    inpRef.current[lastIndex]?.focus();
-
-    if (pasteArr.length === OTP_LENGTH) {
-      otpverify(pasteArr.join(''));
-    }
-  }
+//   function handleKeyDown(e, index) {
+//     if (e.key === 'Backspace' && !inputArr[index] && index > 0) {
+//       inpRef.current[index - 1]?.focus();
+//     }
+//   }
 
 
-  useEffect(() => {
+//   function handlePaste(e) {
 
-    inpRef.current[0]?.focus();
+//     const paste = e.clipboardData.getData('text').trim();
 
-    if(!email){
-       navigate('/signup')
-    }
-    return () => clearInterval(timerRef.current);
+//     if (!/^\d+$/.test(paste)) return;
 
-  }, [email, navigate]);
+//     const pasteArr = paste.slice(0, OTP_LENGTH).split('');
+
+//     const newArr = [...inputArr];
+
+//     pasteArr.forEach((digit, i) => {
+//       newArr[i] = digit;
+//     });
+
+//     setInpArr(newArr);
+
+//     const lastIndex = pasteArr.length - 1;
+
+//     inpRef.current[lastIndex]?.focus();
+
+//     if (pasteArr.length === OTP_LENGTH) {
+//       otpverify(pasteArr.join(''));
+//     }
+//   }
+
+
+//   useEffect(() => {
+
+//     inpRef.current[0]?.focus();
+
+//     if(!email){
+//        navigate('/signup')
+//     }
+//     return () => clearInterval(timerRef.current);
+
+//   }, [email, navigate]);
   
-  useEffect(() => {
-    if(email && !OTP_SEND.current){
-          OTP_SEND.current = true
-         OtpSend(email)
-    }
-  }, [email, OtpSend])
+//   useEffect(() => {
+//     if(email && !OTP_SEND.current){
+//           OTP_SEND.current = true
+//          OtpSend(email)
+//     }
+//   }, [email, OtpSend])
 
 
-  function formatTime(sec) {
-    const s = sec.toString().padStart(2, '0');
-    return `00:${s}`;
-  }
+//   function formatTime(sec) {
+//     const s = sec.toString().padStart(2, '0');
+//     return `00:${s}`;
+//   }
 
 
-  return (
+//   return (
 
-    <div className="otp-page">
+//     <div className="otp-page">
 
-      <div className="otp-card">
+//       <div className="otp-card">
 
-        <h2 className="otp-title">Verify OTP</h2>
+//         <h2 className="otp-title">Verify OTP</h2>
 
-        <div className="otp-inputs">
+//         <div className="otp-inputs">
 
-          {inputArr.map((value, index) => (
+//           {inputArr.map((value, index) => (
 
-            <input
-              key={index}
-              type="text"
-              value={value}
-              className="otp-input"
-              ref={el => inpRef.current[index] = el}
-              onChange={e => handleOnChange(e.target.value, index)}
-              onKeyDown={e => handleKeyDown(e, index)}
-              onPaste={handlePaste}
-              maxLength={1}
-            />
+//             <input
+//               key={index}
+//               type="text"
+//               value={value}
+//               className="otp-input"
+//               ref={el => inpRef.current[index] = el}
+//               onChange={e => handleOnChange(e.target.value, index)}
+//               onKeyDown={e => handleKeyDown(e, index)}
+//               onPaste={handlePaste}
+//               maxLength={1}
+//             />
 
-          ))}
+//           ))}
 
-        </div>
+//         </div>
 
-        {/* <button
-          className="otp-btn"
-          disabled={inputArr.includes('') || isVerifying}
-        >
-          {isVerifying ? 'Verifying...' : 'Verify'}
-        </button> */}
+//         {/* <button
+//           className="otp-btn"
+//           disabled={inputArr.includes('') || isVerifying}
+//         >
+//           {isVerifying ? 'Verifying...' : 'Verify'}
+//         </button> */}
 
-        <div className="otp-resend-container">
+//         <div className="otp-resend-container">
 
-          <button
-            className="otp-resend-btn"
-            disabled={isResendDisabled || resendCount >= MAX_RESEND}
-            onClick={handleResend}
-          >
-            Resend OTP
-          </button>
+//           <button
+//             className="otp-resend-btn"
+//             disabled={isResendDisabled || resendCount >= MAX_RESEND}
+//             onClick={handleResend}
+//           >
+//             Resend OTP
+//           </button>
 
-          <span className="otp-timer">
+//           <span className="otp-timer">
 
-            {resendCount >= MAX_RESEND
-              ? "Limit reached"
-              : isResendDisabled
-                ? formatTime(timeLeft)
-                : "Ready"}
+//             {resendCount >= MAX_RESEND
+//               ? "Limit reached"
+//               : isResendDisabled
+//                 ? formatTime(timeLeft)
+//                 : "Ready"}
 
-          </span>
+//           </span>
 
-        </div>
+//         </div>
 
-        <p className="otp-hint">
-          Enter the {OTP_LENGTH}-digit code sent to {email}
-        </p>
+//         <p className="otp-hint">
+//           Enter the {OTP_LENGTH}-digit code sent to {email}
+//         </p>
 
-      </div>
+//       </div>
 
-    </div>
+//     </div>
 
-  );
-};
+//   );
+// };
 
-export default OtpPage;
+// export default OtpPage;

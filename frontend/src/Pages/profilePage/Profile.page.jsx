@@ -14,7 +14,6 @@ const ProfilePage = () => {
   const {name} = useSelector(state => state.user);
 
   useEffect(() => {
-
     //both run in parallel,
     // independent failures wont block each other
     async function fetchData(){
