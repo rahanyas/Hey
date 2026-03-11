@@ -1,334 +1,720 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+// * {
+//     margin: 0;
+//     padding: 0;
+//     box-sizing: border-box;
+// }
 
-// Mobile first
-@media screen and (max-width: 768px) {
+// // Mobile first
+// @media screen and (max-width: 768px) {
 
-    #container {
-        padding: 1em;
-        background: transparent; 
-        display: flex;// let parent black bg show
-        flex-direction: column;
-    }
+//     #container {
+//         padding: 1em;
+//         background: transparent; 
+//         display: flex;// let parent black bg show
+//         flex-direction: column;
+//     }
 
-    /* ---------- Top Bar ---------- */
-    .top-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: .9em 1em;
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        margin-bottom: 1em;
-        backdrop-filter: blur(6px);
-    }
+//     /* ---------- Top Bar ---------- */
+//     .top-bar {
+//         display: flex;
+//         align-items: center;
+//         justify-content: space-between;
+//         padding: .9em 1em;
+//         border-radius: 14px;
+//         background: rgba(255, 255, 255, 0.04);
+//         border: 1px solid rgba(255, 255, 255, 0.08);
+//         margin-bottom: 1em;
+//         backdrop-filter: blur(6px);
+//     }
 
-    .search-area {
-        flex: 1;
+//     .search-area {
+//         flex: 1;
 
-        h2 {
-            font-size: 1.05rem;
-            font-weight: 600;
-            text-transform: capitalize;
-            color: #e5e7eb; // soft white
-            letter-spacing: 0.4px;
-        }
+//         h2 {
+//             font-size: 1.05rem;
+//             font-weight: 600;
+//             text-transform: capitalize;
+//             color: #e5e7eb; // soft white
+//             letter-spacing: 0.4px;
+//         }
 
-        input {
-            width: 100%;
-            padding: .85em 1em;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.95rem;
-            color: #f9fafb;
-            outline: none;
-            transition: all 0.2s ease;
+//         input {
+//             width: 100%;
+//             padding: .85em 1em;
+//             border-radius: 12px;
+//             background: rgba(255, 255, 255, 0.06);
+//             border: 1px solid rgba(255, 255, 255, 0.1);
+//             font-size: 0.95rem;
+//             color: #f9fafb;
+//             outline: none;
+//             transition: all 0.2s ease;
 
-            &::placeholder {
-                color: #9ca3af;
-            }
+//             &::placeholder {
+//                 color: #9ca3af;
+//             }
 
-            &:focus {
-                border-color: #7fd8bd;
-                box-shadow: 0 0 0 2px rgba(127, 216, 189, 0.35);
-            }
-        }
-    }
+//             &:focus {
+//                 border-color: #7fd8bd;
+//                 box-shadow: 0 0 0 2px rgba(127, 216, 189, 0.35);
+//             }
+//         }
+//     }
 
-    .icon-btn {
-        background: transparent;
-        border: none;
-        font-size: 1.2rem;
-        color: #d1d5db;
-        padding-left: .8em;
-        cursor: pointer;
-        transition: transform 0.2s ease, color 0.2s ease;
+//     .icon-btn {
+//         background: transparent;
+//         border: none;
+//         font-size: 1.2rem;
+//         color: #d1d5db;
+//         padding-left: .8em;
+//         cursor: pointer;
+//         transition: transform 0.2s ease, color 0.2s ease;
 
-        &:hover {
-            color: #dfdfdf;
-            transform: scale(1.08);
-        }
-    }
+//         &:hover {
+//             color: #dfdfdf;
+//             transform: scale(1.08);
+//         }
+//     }
 
-    /* ---------- Main ---------- */
-    .friendsBox {
-        display: flex;
-        min-height: min-content;
-    }
+//     /* ---------- Main ---------- */
+//     .friendsBox {
+//         display: flex;
+//         min-height: min-content;
+//     }
 
-    .no-friends {
-        min-height: 70vh;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: .5em;
-        text-align: center;
-        padding: 2em;
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px dashed rgba(255, 255, 255, 0.08);
-    }
+//     .no-friends {
+//         min-height: 70vh;
+//         width: 100%;
+//         display: flex;
+//         flex-direction: column;
+//         justify-content: center;
+//         align-items: center;
+//         gap: .5em;
+//         text-align: center;
+//         padding: 2em;
+//         border-radius: 16px;
+//         background: rgba(255, 255, 255, 0.03);
+//         border: 1px dashed rgba(255, 255, 255, 0.08);
+//     }
 
-    .no-friends h2 {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: #f9fafb;
-        text-transform: capitalize;
-    }
+//     .no-friends h2 {
+//         font-size: 1.4rem;
+//         font-weight: 700;
+//         color: #f9fafb;
+//         text-transform: capitalize;
+//     }
 
-    .no-friends p {
-        font-size: 0.95rem;
-        color: #9ca3af;
-        letter-spacing: 0.3px;
-        text-transform: capitalize;
-    }
+//     .no-friends p {
+//         font-size: 0.95rem;
+//         color: #9ca3af;
+//         letter-spacing: 0.3px;
+//         text-transform: capitalize;
+//     }
 
-    /* ---------- Button ---------- */
-    .add-btn {
-        margin-top: 1em;
-        padding: .9em 2.2em;
-        border-radius: 12px;
-        border: none;
-        font-size: 1rem;
-        font-weight: 600;
-        text-transform: capitalize;
-        background: linear-gradient(
-            135deg,
-            #7fd8bd,
-            #5fb3a2
-        );
-        color: #022c22;
-        cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+//     /* ---------- Button ---------- */
+//     .add-btn {
+//         margin-top: 1em;
+//         padding: .9em 2.2em;
+//         border-radius: 12px;
+//         border: none;
+//         font-size: 1rem;
+//         font-weight: 600;
+//         text-transform: capitalize;
+//         background: linear-gradient(
+//             135deg,
+//             #7fd8bd,
+//             #5fb3a2
+//         );
+//         color: #022c22;
+//         cursor: pointer;
+//         transition: transform 0.2s ease, box-shadow 0.2s ease;
 
-        &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 22px rgba(127, 216, 189, 0.35);
-        }
+//         &:hover {
+//             transform: translateY(-2px);
+//             box-shadow: 0 8px 22px rgba(127, 216, 189, 0.35);
+//         }
 
-        &:active {
-            transform: translateY(0);
-            box-shadow: none;
-        }
-    }
+//         &:active {
+//             transform: translateY(0);
+//             box-shadow: none;
+//         }
+//     }
 
-}
+// }
 
-.friendsBox {
+// .friendsBox {
+//   display: flex;
+//   flex-direction: column;
+//   gap: .8em;
+// }
+
+// .friend-item {
+//   display: flex;
+//   align-items: center;
+//   gap: .8em;
+
+//   padding: 1em;
+//   border-radius: 14px;
+
+//   background: rgba(255, 255, 255, 0.04);
+//   border: 1px solid rgba(255, 255, 255, 0.08);
+
+//   transition: background .2s ease;
+// }
+
+// .friend-item:hover {
+//   background: rgba(255, 255, 255, 0.07);
+// }
+
+// .friend-item h3 {
+//   font-size: 1rem;
+//   font-weight: 500;
+//   color: #f9fafb;
+// }
+
+
+// @media screen and (min-width: 769px) {
+
+//     #container {
+//         display: flex;
+//         flex-direction: column;
+
+//         width: 100%;
+//         min-height: 100vh;
+
+//         padding: 2em 0;
+//         background: transparent;
+//     }
+
+//     /* ---------- App Width ---------- */
+//     .top-bar,
+//     .friendsBox {
+//         width: 100%;
+//         max-width: 960px;
+//         margin: 0 auto;
+//     }
+
+//     /* ---------- Header ---------- */
+//     .top-bar {
+//         display: flex;
+//         align-items: center;
+//         gap: 1em;
+
+//         padding: 1em 1.4em;
+//         margin-bottom: 1.2em;
+
+//         border-radius: 16px;
+//         background: rgba(255, 255, 255, 0.05);
+//         border: 1px solid rgba(255, 255, 255, 0.08);
+//     }
+
+//     .search-area {
+//         display: flex;
+//         align-items: center;
+//         flex: 1;
+
+//         // background: rgba(255, 255, 255, 0.06);
+//         // border: 1px solid rgba(255, 255, 255, 0.12);
+//         border-radius: 999px;
+
+//         padding: .3em;
+//         gap: .4em;
+
+//         transition: border-color .25s ease, box-shadow .25s ease;
+//     }
+
+//     // .search-area:focus-within {
+//     //     // border-color: #7fd8bd;
+//     //     box-shadow: 0 0 0 3px rgba(127, 216, 189, 0.3);
+//     // }
+
+//     .search-area h2 {
+//         font-size: 1rem;
+//         font-weight: 500;
+//         color: #d1d5db;
+//         padding-left: .8em;
+//     }
+
+//     .search-area input {
+//         flex: 1;
+//         background: transparent;
+//         border: none;
+//         padding: .7em 1em;
+//         color: #f9fafb;
+//         font-size: .98rem;
+//         outline: none;
+//     }
+
+//     .search-area input::placeholder {
+//         color: #9ca3af;
+//     }
+
+//     .icon-btn {
+//         width: 38px;
+//         height: 38px;
+//         border-radius: 50%;
+
+//         background: rgba(255, 255, 255, 0.08);
+//         border: none;
+
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+
+//         color: #d1d5db;
+//         font-size: 1rem;
+
+//         cursor: pointer;
+//         transition: background .2s ease, transform .2s ease;
+//     }
+
+//     .icon-btn:hover {
+//         background: rgba(127, 216, 189, 0.25);
+//         transform: scale(1.06);
+//     }
+
+//     /* ---------- Main ---------- */
+//     .friendsBox {
+//         display: flex;
+//         align-items: stretch;
+//     }
+
+//     .no-friends {
+//         width: 100%;
+//         min-height: 60vh;
+
+//         display: flex;
+//         flex-direction: column;
+//         justify-content: center;
+//         align-items: center;
+
+//         padding: 3em 2em;
+
+//         background: rgba(255, 255, 255, 0.03);
+//         border: 1px dashed rgba(255, 255, 255, 0.08);
+//         border-radius: 20px;
+//     }
+
+//     .no-friends h2 {
+//         font-size: 1.6rem;
+//         color: #f9fafb;
+//     }
+
+//     .no-friends p {
+//         font-size: 1rem;
+//         color: #9ca3af;
+//         max-width: 420px;
+//         text-align: center;
+//         line-height: 1.6;
+//     }
+
+//     /* ---------- Button ---------- */
+//     .add-btn {
+//         margin-top: 1.6em;
+//         padding: 1em 2.8em;
+
+//         border-radius: 14px;
+//         border: none;
+
+//         background: linear-gradient(135deg, #7fd8bd, #5fb3a2);
+//         color: #022c22;
+
+//         font-size: 1.05rem;
+//         font-weight: 600;
+
+//         cursor: pointer;
+//         transition: transform .25s ease, box-shadow .25s ease;
+//     }
+
+//     .add-btn:hover {
+//         transform: translateY(-1px);
+//         box-shadow: 0 8px 22px rgba(127, 216, 189, 0.4);
+//     }
+// }
+
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,600;1,9..40,300&display=swap');
+
+// ─────────────────────────────────────────
+// hey — Home page styles
+// Theme: dark aurora glass
+// ─────────────────────────────────────────
+
+#hm-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 1.25rem 1rem 2rem;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
   display: flex;
   flex-direction: column;
-  gap: .8em;
+  animation: hmFadeIn 0.5s ease both;
 }
 
-.friend-item {
+@keyframes hmFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ── Top bar ──
+.hm-topbar {
   display: flex;
   align-items: center;
-  gap: .8em;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
 
-  padding: 1em;
-  border-radius: 14px;
-
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  transition: background .2s ease;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-top-color: rgba(200, 160, 255, 0.14);
+  border-radius: 1rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow:
+    0 2px 0 rgba(200, 160, 255, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-.friend-item:hover {
+// Brand mark
+.hm-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+.hm-brand-dot {
+  width: 7px;
+  height: 7px;
+  background: #a89bff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(168, 155, 255, 0.8);
+  animation: hmPulse 2s ease infinite;
+}
+.hm-brand-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+@keyframes hmPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.75); }
+}
+
+// Search area
+.hm-search-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+
+  &--open {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(168, 155, 255, 0.25);
+    border-radius: 0.6rem;
+    padding: 0 0.5rem;
+    box-shadow: 0 0 0 3px rgba(168, 155, 255, 0.08);
+  }
+}
+
+.hm-search-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.01em;
+  padding-left: 0.2rem;
+}
+
+.hm-search-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0.55rem 0.4rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  color: #fff;
+
+  &::placeholder { color: rgba(255, 255, 255, 0.25); }
+}
+
+// Icon button
+.hm-icon-btn {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
   background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    background: rgba(168, 155, 255, 0.18);
+    color: #c4b5ff;
+    transform: scale(1.08);
+  }
 }
 
-.friend-item h3 {
+// ── Section label ──
+.hm-section-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.22);
+  padding: 0.6rem 0.2rem 0.5rem;
+}
+
+// ── Body ──
+.hm-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+// ── Empty state ──
+.hm-empty {
+  flex: 1;
+  min-height: 65vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.07);
+  border-radius: 1.2rem;
+  animation: hmFadeIn 0.6s 0.1s ease both;
+}
+
+.hm-empty__icon {
+  width: 52px;
+  height: 52px;
+  color: rgba(168, 155, 255, 0.45);
+  margin-bottom: 0.6rem;
+
+  svg { width: 100%; height: 100%; }
+}
+
+.hm-empty__title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.55rem;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.2rem;
+}
+
+.hm-empty__sub {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 300;
+  margin-bottom: 0.8rem;
+}
+
+// ── Add friend button ──
+.hm-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 999px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: capitalize;
+
+  background: linear-gradient(135deg, #6c5ce7, #4834d4);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(108, 92, 231, 0.4), inset 0 1px 0 rgba(255,255,255,0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  &:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(108, 92, 231, 0.55);
+  }
+  &:active { transform: scale(0.97); }
+}
+
+// ── Friends list ──
+.hm-friends-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  width: 100%;
+}
+
+// ── Friend card ──
+.hm-friend-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  cursor: pointer;
+
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-top-color: rgba(200, 160, 255, 0.08);
+
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.18s ease;
+  animation: hmFadeIn 0.4s ease both;
+
+  &:hover {
+    background: rgba(168, 155, 255, 0.07);
+    border-color: rgba(168, 155, 255, 0.18);
+    transform: translateX(3px);
+  }
+  &:active { transform: scale(0.99); }
+}
+
+// Avatar
+.hm-friend-avatar {
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(168, 155, 255, 0.2);
+  }
+}
+
+.hm-friend-avatar__fallback {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6c5ce7, #4834d4);
+  border: 2px solid rgba(168, 155, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1rem;
-  font-weight: 500;
-  color: #f9fafb;
+  font-weight: 600;
+  color: #fff;
 }
 
-
-@media screen and (min-width: 769px) {
-
-    #container {
-        display: flex;
-        flex-direction: column;
-
-        width: 100%;
-        min-height: 100vh;
-
-        padding: 2em 0;
-        background: transparent;
-    }
-
-    /* ---------- App Width ---------- */
-    .top-bar,
-    .friendsBox {
-        width: 100%;
-        max-width: 960px;
-        margin: 0 auto;
-    }
-
-    /* ---------- Header ---------- */
-    .top-bar {
-        display: flex;
-        align-items: center;
-        gap: 1em;
-
-        padding: 1em 1.4em;
-        margin-bottom: 1.2em;
-
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .search-area {
-        display: flex;
-        align-items: center;
-        flex: 1;
-
-        // background: rgba(255, 255, 255, 0.06);
-        // border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 999px;
-
-        padding: .3em;
-        gap: .4em;
-
-        transition: border-color .25s ease, box-shadow .25s ease;
-    }
-
-    // .search-area:focus-within {
-    //     // border-color: #7fd8bd;
-    //     box-shadow: 0 0 0 3px rgba(127, 216, 189, 0.3);
-    // }
-
-    .search-area h2 {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #d1d5db;
-        padding-left: .8em;
-    }
-
-    .search-area input {
-        flex: 1;
-        background: transparent;
-        border: none;
-        padding: .7em 1em;
-        color: #f9fafb;
-        font-size: .98rem;
-        outline: none;
-    }
-
-    .search-area input::placeholder {
-        color: #9ca3af;
-    }
-
-    .icon-btn {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-
-        background: rgba(255, 255, 255, 0.08);
-        border: none;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        color: #d1d5db;
-        font-size: 1rem;
-
-        cursor: pointer;
-        transition: background .2s ease, transform .2s ease;
-    }
-
-    .icon-btn:hover {
-        background: rgba(127, 216, 189, 0.25);
-        transform: scale(1.06);
-    }
-
-    /* ---------- Main ---------- */
-    .friendsBox {
-        display: flex;
-        align-items: stretch;
-    }
-
-    .no-friends {
-        width: 100%;
-        min-height: 60vh;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        padding: 3em 2em;
-
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px dashed rgba(255, 255, 255, 0.08);
-        border-radius: 20px;
-    }
-
-    .no-friends h2 {
-        font-size: 1.6rem;
-        color: #f9fafb;
-    }
-
-    .no-friends p {
-        font-size: 1rem;
-        color: #9ca3af;
-        max-width: 420px;
-        text-align: center;
-        line-height: 1.6;
-    }
-
-    /* ---------- Button ---------- */
-    .add-btn {
-        margin-top: 1.6em;
-        padding: 1em 2.8em;
-
-        border-radius: 14px;
-        border: none;
-
-        background: linear-gradient(135deg, #7fd8bd, #5fb3a2);
-        color: #022c22;
-
-        font-size: 1.05rem;
-        font-weight: 600;
-
-        cursor: pointer;
-        transition: transform .25s ease, box-shadow .25s ease;
-    }
-
-    .add-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 8px 22px rgba(127, 216, 189, 0.4);
-    }
+// Online dot
+.hm-friend-status {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  background: #4ade80;
+  border-radius: 50%;
+  border: 2px solid #06080d;
+  box-shadow: 0 0 5px rgba(74, 222, 128, 0.6);
 }
 
+// Text
+.hm-friend-info {
+  flex: 1;
+  min-width: 0;
+}
 
+.hm-friend-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hm-friend-sub {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.25);
+  margin-top: 0.1rem;
+  font-weight: 300;
+}
+
+// Arrow
+.hm-friend-arrow {
+  font-size: 1.2rem;
+  color: rgba(168, 155, 255, 0.3);
+  flex-shrink: 0;
+  transition: color 0.2s ease, transform 0.2s ease;
+  line-height: 1;
+}
+.hm-friend-card:hover .hm-friend-arrow {
+  color: #a89bff;
+  transform: translateX(2px);
+}
+
+// ─────────────────────────────────────────
+// ── Tablet (≥ 600px) ──
+// ─────────────────────────────────────────
+@media (min-width: 600px) {
+  #hm-container {
+    padding: 1.5rem 1.5rem 2.5rem;
+  }
+
+  .hm-friend-card {
+    padding: 1rem 1.2rem;
+  }
+
+  .hm-friend-avatar,
+  .hm-friend-avatar__fallback {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+// ─────────────────────────────────────────
+// ── Desktop (≥ 900px) ──
+// ─────────────────────────────────────────
+@media (min-width: 900px) {
+  #hm-container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 2rem 0 3rem;
+  }
+
+  .hm-topbar {
+    padding: 0.85rem 1.2rem;
+    border-radius: 1.2rem;
+  }
+
+  .hm-friend-card {
+    padding: 1rem 1.2rem;
+    border-radius: 1rem;
+
+    &:hover {
+      transform: translateX(4px);
+    }
+  }
+
+  .hm-empty {
+    min-height: 55vh;
+    border-radius: 1.4rem;
+  }
+
+  .hm-empty__title {
+    font-size: 1.8rem;
+  }
+}
+
+// ─────────────────────────────────────────
+// ── Large desktop (≥ 1280px) ──
+// ─────────────────────────────────────────
+@media (min-width: 1280px) {
+  #hm-container {
+    max-width: 760px;
+  }
+}
