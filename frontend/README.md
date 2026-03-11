@@ -14,5 +14,7 @@ in prod when logging out and when hit refresh , its going to homepage = solved
 
 when user login through google , not redirecting to hompage , 
 checkauth giving false value for isLogedIn but cookie is setting 
-=  solved , issue : brave is blocking third party cookies
+= solved , issue : brave is blocking third party cookies
 
+remove the form box background of sign-up and login page and check how the ui is in mobile and desktop and
+increase the padding of sign-up page = not done

@@ -17,7 +17,7 @@ import '../styles/page/landingPage.style.scss';
 
 const LandingPage = () => {
   return (
- <div className="lp-root">
+<div className="lp-root">
       {/* Ambient orbs */}
       <div className="orb orb-1" />
       <div className="orb orb-2" />
@@ -30,6 +30,15 @@ const LandingPage = () => {
       <div className="grid-lines" />
 
       <div className="lp-card">
+        {/* Corner brackets — visible only on mobile */}
+        <span className="corner corner-tl" />
+        <span className="corner corner-tr" />
+        <span className="corner corner-bl" />
+        <span className="corner corner-br" />
+
+        {/* Scan line — mobile only */}
+        <div className="scanline" />
+
         {/* Badge */}
         <div className="badge">
           <span className="badge-dot" />
@@ -64,7 +73,7 @@ const LandingPage = () => {
           Join <strong>12,000+</strong> people already connected
         </p>
       </div>
-   </div>
+    </div>
   );
 };
 
