@@ -10,7 +10,7 @@ import LoadingPage from './Pages/LoadingPage/LoadingPage.jsx';
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import './styles/components/toast.style.scss';
+// import './styles/components/toast.style.scss';
 
 import { connectSocket, disconnectSocket } from './sokcet/connectSocket.js';
 import { registerSocketListeners } from './sokcet/socketEvents.js';
@@ -48,8 +48,8 @@ const App = () => {
       <RouterProvider router={router}/>
     </Suspense>
     
-      {/* <ToastContainer /> */}
-             <ToastContainer
+      <ToastContainer />
+             {/* <ToastContainer
           newestOnTop
           closeOnClick
           pauseOnHover
@@ -57,7 +57,7 @@ const App = () => {
           theme="dark"
           toastClassName="hey-toast"
           progressClassName="hey-toast__progress"
-        />
+        /> */}
     </>
   )
 };
