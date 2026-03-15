@@ -324,6 +324,9 @@ $r: 12px;
 
 // ─── Mobile ──────────────────────────────────────────────────
 @media (max-width: 480px) {
+  .chat-wrapper{
+    border-radius: 12px;
+  }
   .msg { max-width: 78%; }
 
   .chat-body { padding: 12px 36px; }
