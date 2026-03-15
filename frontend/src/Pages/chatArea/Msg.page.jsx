@@ -7,7 +7,7 @@ import "./msg.style.scss";
 
 const Message = () => {
   const [text, setText] = useState("");
-  const bottomRef = useRef(null);
+  // const bottomRef = useRef(null);
 
   const location = useLocation();
   const { _id: otherUserId, name } = location.state.user;
@@ -15,11 +15,11 @@ const Message = () => {
   const { id: myUserId } = useSelector((state) => state.user);
   const { messages } = useSelector((state) => state.msg);
 
-  useEffect(() => {
-     if(messages.length > 7){
-       bottomRef.current.scrollIntoView({ behavior: "smooth" });
-     }
-  }, [messages]);
+  // useEffect(() => {
+  //    if(messages.length > 7){
+  //      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+  //    }
+  // }, [messages]);
 
   function handleSubmit() {
     if (!text.trim()) return;
@@ -90,7 +90,7 @@ const Message = () => {
                     </button>
                   </div>
                 </div>
-                <div ref={bottomRef} />
+                {/* <div ref={bottomRef} /> */}
               </div>
             );
           })

@@ -1,4 +1,4 @@
-
+// read the top note in service/mailer.js
 
 // const otpCreate = () => {
 //   // otp will generate according to the limit passed from frontend

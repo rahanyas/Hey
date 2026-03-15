@@ -1,3 +1,5 @@
+// read the top note in service/mailer.js
+
 // import dotenv from 'dotenv';
 // dotenv.config();
 

@@ -1,3 +1,6 @@
+
+// read the top note in service/mailer.js//
+
 // import mongoose from 'mongoose';
 
 // const otpSchema = new mongoose.Schema({

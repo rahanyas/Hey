@@ -12,8 +12,7 @@
 
 # created class for auth_checking and created static methods in that class for details like is valid email, pass, mobile and exported the class and created instance in auth.controller 
 
-solved cookie error . how ? = we need to set the same things to logut cleari
-ng cookie as we setted to cookie creation
+solved cookie error . how ? = we need to set the same things to logout clearing cookie as we setted to cookie creation
 
 # checking valid email is not working properly =  solved 
-(reason === i did this authCheck.isEmail = email instead of authcheck.isemail(email))
+( reason === i did this authCheck.isEmail = email instead of authcheck.isemail(email) )
